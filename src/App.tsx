@@ -4,7 +4,7 @@ import { useState } from "react"
 import AddClientDialog from "./components/AddClientDialog"
 import EditClientDialog from "./components/EditClientDialog"
 import DeleteClientDialog from "./components/DeleteClientDialog"
-// import ViewClientDialog from "./components/ViewClientDialog"
+import ViewClientDialog from "./components/ViewClientDialog"
 import type { TINEntry } from "./lib/types"
 import { Plus, Edit, Trash2, Eye } from "lucide-react"
 
@@ -13,7 +13,7 @@ export default function App() {
     const [showAddDialog, setShowAddDialog] = useState(false)
     const [showEditDialog, setShowEditDialog] = useState(false)
     const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-    // const [showViewDialog, setShowViewDialog] = useState(false)
+    const [showViewDialog, setShowViewDialog] = useState(false)
 
     // Data state
     const [entries, setEntries] = useState<TINEntry[]>([])
@@ -78,11 +78,11 @@ export default function App() {
         setSelectedEntry(sampleEntry)
         setShowDeleteDialog(true)
     }
-    //
-    // const openViewDialog = () => {
-    //     setSelectedEntry(sampleEntry)
-    //     setShowViewDialog(true)
-    // }
+
+    const openViewDialog = () => {
+        setSelectedEntry(sampleEntry)
+        setShowViewDialog(true)
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 p-4">
@@ -155,12 +155,12 @@ export default function App() {
                         <p className="text-sm text-gray-600 mb-4 text-center">
                             Test the view client dialog showing detailed client information and metadata.
                         </p>
-                        {/*<button*/}
-                        {/*    onClick={openViewDialog}*/}
-                        {/*    className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"*/}
-                        {/*>*/}
-                        {/*    Open View Dialog*/}
-                        {/*</button>*/}
+                        <button
+                            onClick={openViewDialog}
+                            className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                        >
+                            Open View Dialog
+                        </button>
                     </div>
                 </div>
 
@@ -196,7 +196,7 @@ export default function App() {
                                             <button
                                                 onClick={() => {
                                                     setSelectedEntry(entry)
-                                                    // setShowViewDialog(true)
+                                                    setShowViewDialog(true)
                                                 }}
                                                 className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
                                                 title="View"
@@ -277,14 +277,14 @@ export default function App() {
                 entry={selectedEntry}
             />
 
-            {/*<ViewClientDialog*/}
-            {/*    isOpen={showViewDialog}*/}
-            {/*    onClose={() => {*/}
-            {/*        setShowViewDialog(false)*/}
-            {/*        setSelectedEntry(null)*/}
-            {/*    }}*/}
-            {/*    entry={selectedEntry}*/}
-            {/*/>*/}
+            <ViewClientDialog
+                isOpen={showViewDialog}
+                onClose={() => {
+                    setShowViewDialog(false)
+                    setSelectedEntry(null)
+                }}
+                entry={selectedEntry}
+            />
         </div>
     )
 }
