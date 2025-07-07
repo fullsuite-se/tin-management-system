@@ -1,63 +1,65 @@
 "use client"
 
 import { useState } from "react"
-import type { User } from "./lib/types"
-// import LoginForm from "./components/LoginForm"
-// import Dashboard from "./components/Dashboard"
-import { validateEmailDomain } from "./lib/utils"
-import LoginForm from "./components/LoginForm"
-// import { Toaster } from "./components/ui/toaster"
-
-// Mock users for demo - in production, this would be handled by your authentication system
-const MOCK_USERS = [
-    { email: "admin@getfullsuite.com", displayName: "FullSuite Administrator" },
-    { email: "manager@getfullsuite.com", displayName: "FullSuite Manager" },
-    { email: "user@getfullsuite.com", displayName: "FullSuite User" },
-    { email: "admin@viascari.com", displayName: "Viascari Administrator" },
-    { email: "manager@viascari.com", displayName: "Viascari Manager" },
-]
+import AddClientDialog from "./components/AddClientDialog"
+import type { TINEntry } from "./lib/types"
 
 export default function App() {
-    const [user, setUser] = useState<User | null>(null)
+    const [isOpen, setIsOpen] = useState(true)
+    const [entries, setEntries] = useState<TINEntry[]>([])
 
-    const handleLogin = async (email: string, password: string) => {
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        // Validate email domain
-        if (!validateEmailDomain(email)) {
-            throw new Error("Access restricted to @getfullsuite.com and @viascari.com domains only")
+    const handleSubmit = (newEntry: Omit<TINEntry, "id" | "createdAt" | "createdBy">) => {
+        // Create a complete entry with generated fields
+        const entry: TINEntry = {
+            ...newEntry,
+            id: (entries.length + 1).toString(),
+            createdAt: new Date(),
+            createdBy: "test@getfullsuite.com",
         }
 
-        // In production, this would validate against your actual authentication system
-        // For demo purposes, we'll check if the email exists in our mock users
-        const mockUser = MOCK_USERS.find((u) => u.email === email)
+        // Add to entries list
+        setEntries([entry, ...entries])
+        console.log("New entry added:", entry)
+        console.log("All entries:", [...entries, entry])
 
-        if (mockUser && password.length > 0) {
-            setUser({
-                email: mockUser.email,
-                displayName: mockUser.displayName,
-            })
-        } else {
-            throw new Error("Invalid credentials or user not found")
-        }
+        // Close dialog after submission
+        setIsOpen(false)
     }
 
-    // const handleLogout = () => {
-    //     setUser(null)
-    // }
+    const handleClose = () => {
+        setIsOpen(false)
+    }
 
     return (
-        <>
-            {!user ? <LoginForm onLogin={handleLogin} /> : null}
-        </>
-    );
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+            <div className="text-center p-8">
+                <h1 className="text-2xl font-bold mb-4">TIN Database Test</h1>
 
+                {entries.length > 0 && (
+                    <div className="mb-4">
+                        <h2 className="text-lg font-semibold mb-2">Added Entries:</h2>
+                        <div className="text-left bg-white p-4 rounded-lg shadow max-w-md">
+                            {entries.map((entry) => (
+                                <div key={entry.id} className="mb-2 p-2 border-b">
+                                    <div className="font-medium">{entry.registeredName}</div>
+                                    <div className="text-sm text-gray-600">{entry.tin}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
-    // return (
-    //     <>
-    //         {!user ? <LoginForm onLogin={handleLogin} /> : <Dashboard user={user} onLogout={handleLogout} />}
-    //         <Toaster />
-    //     </>
-    // )
+                {!isOpen && (
+                    <button
+                        onClick={() => setIsOpen(true)}
+                        className="bg-[#0097B2] hover:bg-[#007A94] text-white px-4 py-2 rounded"
+                    >
+                        Add Another Client
+                    </button>
+                )}
+
+                <AddClientDialog isOpen={isOpen} onClose={handleClose} onSubmit={handleSubmit} />
+            </div>
+        </div>
+    )
 }
