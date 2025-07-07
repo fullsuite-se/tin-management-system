@@ -3,7 +3,7 @@
 import { useState } from "react"
 import AddClientDialog from "./components/AddClientDialog"
 import EditClientDialog from "./components/EditClientDialog"
-// import DeleteClientDialog from "./components/DeleteClientDialog"
+import DeleteClientDialog from "./components/DeleteClientDialog"
 // import ViewClientDialog from "./components/ViewClientDialog"
 import type { TINEntry } from "./lib/types"
 import { Plus, Edit, Trash2, Eye } from "lucide-react"
@@ -12,7 +12,7 @@ export default function App() {
     // Dialog states
     const [showAddDialog, setShowAddDialog] = useState(false)
     const [showEditDialog, setShowEditDialog] = useState(false)
-    // const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false)
     // const [showViewDialog, setShowViewDialog] = useState(false)
 
     // Data state
@@ -60,24 +60,24 @@ export default function App() {
         setSelectedEntry(null)
     }
 
-    // const handleDelete = () => {
-    //     if (selectedEntry) {
-    //         setEntries(entries.filter((entry) => entry.id !== selectedEntry.id))
-    //         console.log("Deleted entry:", selectedEntry)
-    //     }
-    //     setShowDeleteDialog(false)
-    //     setSelectedEntry(null)
-    // }
+    const handleDelete = () => {
+        if (selectedEntry) {
+            setEntries(entries.filter((entry) => entry.id !== selectedEntry.id))
+            console.log("Deleted entry:", selectedEntry)
+        }
+        setShowDeleteDialog(false)
+        setSelectedEntry(null)
+    }
 
     const openEditDialog = () => {
         setSelectedEntry(sampleEntry)
         setShowEditDialog(true)
     }
 
-    // const openDeleteDialog = () => {
-    //     setSelectedEntry(sampleEntry)
-    //     setShowDeleteDialog(true)
-    // }
+    const openDeleteDialog = () => {
+        setSelectedEntry(sampleEntry)
+        setShowDeleteDialog(true)
+    }
     //
     // const openViewDialog = () => {
     //     setSelectedEntry(sampleEntry)
@@ -138,12 +138,12 @@ export default function App() {
                         <p className="text-sm text-gray-600 mb-4 text-center">
                             Test the delete confirmation dialog with client preview and warning message.
                         </p>
-                        {/*<button*/}
-                        {/*    onClick={openDeleteDialog}*/}
-                        {/*    className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"*/}
-                        {/*>*/}
-                        {/*    Open Delete Dialog*/}
-                        {/*</button>*/}
+                        <button
+                            onClick={openDeleteDialog}
+                            className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                        >
+                            Open Delete Dialog
+                        </button>
                     </div>
 
                     {/* View Client Card */}
@@ -216,7 +216,7 @@ export default function App() {
                                             <button
                                                 onClick={() => {
                                                     setSelectedEntry(entry)
-                                                    // setShowDeleteDialog(true)
+                                                    setShowDeleteDialog(true)
                                                 }}
                                                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                                 title="Delete"
@@ -267,15 +267,15 @@ export default function App() {
                 entry={selectedEntry}
             />
 
-            {/*<DeleteClientDialog*/}
-            {/*    isOpen={showDeleteDialog}*/}
-            {/*    onClose={() => {*/}
-            {/*        setShowDeleteDialog(false)*/}
-            {/*        setSelectedEntry(null)*/}
-            {/*    }}*/}
-            {/*    onConfirm={handleDelete}*/}
-            {/*    entry={selectedEntry}*/}
-            {/*/>*/}
+            <DeleteClientDialog
+                isOpen={showDeleteDialog}
+                onClose={() => {
+                    setShowDeleteDialog(false)
+                    setSelectedEntry(null)
+                }}
+                onConfirm={handleDelete}
+                entry={selectedEntry}
+            />
 
             {/*<ViewClientDialog*/}
             {/*    isOpen={showViewDialog}*/}
