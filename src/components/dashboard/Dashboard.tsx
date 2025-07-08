@@ -5,6 +5,7 @@ import type { TINEntry } from "../../utils/types.tsx";
 import { generateMockData } from "../../utils/utils.ts";
 import TableHeader from "./table/TableHeader.tsx";
 import Table from "./table/Table.tsx";
+import Pagination from "./table/Pagination.tsx";
 
 interface Props {
     name: string,
@@ -14,18 +15,20 @@ interface Props {
 }
 
 interface FilterState {
-    entityType: string // "all" | "individual" | "company"
-    classification: string // "all" | "domestic" | "foreign"
-    dateRange: string // "all" | "week" | "month" | "year"
+    entityType: string
+    classification: string
+    dateRange: string
 }
 
 const Dashboard: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [entries, setEntries] = useState<TINEntry[]>([]);
+    const [currentEntries, setCurrentEntries] = useState<TINEntry[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [showFilters, setShowFilters] = useState(false)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [filteredEntries, setFilteredEntries] = useState<TINEntry[]>([])
+    const [showFilters, setShowFilters] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [filteredEntries, setFilteredEntries] = useState<TINEntry[]>([]);
     const [filters, setFilters] = useState<FilterState>({
         entityType: "all",
         classification: "all",
@@ -102,27 +105,72 @@ const Dashboard: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
     }
 
     return (
-        <div className="min-h-screen md:bg-gradient-to-br md:from-slate-50 md:via-blue-50/30 md:to-slate-100">
-            <div className="max-w-7xl mx-auto md:p-3 space-y-3">
-                <Header name={name} email={email} avatar={avatar} onLogout={onLogout} />
+        <>
+            <div className="hidden md:block">
+                <div className="hidden md:block min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
+                    <div className="max-w-7xl mx-auto md:p-3 space-y-3">
+                        <Header name={name} email={email} avatar={avatar} onLogout={onLogout} />
 
-                <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/50 flex flex-col h-[calc(100vh-120px)]">
-                    <TableHeader
-                        searchTerm={searchTerm}
-                        totalEntries={entries.length}
-                        filteredEntries={filteredEntries.length}
-                        hasActiveFilters={hasActiveFilters}
-                        filters={filters}
-                        setIsFormOpen={setIsFormOpen}
-                        setSearchTerm={setSearchTerm}
-                        setShowFilters={setShowFilters}
-                        clearFilters={clearFilters}
-                    />
+                        <div className="flex flex-col h-[calc(100vh-120px)] bg-white/80 backdrop-blur-sm md:rounded-xl shadow-lg border border-white/50">
+                            <TableHeader
+                                searchTerm={searchTerm}
+                                totalEntries={entries.length}
+                                filteredEntries={filteredEntries.length}
+                                hasActiveFilters={hasActiveFilters}
+                                filters={filters}
+                                setIsFormOpen={setIsFormOpen}
+                                setSearchTerm={setSearchTerm}
+                                setShowFilters={setShowFilters}
+                                clearFilters={clearFilters}
+                            />
 
-                    <Table entries={entries} />
+                            <div className="flex flex-1 flex-col overflow-hidden">
+                                <Table entries={currentEntries} />
+
+                                <Pagination
+                                    filteredEntries={filteredEntries}
+                                    currentPage={currentPage}
+                                    itemsPerPage={itemsPerPage}
+                                    setCurrentPage={setCurrentPage}
+                                    setCurrentEntries={setCurrentEntries}
+                                    setItemsPerPage={setItemsPerPage}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div className="block md:hidden">
+                <div className="min-h-screen bg-gray-50">
+                    <div className="flex flex-col h-screen space-y-3">
+                        <Header name={name} email={email} avatar={avatar} onLogout={onLogout} />
+
+                        <TableHeader
+                            searchTerm={searchTerm}
+                            totalEntries={entries.length}
+                            filteredEntries={filteredEntries.length}
+                            hasActiveFilters={hasActiveFilters}
+                            filters={filters}
+                            setIsFormOpen={setIsFormOpen}
+                            setSearchTerm={setSearchTerm}
+                            setShowFilters={setShowFilters}
+                            clearFilters={clearFilters}
+                        />
+
+                        <Table entries={currentEntries} />
+
+                        <Pagination
+                            filteredEntries={filteredEntries}
+                            currentPage={currentPage}
+                            itemsPerPage={itemsPerPage}
+                            setCurrentPage={setCurrentPage}
+                            setCurrentEntries={setCurrentEntries}
+                            setItemsPerPage={setItemsPerPage}
+                        />
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }
 
