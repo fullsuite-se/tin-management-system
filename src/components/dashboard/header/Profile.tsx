@@ -12,17 +12,11 @@ const Profile: React.FC<Props> = ({ name, email, avatar }) => {
             <img src={avatar} alt="avatar" className="h-10 w-10 rounded-full"/>
             <div>
                 <span className="text-xs font-medium">{name}</span>
-                <div className="text-xs opacity-90">{email}</div>
+                <div className="text-xs opacity-80">
+                    {email}
+                </div>
             </div>
         </div>
-
-        // <div className="flex items-center space-x-2 bg-gradient-to-r from-[#0097B2] to-[#00B4D8] rounded-lg px-3 py-1.5 text-white shadow-lg">
-        //     <img src={avatar} alt="avatar" />
-        //     <div>
-        //         <span className="text-xs font-medium">{name}</span>
-        //         <div className="text-xs opacity-90">{email}</div>
-        //     </div>
-        // </div>
     );
 }
 

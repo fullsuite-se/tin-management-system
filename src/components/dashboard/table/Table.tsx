@@ -46,7 +46,7 @@ const Table: React.FC<Props> = ({ entries }) => {
                 </table>
             </div>
 
-            <div className="flex md:hidden flex-1 flex-col overflow-y-auto">
+            <div className="flex md:hidden flex-1 flex-col overflow-y-auto p-3 space-y-2">
                 {entries.map((entry: TINEntry) => (
                     <TableRowMobile entry={entry} />
                 ))}

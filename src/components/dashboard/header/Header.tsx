@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import Profile from './Profile.tsx'
 import { Button } from '../../ui/button.tsx'
-import { LogOut, Menu } from "lucide-react"
+import { LogOut, Menu, CircleQuestionMark } from "lucide-react"
 
 interface Props {
     name: string,
@@ -41,6 +41,13 @@ const Header: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
                 <div className="hidden md:flex items-center space-x-3">
                     <Profile name={name} email={email} avatar={avatar} />
                     <Button
+                        variant="ghost"
+                        size="sm"
+                        className="p-0 text-[#00B4D8]"
+                    >
+                        <CircleQuestionMark className="h-6 w-6 mr-1" />
+                    </Button>
+                    <Button
                         onClick={onLogout}
                         variant="outline"
                         size="sm"
@@ -52,7 +59,7 @@ const Header: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
                 </div>
 
                 {/* Mobile Menu */}
-                <div className="md:hidden flex items-center">
+                <div className="md:hidden flex items-center mb-3">
                     <Button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         variant="ghost"

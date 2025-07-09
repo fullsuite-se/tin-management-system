@@ -106,6 +106,7 @@ const Dashboard: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
 
     return (
         <>
+            {/* Desktop */}
             <div className="hidden md:block">
                 <div className="hidden md:block min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
                     <div className="max-w-7xl mx-auto md:p-3 space-y-3">
@@ -140,9 +141,11 @@ const Dashboard: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
                     </div>
                 </div>
             </div>
+
+            {/* Mobile */}
             <div className="block md:hidden">
                 <div className="min-h-screen bg-gray-50">
-                    <div className="flex flex-col h-screen space-y-3">
+                    <div className="flex flex-col h-screen">
                         <Header name={name} email={email} avatar={avatar} onLogout={onLogout} />
 
                         <TableHeader
