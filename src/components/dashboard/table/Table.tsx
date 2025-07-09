@@ -8,8 +8,6 @@ interface Props {
 }
 
 const Table: React.FC<Props> = ({ entries }) => {
-    if (entries) console.log('1')
-
     return (
         <>
             <div className="hidden md:flex flex-1 overflow-y-auto">

@@ -1,48 +1,61 @@
-import { useState } from "react"
-import type { User } from "./utils/types.tsx"
-import Dashboard from './components/dashboard/Dashboard.tsx'
-import { validateEmailDomain } from "./lib/utils"
-import LoginForm from "./components/LoginForm"
-// import { Toaster } from "./components/ui/toaster"
-
-// Mock users for demo - in production, this would be handled by your authentication system
-const MOCK_USERS = [
-    { email: "admin@getfullsuite.com", displayName: "FullSuite Administrator" },
-    { email: "manager@getfullsuite.com", displayName: "FullSuite Manager" },
-    { email: "user@getfullsuite.com", displayName: "FullSuite User" },
-    { email: "admin@viascari.com", displayName: "Viascari Administrator" },
-    { email: "manager@viascari.com", displayName: "Viascari Manager" },
-]
+import {useEffect, useState} from "react";
+import type { User } from "./utils/types.tsx";
+import Dashboard from "./components/dashboard/Dashboard.tsx";
+import LoginForm from "./components/LoginForm";
+import { auth } from "./utils/firebase.ts";
+import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup, setPersistence, browserSessionPersistence } from "firebase/auth";
 
 export default function App() {
-    const [user, setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<User | null>(null);
 
-    const handleLogin = async (email: string, password: string) => {
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+    useEffect(() => {
+        auth.signOut().catch((err) => {
+            console.error("Sign out failed:", err);
+        }); // only for dev testing!
+    }, []);
 
-        // Validate email domain
-        if (!validateEmailDomain(email)) {
-            throw new Error("Access restricted to @getfullsuite.com and @viascari.com domains only")
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            if (firebaseUser) {
+                const email = firebaseUser.email || "";
+                if (email.endsWith("@getfullsuite.com") || email.endsWith("@viascari.com")) {
+                    setUser({ name: firebaseUser.displayName ?? "", email: email, avatar: firebaseUser.photoURL ?? "" });
+                } else {
+                    auth.signOut().catch((err) => {
+                        console.error("Sign out failed:", err);
+                    });
+                    alert("Only company emails are allowed to access the app. Please login with your company email.");
+                }
+            } else {
+                setUser(null);
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    const handleLogin = async (email: string) => {
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ login_hint: email, prompt: "select_account", });
+
+        try {
+            await setPersistence(auth, browserSessionPersistence);
+
+            const result = await signInWithPopup(auth, provider);
+            console.log("Login success:", result.user);
+        } catch (error) {
+            console.error("Error during sign-in:", error);
+            alert("Login failed. Please try again.");
         }
-
-        // In production, this would validate against your actual authentication system
-        // For demo purposes, we'll check if the email exists in our mock users
-        const mockUser = MOCK_USERS.find((u) => u.email === email)
-
-        if (mockUser && password.length > 0) {
-            setUser({
-                email: mockUser.email,
-                displayName: mockUser.displayName,
-            })
-        } else {
-            throw new Error("Invalid credentials or user not found")
-        }
-    }
+    };
 
     return (
         <>
-            {!user ? <LoginForm onLogin={handleLogin} /> : <Dashboard name={user.displayName} email={user.email} avatar={''} onLogout={() => setUser(null)} />}
+            {user ?
+                <Dashboard name={user.email} email={user.email} avatar={user.avatar} onLogout={() => setUser(null)}/>
+                :
+                <LoginForm onLogin={handleLogin} />
+            }
         </>
     );
 }

@@ -13,7 +13,7 @@ export interface TINEntry {
 }
 
 export interface User {
-    displayName: string,
+    name: string,
     email: string,
-    avatar?: string,
+    avatar: string,
 }
