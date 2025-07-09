@@ -1,9 +1,6 @@
-"use client"
-
 import { useState } from "react"
-import type { User } from "./lib/types"
-// import LoginForm from "./components/LoginForm"
-// import Dashboard from "./components/Dashboard"
+import type { User } from "./utils/types.tsx"
+import Dashboard from './components/dashboard/Dashboard.tsx'
 import { validateEmailDomain } from "./lib/utils"
 import LoginForm from "./components/LoginForm"
 // import { Toaster } from "./components/ui/toaster"
@@ -43,21 +40,9 @@ export default function App() {
         }
     }
 
-    // const handleLogout = () => {
-    //     setUser(null)
-    // }
-
     return (
         <>
-            {!user ? <LoginForm onLogin={handleLogin} /> : null}
+            {!user ? <LoginForm onLogin={handleLogin} /> : <Dashboard name={user.displayName} email={user.email} avatar={''} onLogout={() => setUser(null)} />}
         </>
     );
-
-
-    // return (
-    //     <>
-    //         {!user ? <LoginForm onLogin={handleLogin} /> : <Dashboard user={user} onLogout={handleLogout} />}
-    //         <Toaster />
-    //     </>
-    // )
 }

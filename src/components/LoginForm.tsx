@@ -11,7 +11,7 @@ interface LoginFormProps {
     onLogin: (email: string, password: string) => Promise<void>
 }
 
-export default function LoginForm({ onLogin }: LoginFormProps) {
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
@@ -135,3 +135,5 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
         </>
     )
 }
+
+export default LoginForm;

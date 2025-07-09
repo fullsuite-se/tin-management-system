@@ -11,3 +11,9 @@ export interface TINEntry {
     editedBy?: string
     editedAt?: Date
 }
+
+export interface User {
+    displayName: string,
+    email: string,
+    avatar?: string,
+}
