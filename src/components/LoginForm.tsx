@@ -2,15 +2,13 @@ import type React from "react"
 
 import { useState } from "react"
 import { HelpCircle, Shield, Database, Users, FileText, Mail, ArrowRight, Chrome } from "lucide-react"
-// import Image from "next/image"
-
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
 
 interface LoginFormProps {
-    onLogin: (email: string, password: string) => Promise<void>
+    onLogin: (email: string) => Promise<void>
 }
 
 export default function LoginForm({ onLogin }: LoginFormProps) {
@@ -25,7 +23,7 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
         setError("")
 
         try {
-            await onLogin(email, "")
+            await onLogin(email)
         } catch (err) {
             console.error(err)
         } finally {
