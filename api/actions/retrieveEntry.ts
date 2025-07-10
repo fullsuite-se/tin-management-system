@@ -1,4 +1,4 @@
-import { db } from "../utils/firebase";
+import { db } from "../../shared/firebase";
 import { TinData } from "../../shared/models/tinData";
 
 export default async function (req, res) {
