@@ -2,10 +2,10 @@ import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import * as dotenv from "dotenv";
 
-// for local dev only
-if (process.env.NODE_ENV !== "production") {
-    dotenv.config({ path: ".env.local" });
-}
+// // for local dev only
+// if (process.env.NODE_ENV !== "production") {
+//     dotenv.config({ path: ".env.local" });
+// }
 
 if (!getApps().length) {
     initializeApp({
