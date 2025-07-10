@@ -1,7 +1,7 @@
 import { db } from '../utils/firebase.js';
 import type { TinData } from '../../shared/models/tinData.js';
 
-export default async function handler(req, res) {
+const handler = async (req, res) => {
     try {
         if (req.method === 'GET') {
             return res.status(200).json({ message: 'TIN serverless function is running ✅' });
@@ -28,7 +28,9 @@ export default async function handler(req, res) {
         console.error('Caught error:', e);
         return res.status(500).json({ message: 'Internal server error', error: e.message });
     }
-}
+};
+
+export default handler;
 
 async function addEntry(data: TinData): Promise<boolean> {
     const {
