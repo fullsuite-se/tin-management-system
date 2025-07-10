@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
-import { cn } from "../../lib/utils"
+import { cn } from "../../lib/utils.ts"
 
-const Tabs = TabsPrimitive.Root
+const TabsOLD = TabsPrimitive.Root
 
 const TabsList = React.forwardRef<
     React.ElementRef<typeof TabsPrimitive.List>,
@@ -46,4 +46,4 @@ const TabsContent = React.forwardRef<
 ))
 TabsContent.displayName = TabsPrimitive.Content.displayName
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { TabsOLD, TabsList, TabsTrigger, TabsContent }

@@ -1,16 +1,18 @@
 import React from 'react'
-import type {TINEntry} from "../../../utils/types.tsx";
+import type {TINEntry} from "../../../lib/types.tsx";
 import TableRowDesktop from "./TableRowDesktop.tsx";
 import TableRowMobile from "./TableRowMobile.tsx";
 
 interface Props {
     entries: TINEntry[],
+    setViewEntry: (value: TINEntry) => void;
+    handleEdit: (value: TINEntry) => void;
 }
 
-const Table: React.FC<Props> = ({ entries }) => {
+const Table: React.FC<Props> = ({ entries, setViewEntry, handleEdit }) => {
     return (
         <>
-            <div className="hidden md:flex flex-1 overflow-y-auto">
+            <div className="hidden md:flex flex-1">
                 <table className="w-full table-fixed">
                     <thead className="bg-gradient-to-r from-slate-50 to-blue-50/50 border-b border-gray-200 sticky top-0 z-10">
                     <tr>
@@ -28,21 +30,55 @@ const Table: React.FC<Props> = ({ entries }) => {
                         </th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="overflow-y-auto">
                     {entries.map((entry: TINEntry, index: number) => (
                         <tr
                             key={entry.id}
                             className={`border-b border-gray-100 hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-transparent cursor-pointer transition-all duration-200 ${
                                 index % 2 === 0 ? "bg-white/50" : "bg-gradient-to-r from-slate-50/30 to-transparent"
                             }`}
-                            onClick={() => console.log('clicked')}
+                            onClick={() => setViewEntry(entry)}
                         >
-                            <TableRowDesktop entry={entry} />
+                            <TableRowDesktop entry={entry} handleEdit={() => handleEdit(entry)} />
                         </tr>
                     ))}
                     </tbody>
                 </table>
             </div>
+
+            {/*<div className="hidden md:flex flex-1 overflow-y-auto">*/}
+            {/*    <table className="w-full table-fixed">*/}
+            {/*        <thead className="bg-gradient-to-r from-slate-50 to-blue-50/50 border-b border-gray-200 sticky top-0 z-10">*/}
+            {/*        <tr>*/}
+            {/*            <th className="text-left px-3 py-2 font-semibold text-gray-700 text-xs w-[32%]">*/}
+            {/*                Registered Name*/}
+            {/*            </th>*/}
+            {/*            <th className="text-center px-3 py-2 font-semibold text-gray-700 text-xs w-[13%]">*/}
+            {/*                TIN With Branch Code*/}
+            {/*            </th>*/}
+            {/*            <th className="text-left px-3 py-2 font-semibold text-gray-700 text-xs w-[45%]">*/}
+            {/*                Address*/}
+            {/*            </th>*/}
+            {/*            <th className="text-right px-3 py-2 font-semibold text-gray-700 text-xs w-[10%]">*/}
+            {/*                Actions*/}
+            {/*            </th>*/}
+            {/*        </tr>*/}
+            {/*        </thead>*/}
+            {/*        <tbody>*/}
+            {/*        {entries.map((entry: TINEntry, index: number) => (*/}
+            {/*            <tr*/}
+            {/*                key={entry.id}*/}
+            {/*                className={`border-b border-gray-100 hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-transparent cursor-pointer transition-all duration-200 ${*/}
+            {/*                    index % 2 === 0 ? "bg-white/50" : "bg-gradient-to-r from-slate-50/30 to-transparent"*/}
+            {/*                }`}*/}
+            {/*                onClick={() => setViewEntry(entry)}*/}
+            {/*            >*/}
+            {/*                <TableRowDesktop entry={entry} handleEdit={() => handleEdit(entry)} />*/}
+            {/*            </tr>*/}
+            {/*        ))}*/}
+            {/*        </tbody>*/}
+            {/*    </table>*/}
+            {/*</div>*/}
 
             <div className="flex md:hidden flex-1 flex-col overflow-y-auto p-3 space-y-2">
                 {entries.map((entry: TINEntry) => (

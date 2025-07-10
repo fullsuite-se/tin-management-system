@@ -1,9 +1,9 @@
 "use client"
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
-import { Button } from "./ui/button"
+import { Button } from "./ui/Button.tsx"
 import type { TINEntry } from "../lib/types"
-import { formatDate } from "../lib/utils"
+import { formatDate } from "../lib/utils.ts"
 import { MapPin, Calendar, User, Building2 } from "lucide-react"
 
 interface ViewClientDialogProps {

@@ -1,6 +1,6 @@
 import React from 'react';
-import type {TINEntry} from '../../../utils/types.tsx';
-import {Button} from '../../ui/button.tsx';
+import type {TINEntry} from '../../../lib/types.tsx';
+import {Button} from '../../ui/Button.tsx';
 import {MapPin, Edit, Trash2} from 'lucide-react';
 
 interface Props {

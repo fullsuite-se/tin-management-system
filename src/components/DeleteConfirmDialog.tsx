@@ -1,7 +1,7 @@
 "use client"
 
 import { Dialog, DialogContent } from "./ui/dialog"
-import { Button } from "./ui/button"
+import { Button } from "./ui/Button.tsx"
 
 interface DeleteConfirmDialogProps {
     isOpen: boolean

@@ -5,11 +5,11 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import type { TINEntry } from "../lib/types"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
-import { Button } from "./ui/button"
+import { Button } from "./ui/Button.tsx"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs"
-import { validateTIN, validateAddress } from "../lib/utils"
+import { TabsOLD, TabsList, TabsTrigger } from "./ui/tabsOLD.tsx"
+import { validateTIN, validateAddress } from "../lib/utils.ts"
 
 interface AddClientDialogProps {
     isOpen: boolean
@@ -89,12 +89,12 @@ export default function AddClientDialog({ isOpen, onClose, onSubmit }: AddClient
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                    <Tabs value={activeTab} onValueChange={setActiveTab}>
+                    <TabsOLD value={activeTab} onValueChange={setActiveTab}>
                         <TabsList className="grid w-full grid-cols-2">
                             <TabsTrigger value="company">Company</TabsTrigger>
                             <TabsTrigger value="individual">Individual</TabsTrigger>
                         </TabsList>
-                    </Tabs>
+                    </TabsOLD>
 
                     <div className="text-sm text-gray-600">
                         {activeTab === "company"

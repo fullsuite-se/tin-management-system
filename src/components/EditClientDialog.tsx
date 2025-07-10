@@ -4,10 +4,10 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import type { TINEntry } from "../lib/types"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
-import { Button } from "./ui/button"
+import { Button } from "./ui/Button.tsx"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
-import { validateTIN, validateAddress } from "../lib/utils"
+import { validateTIN, validateAddress } from "../lib/utils.ts"
 
 interface EditClientDialogProps {
     isOpen: boolean
