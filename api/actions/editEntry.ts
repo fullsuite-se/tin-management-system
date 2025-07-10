@@ -28,11 +28,11 @@ async function editEntry(data: TinData): Promise<boolean> {
         address2,
         isIndividual,
         isForeign,
-        createdBy,
-        createdAt,
+        editedBy,
+        editedAt,
     } = data;
 
-    if ([tin, registeredName, address1, address2, isIndividual, isForeign, createdBy, createdAt].some(field => field == null)) {
+    if ([tin, registeredName, address1, address2, isIndividual, isForeign, editedBy, editedAt].some(field => field == null)) {
         return false;
     }
 
