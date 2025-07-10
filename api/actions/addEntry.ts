@@ -1,5 +1,5 @@
-import { db } from '../utils/firebase';
-import { TinData } from '../../shared/models/tinData';
+import { db } from "../utils/firebase";
+import { TinData } from "../../shared/models/tinData";
 
 export default async function (req, res) {
     if (req.method !== 'POST') {
