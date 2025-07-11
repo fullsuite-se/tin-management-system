@@ -36,17 +36,11 @@ async function addEntry(data: TinData): Promise<boolean> {
         registeredName,
         address1,
         address2,
-        isIndividual,
-        isForeign,
         createdBy,
         createdAt,
     } = data;
 
     if ([tin, registeredName, address1, address2, createdBy, createdAt].some((field) => field == null)) {
-        return false;
-    }
-
-    if (typeof isIndividual !== "boolean" || typeof isForeign !== "boolean") {
         return false;
     }
 
