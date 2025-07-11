@@ -3,7 +3,6 @@
     "target": "ES2023",
     "module": "Node16",
     "moduleResolution": "node16",
-    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": false,
     "outDir": "dist",
