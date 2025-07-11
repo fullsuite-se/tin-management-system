@@ -1,7 +1,8 @@
-import { db } from "../../shared/firebase";
-import { TinData } from "../../shared/models/tinData";
+import { db } from "../../shared/firebase.js";
+import type { TinData } from "../../shared/models/tinData.js";
+import type {VercelRequest, VercelResponse} from "@vercel/node";
 
-export default async function handler(req, res) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: "Method not allowed" });
     }
