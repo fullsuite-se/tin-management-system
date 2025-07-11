@@ -131,6 +131,8 @@ export function useDashboard(email: string) {
         setModal({type: null, entry: null});
     }
 
+
+
     return {
         entries,
         currentEntries,

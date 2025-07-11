@@ -1,6 +1,6 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {Input} from '../../ui/input.tsx';
+import {Input} from '../../ui/Input.tsx';
 import {Button} from '../../ui/Button.tsx';
 import type {TINEntry} from '../../../lib/types.tsx';
 

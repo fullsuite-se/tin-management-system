@@ -1,6 +1,6 @@
 import React from 'react'
 import { Search, Filter } from "lucide-react"
-import { Input } from "../../ui/input.tsx"
+import { Input } from "../../ui/Input.tsx"
 import { Button } from "../../ui/Button.tsx"
 
 interface Props {
