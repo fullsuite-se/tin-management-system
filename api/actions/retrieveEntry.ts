@@ -1,44 +1,44 @@
 import { db } from "../../api-utils/firebase.js";
 import type { TinData } from "../../api-utils/models/tinData.js";
-import type {VercelRequest, VercelResponse} from "@vercel/node";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ message: 'Method not allowed' });
+    if (req.method !== "GET") {
+        return res.status(405).json({ message: "Method not allowed" });
     }
 
-    if (req.body) {
-        try {
-            const result = await retrieveEntry(req.body);
+    const id = req.query.id;
 
-            if (!result) {
-                return res.status(404).json({ message: 'Entry not found or invalid TIN' });
-            }
-            return res.status(200).json({ message: 'Entry retrieved successfully', data: result });
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: 'Internal server error' });
-        }
-    }
-}
-
-async function retrieveEntry(data: { tin: string }): Promise<TinData | null> {
-    const { tin } = data;
-
-    if (!tin || typeof tin !== "string" || tin.trim() === "") {
-        return null;
+    if (typeof id !== "string" || id.trim() === "") {
+        return res.status(400).json({ message: "Missing or invalid document ID in query" });
     }
 
     try {
-        const doc = await db.collection("tin-database").doc(tin).get();
+        const result = await retrieveEntry(id);
+
+        if (!result) {
+            return res.status(404).json({ message: "Entry not found" });
+        }
+
+        return res.status(200).json({ message: "Entry retrieved successfully", data: result });
+    } catch (e) {
+        const error = e instanceof Error ? e.message : String(e);
+
+        return res.status(500).json({ message: "Internal server error", error });
+    }
+}
+
+async function retrieveEntry(id: string): Promise<TinData | null> {
+    try {
+        const doc = await db.collection("tin-database").doc(id).get();
 
         if (!doc.exists) {
             return null;
         }
 
         return doc.data() as TinData;
-    } catch (error) {
-        console.error("Firestore read failed:", error);
+    } catch (e) {
+        console.error("Firestore read failed:", e);
         return null;
     }
 }
