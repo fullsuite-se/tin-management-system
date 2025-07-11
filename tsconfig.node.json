@@ -1,29 +1,13 @@
-//{
-//  "compilerOptions": {
-//    "target": "ES2022",
-//    "module": "Node16",
-//    "moduleResolution": "node16",
-//    "esModuleInterop": true,
-//    "verbatimModuleSyntax": true,
-//    "noEmit": false,
-//    "outDir": "dist",
-//
-//    /* Linting */
-//    "strict": true,
-//    "noUnusedLocals": true,
-//    "noUnusedParameters": true
-//  },
-//  "include": ["api/**/*", "shared/**/*"]
-//}
-
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "target": "ES2023",
     "lib": ["ES2023"],
     "module": "ESNext",
-    "moduleResolution": "node",
     "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
@@ -37,5 +21,29 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["api/**/*", "shared/**/*"]
+  "include": ["vite.config.ts"]
 }
+
+//{
+//  "compilerOptions": {
+//    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+//    "target": "ES2023",
+//    "lib": ["ES2023"],
+//    "module": "ESNext",
+//    "moduleResolution": "node",
+//    "skipLibCheck": true,
+//    "allowImportingTsExtensions": true,
+//    "verbatimModuleSyntax": true,
+//    "moduleDetection": "force",
+//    "noEmit": true,
+//
+//    /* Linting */
+//    "strict": true,
+//    "noUnusedLocals": true,
+//    "noUnusedParameters": true,
+//    "erasableSyntaxOnly": true,
+//    "noFallthroughCasesInSwitch": true,
+//    "noUncheckedSideEffectImports": true
+//  },
+//  "include": ["api/**/*", "shared/**/*"]
+//}
