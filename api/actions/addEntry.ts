@@ -4,10 +4,6 @@ import type {VercelRequest, VercelResponse} from "@vercel/node";
 
 const handler = async (req: VercelRequest, res: VercelResponse) => {
     try {
-        if (req.method === 'GET') {
-            return res.status(200).json({ message: 'TIN serverless function is running ✅' });
-        }
-
         if (req.method !== 'POST') {
             return res.status(405).json({ message: 'Method not allowed' });
         }
