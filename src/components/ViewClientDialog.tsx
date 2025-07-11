@@ -1,10 +1,10 @@
 "use client"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
-import { Button } from "./ui/Button.tsx"
-import type { TINEntry } from "../lib/types"
-import { formatDate } from "../lib/utils.ts"
 import { MapPin, Calendar, User, Building2 } from "lucide-react"
+import { Button } from "./ui/Button"
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "./ui/Modal"
+import type { TINEntry } from "../lib/types"
+import { formatDate } from "../lib/utils"
 
 interface ViewClientDialogProps {
     isOpen: boolean
@@ -16,19 +16,19 @@ export default function ViewClientDialog({ isOpen, onClose, entry }: ViewClientD
     if (!entry) return null
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="w-[95vw] max-w-lg mx-auto max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                    <DialogTitle className="text-lg sm:text-xl font-semibold text-[#0097B2] break-words flex items-center">
-                        {entry.isIndividual ? (
-                            <User className="h-5 w-5 mr-2 flex-shrink-0" />
-                        ) : (
-                            <Building2 className="h-5 w-5 mr-2 flex-shrink-0" />
-                        )}
-                        {entry.registeredName}
-                    </DialogTitle>
-                </DialogHeader>
+        <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalHeader>
+                <div className="flex items-center gap-2 text-[#0097B2]">
+                    {entry.isIndividual ? (
+                        <User className="h-5 w-5 flex-shrink-0" />
+                    ) : (
+                        <Building2 className="h-5 w-5 flex-shrink-0" />
+                    )}
+                    <span className="text-lg sm:text-xl font-semibold break-words">{entry.registeredName}</span>
+                </div>
+            </ModalHeader>
 
+            <ModalBody>
                 <div className="space-y-4 sm:space-y-6">
                     {/* Client Type Badges */}
                     <div className="flex flex-wrap gap-2">
@@ -103,15 +103,14 @@ export default function ViewClientDialog({ isOpen, onClose, entry }: ViewClientD
                             )}
                         </div>
                     </div>
-
-                    {/* Close Button */}
-                    <div className="flex justify-end pt-4 border-t border-gray-200">
-                        <Button onClick={onClose} className="bg-[#0097B2] hover:bg-[#007A94] w-full sm:w-auto">
-                            Close
-                        </Button>
-                    </div>
                 </div>
-            </DialogContent>
-        </Dialog>
+            </ModalBody>
+
+            <ModalFooter>
+                <Button variant="default" className="w-full sm:w-auto" onClick={onClose}>
+                    Close
+                </Button>
+            </ModalFooter>
+        </Modal>
     )
 }
