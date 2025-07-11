@@ -1,62 +1,66 @@
-import { cn } from "../../lib/utils.ts";
+"use client"
+
+import type React from "react"
+import { cn } from "../../lib/utils"
+import { X } from "lucide-react"
 
 interface MainModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    children: React.ReactNode;
-    className?: string;
+    isOpen: boolean
+    onClose: () => void
+    children: React.ReactNode
+    className?: string
 }
 
 interface ModalProps {
-    children: React.ReactNode;
-    className?: string;
+    children: React.ReactNode
+    className?: string
 }
 
 const Modal: React.FC<MainModalProps> = ({ isOpen, onClose, children, className }) => {
-    if (!isOpen) return null;
+    if (!isOpen) return null
 
     return (
         <div
-            className={cn("fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center", className)}
-            onClick={onClose} // optional close on background click
+            className={cn("fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4", className)}
+            onClick={onClose}
         >
             <div
-                className="bg-white w-full max-w-lg rounded-xl shadow-lg"
-                onClick={(e) => e.stopPropagation()} // prevent closing when clicking the modal itself
+                className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-gray-100"
+                onClick={(e) => e.stopPropagation()}
             >
                 {children}
             </div>
         </div>
-    );
-}
-
-const ModalHeader: React.FC<ModalProps> = ({ children, className }) => {
-    return (
-        <div className={cn("flex items-center justify-between p-3 bg-white border-b border-gray-300 rounded-t-xl", className)}>
-            {children}
-        </div>
-    );
-}
-
-const ModalBody: React.FC<ModalProps> = ({ children, className }) => {
-    return (
-        <div className={cn("p-3", className)}>
-            {children}
-        </div>
     )
 }
 
-const ModalFooter: React.FC<ModalProps> = ({ children, className }) => {
-    return (
-        <div className={cn("flex justify-end p-3 bg-white border-t border-gray-300 rounded-b-xl", className)}>
-            {children}
-        </div>
-    )
-}
+const ModalHeader: React.FC<ModalProps> = ({ children, className }) => (
+    <div
+        className={cn(
+            "flex items-center justify-between px-6 py-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100 rounded-t-2xl",
+            className,
+        )}
+    >
+        <h2 className="text-lg font-bold text-gray-900">{children}</h2>
+        <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all">
+            <X className="w-4 h-4" />
+        </button>
+    </div>
+)
 
-export {
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-}
+const ModalBody: React.FC<ModalProps> = ({ children, className }) => (
+    <div className={cn("px-6 py-4", className)}>{children}</div>
+)
+
+const ModalFooter: React.FC<ModalProps> = ({ children, className }) => (
+    <div
+        className={cn(
+            "flex justify-end gap-3 px-6 py-4 bg-gradient-to-r from-gray-50 to-white border-t border-gray-100 rounded-b-2xl",
+            className,
+        )}
+    >
+        {children}
+    </div>
+)
+
+export { Modal, ModalHeader, ModalBody, ModalFooter }
