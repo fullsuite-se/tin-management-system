@@ -5,7 +5,7 @@ import TableHeader from "../components/dashboard/table/TableHeader.tsx";
 import Table from "../components/dashboard/table/Table.tsx";
 import { useDashboard } from "../hooks/useDashboard.ts";
 import Pagination from "../components/dashboard/table/Pagination.tsx";
-import ViewClient from "../components/modals/ViewClient.tsx";
+import DeleteClient from "../components/modals/DeleteClient.tsx";
 import {generateMockData} from "../lib/utils.ts"; // remove afterwards
 
 interface DashboardProps {
@@ -75,8 +75,10 @@ const Dashboard: React.FC<DashboardProps> = ({name, email, avatar, onLogout}) =>
                 />
             </div>
 
-            <ViewClient isOpen={modal.type === "add"} onClose={handleFormClose}
-                        entry={testEntry} />
+            <DeleteClient isOpen={modal.type === "add"} onClose={handleFormClose}
+                          entry={testEntry} onConfirm={function (): void {
+                throw new Error("Function not implemented.");
+            }} />
         </Layout>
     );
 }
