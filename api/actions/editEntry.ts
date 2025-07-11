@@ -8,13 +8,13 @@ export default async function (req: VercelRequest, res: VercelResponse) {
             return res.status(405).json({ message: "Method not allowed" });
         }
 
-        const data: TinData = JSON.parse(req.body);
+        const { id, data } = JSON.parse(req.body) as { id: string, data: TinData };
 
         if (!data) {
             return res.status(400).json({ message: "Missing request body" });
         }
 
-        const success = await editEntry(data);
+        const success = await editEntry(data, id);
 
         if (!success) {
             return res.status(400).json({ message: 'Invalid or incomplete data' });
@@ -28,9 +28,8 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 }
 
-async function editEntry(data: TinData): Promise<boolean> {
+async function editEntry(data: TinData, id: string): Promise<boolean> {
     const {
-        id,
         tin,
         registeredName,
         address1,
@@ -46,7 +45,7 @@ async function editEntry(data: TinData): Promise<boolean> {
     }
 
     try {
-        await db.collection("tin-database").doc(id).set(data, { merge: false });
+        await db.collection("tin-database").doc(id).set(data, { merge: true });
         return true;
     } catch (e) {
         console.error("Firestore write failed:", e);
