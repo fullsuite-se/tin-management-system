@@ -46,7 +46,7 @@ async function editEntry(data: TinData): Promise<boolean> {
     }
 
     try {
-        await db.collection("tin-database").doc(id).set(data, { merge: true });
+        await db.collection("tin-database").doc(id).set(data, { merge: false });
         return true;
     } catch (e) {
         console.error("Firestore write failed:", e);
