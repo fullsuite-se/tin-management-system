@@ -2,11 +2,11 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "./ui/Modal"
-import { Button } from "./ui/Button"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
-import Radio from "./ui/Radio"
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
+import { Button } from "../ui/Button"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
+import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, Edit } from "lucide-react"
 
 interface ClientData {

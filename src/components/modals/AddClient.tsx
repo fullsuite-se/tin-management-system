@@ -88,10 +88,10 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose }) => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-1">
                                 <Label className="text-xs">{selectedTab === "Company" ? "Company Name" : "Full Name"} *</Label>
-                                <Input placeholder={selectedTab === "Company" ? "Enter the Company Name" : "Enter the Full Name"} />
+                                <Input placeholder={selectedTab === "Company" ? "Enter the Company Name" : "Enter the Full Name (Last name, First Name, Middle Name)"} />
                             </div>
                             <div className="space-y-1">
-                                <Label className="text-xs">{selectedTab === "Company" ? "TIN Number" : "ID Number"} *</Label>
+                                <Label className="text-xs">{selectedTab === "Company" ? "TIN Number" : "TIN Number"} *</Label>
                                 <Input
                                     value={tinNumber}
                                     onChange={handleTINChange}

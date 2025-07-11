@@ -5,7 +5,8 @@ import TableHeader from "../components/dashboard/table/TableHeader.tsx";
 import Table from "../components/dashboard/table/Table.tsx";
 import { useDashboard } from "../hooks/useDashboard.ts";
 import Pagination from "../components/dashboard/table/Pagination.tsx";
-import AddClient from "../components/modals/AddClient.tsx";
+import EditClient from "../components/modals/EditClient.tsx";
+import {generateMockData} from "../lib/utils.ts"; // remove afterwards
 
 interface DashboardProps {
     name: string,
@@ -38,6 +39,8 @@ const Dashboard: React.FC<DashboardProps> = ({name, email, avatar, onLogout}) =>
         handleEdit,
         handleFormClose,
     } = useDashboard(email);
+
+    const testEntry = generateMockData()[0];
 
     return (
         <Layout>
@@ -72,7 +75,8 @@ const Dashboard: React.FC<DashboardProps> = ({name, email, avatar, onLogout}) =>
                 />
             </div>
 
-            <AddClient isOpen={modal.type === "add"} onClose={handleFormClose} />
+            <EditClient isOpen={modal.type === "add"} onClose={handleFormClose}
+                        onSubmit={() => console.log("clicked")} entry={testEntry} />
         </Layout>
     );
 }
