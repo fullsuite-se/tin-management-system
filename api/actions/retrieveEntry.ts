@@ -1,5 +1,5 @@
-import { db } from "../../shared/firebase.js";
-import type { TinData } from "../../shared/models/tinData.js";
+import { db } from "../../api-utils/firebase.js";
+import type { TinData } from "../../api-utils/models/tinData.js";
 import type {VercelRequest, VercelResponse} from "@vercel/node";
 
 export default async function (req: VercelRequest, res: VercelResponse) {

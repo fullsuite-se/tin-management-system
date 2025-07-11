@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export const checkTin = (entry: string) => {
     const parts = entry.split("-");
 
@@ -15,3 +17,10 @@ export const checkTin = (entry: string) => {
 
     return true;
 };
+
+export function toTimestamp(entry: string | Date) {
+    if (entry instanceof Date) {
+        return Timestamp.fromDate(entry);
+    }
+    return Timestamp.fromDate(new Date(entry));
+}

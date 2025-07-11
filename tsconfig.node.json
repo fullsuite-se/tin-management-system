@@ -19,5 +19,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["api/**/*", "shared/**/*"]
+  "include": ["api/**/*",
+    "api-utils/**/*"
+  ]
 }
