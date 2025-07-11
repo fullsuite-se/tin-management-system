@@ -1,8 +1,8 @@
 {
-//  "compilerOptions": {
-//    "module": "ESNext",
-//    "moduleResolution": "node"
-//  },
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "node"
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
