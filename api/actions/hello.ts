@@ -1,8 +1,8 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
-    const name = req.query.name ?? 'World';
-    res.writeHead(200);
-    res.write(`Hello ${name}!`);
-    res.end();
+    const { name = 'World' } = req.query
+    return res.json({
+        message: `Hello ${name}!`,
+    })
 }
