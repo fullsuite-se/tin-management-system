@@ -32,14 +32,14 @@ const TableHeader: React.FC<Props> = ({ searchTerm, totalEntries, filteredEntrie
                 <div>
                     <Button
                         onClick={() => {
-                            setModal({ type: "add" });
+                            setModal({ type: "add" , entry: null});
                         }}
                         size="sm"
                         className="bg-white text-[#0097B2] hover:bg-gray"
                     >
-                        <Plus className="h-3 w-3 mr-1" />
-                        Add Client
-                    </Button>
+                    <Plus className="h-3 w-3 mr-1" />
+                    Add Client
+                </Button>
                 </div>
             </div>
 

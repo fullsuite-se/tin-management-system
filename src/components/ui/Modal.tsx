@@ -34,7 +34,12 @@ const Modal: React.FC<MainModalProps> = ({ isOpen, onClose, children, className 
     )
 }
 
-const ModalHeader: React.FC<ModalProps> = ({ children, className }) => (
+interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+    children: React.ReactNode
+    onClose?: () => void
+}
+
+const ModalHeader: React.FC<ModalHeaderProps> = ({ children, className, onClose }) => (
     <div
         className={cn(
             "flex items-center justify-between px-6 py-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100 rounded-t-2xl",
@@ -42,11 +47,18 @@ const ModalHeader: React.FC<ModalProps> = ({ children, className }) => (
         )}
     >
         <h2 className="text-lg font-bold text-gray-900">{children}</h2>
-        <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all">
-            <X className="w-4 h-4" />
-        </button>
+        {onClose && (
+            <button
+                onClick={onClose}
+                className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
+                aria-label="Close modal"
+            >
+                <X className="w-4 h-4" />
+            </button>
+        )}
     </div>
 )
+
 
 const ModalBody: React.FC<ModalProps> = ({ children, className }) => (
     <div className={cn("px-6 py-4", className)}>{children}</div>

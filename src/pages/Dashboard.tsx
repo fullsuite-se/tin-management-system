@@ -6,7 +6,7 @@ import Table from "../components/dashboard/table/Table.tsx";
 import { useDashboard } from "../hooks/useDashboard.ts";
 import Pagination from "../components/dashboard/table/Pagination.tsx";
 import ViewClient from "../components/modals/ViewClient.tsx";
-// import {generateMockData} from "../lib/utils.ts"; // remove afterwards
+import AddClient from "../components/modals/AddClient.tsx";
 
 interface DashboardProps {
     name: string,
@@ -25,21 +25,18 @@ const Dashboard: React.FC<DashboardProps> = ({name, email, avatar, onLogout}) =>
         modal,
         searchTerm,
         filters,
-
         setCurrentEntries,
         setCurrentPage,
         setItemsPerPage,
         setModal,
         setShowFilters,
         setSearchTerm,
-
         clearFilters,
         hasActiveFilters,
+        handleAdd,
         handleEdit,
         handleFormClose,
     } = useDashboard(email);
-
-    // const testEntry = generateMockData()[0];
 
     return (
         <Layout>
@@ -56,7 +53,6 @@ const Dashboard: React.FC<DashboardProps> = ({name, email, avatar, onLogout}) =>
                     setShowFilters={setShowFilters}
                     clearFilters={clearFilters}
                 />
-
                 <div className="flex-1 overflow-y-auto">
                     <Table
                         entries={currentEntries}
@@ -73,11 +69,14 @@ const Dashboard: React.FC<DashboardProps> = ({name, email, avatar, onLogout}) =>
                     setItemsPerPage={setItemsPerPage}
                 />
             </div>
-
-            <ViewClient isOpen={modal.type === "view"} onClose={handleFormClose}
-                          entry={modal.entry} />
+            <ViewClient isOpen={modal.type === "view"} onClose={handleFormClose} entry={modal.entry} />
+            <AddClient
+                isOpen={modal.type==="add"}
+                onClose={handleFormClose}
+                onAdd={handleAdd}
+            />
         </Layout>
     );
-}
+};
 
 export default Dashboard;
