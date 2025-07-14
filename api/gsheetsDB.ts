@@ -1,5 +1,4 @@
 import { db } from "../api-utils/firebase.js";
-import type { TinData } from "../api-utils/models/tinData.js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 type TinResult = {
@@ -18,7 +17,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
             return res.status(405).json({ message: "Method not allowed" });
         }
 
-        const tins = JSON.parse(req.body) as TinData[];
+        const { tins } = req.body as { tins: string[] };
 
         if (!Array.isArray(tins) || tins.some(tin => typeof tin !== "string")) {
             return res.status(400).json({ message: "Invalid payload: 'tins' must be an array of strings" });
