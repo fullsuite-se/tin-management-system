@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import type { TINEntry } from "../lib/types.tsx"
-import { generateMockData } from "../lib/utils.ts"
 import type { ModalState } from "../lib/types.tsx"
 
 export function useDashboard(email: string) {
@@ -33,11 +32,27 @@ export function useDashboard(email: string) {
         dateRange: "all",
     })
 
-    // Initialize with mock data
+    // fetch data
     useEffect(() => {
-        const mockData = generateMockData()
-        setEntries(mockData)
-    }, [])
+        const fetchData = async () => {
+            try {
+                const res = await fetch("https://tin-management-system.vercel.app/api/actions/retrieveEntry");
+                const json = await res.json();
+
+                if (!res.ok) {
+                    console.error("Error fetching data:", json.message);
+                    return;
+                }
+
+                const data: TINEntry[] = json.data;
+                setEntries(data);
+            } catch (err) {
+                console.error("Fetch failed:", err);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     // Functions
     const clearFilters = () => {
