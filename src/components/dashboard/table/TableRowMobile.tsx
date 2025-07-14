@@ -1,17 +1,21 @@
 import React from 'react';
-import type {TINEntry} from '../../../lib/types.tsx';
+import type {ModalState, TINEntry} from '../../../lib/types.tsx';
 import {Button} from '../../ui/Button.tsx';
 import {MapPin, Edit, Trash2} from 'lucide-react';
 
 interface Props {
     entry: TINEntry,
+    setModal: (modal: ModalState) => void,
 }
 
-const TableRowMobile: React.FC<Props> = ({ entry }) => {
+const TableRowMobile: React.FC<Props> = ({ entry, setModal }) => {
     return (
         <div
             key={entry.id}
             className="flex items-start justify-between bg-white border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow"
+            onClick={() => {
+                setModal({ type: "view", entry: entry});
+            }}
         >
             <div className="flex items-start space-x-3 w-[90%]">
                 <div className="w-10 h-10 bg-gradient-to-r from-[#0097B2] to-[#00B4D8] rounded-full flex items-center justify-center text-white font-medium text-md shadow-lg flex-shrink-0">

@@ -84,7 +84,7 @@ const Table: React.FC<Props> = ({ entries, setModal, handleEdit }) => {
 
             <div className="flex md:hidden flex-1 flex-col overflow-y-auto p-3 space-y-2">
                 {entries.map((entry: TINEntry) => (
-                    <TableRowMobile entry={entry} />
+                    <TableRowMobile entry={entry} setModal={setModal} />
                 ))}
             </div>
         </>
