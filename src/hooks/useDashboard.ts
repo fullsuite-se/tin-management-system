@@ -135,7 +135,7 @@ export function useDashboard(email: string) {
                     data: {
                         ...updatedEntry,
                         editedBy: email,
-                        editedAt: new Date().toISOString(),
+                        editedAt: new Date(),
                     }
                 }),
             });
