@@ -135,7 +135,7 @@ export function useDashboard(email: string) {
                     data: {
                         ...updatedEntry,
                         editedBy: email,
-                        editedAt: new Date(),
+                        editedAt: new Date().toISOString(),
                     }
                 }),
             });
@@ -143,7 +143,7 @@ export function useDashboard(email: string) {
             const json = await res.json();
 
             if (!res.ok) {
-                console.error("Update failed:", json.message);
+                console.error("Update failed:", json.message, json.error);
                 return;
             }
 

@@ -121,7 +121,7 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
             onClose()
         } catch (error) {
             console.log(error)
-            setError("Failed to update entry")
+            setError("Failed to update entry");
         } finally {
             setIsLoading(false)
         }

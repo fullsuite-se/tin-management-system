@@ -17,7 +17,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
             return res.status(405).json({ message: "Method not allowed" });
         }
 
-        const { id, data } = JSON.parse(req.body) as { id: string, data: TinData };
+        const { id, data } = req.body as { id: string, data: TinData };
 
         if (!data) {
             return res.status(400).json({ message: "Missing request body" });
