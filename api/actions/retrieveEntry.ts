@@ -66,6 +66,8 @@ async function retrieveAllEntries(): Promise<TinData[]> {
         results.push({
             ...data,
             id: doc.id,
+            createdAt: data.createdAt?.toDate?.() ?? new Date(),
+            editedAt: data.editedAt?.toDate?.() ?? null,
         } as TinData);
     });
 
