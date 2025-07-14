@@ -9,18 +9,24 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
     const id = req.query.id;
 
-    if (typeof id !== "string" || id.trim() === "") {
-        return res.status(400).json({ message: "Missing or invalid document ID in query" });
-    }
-
     try {
-        const result = await retrieveEntry(id);
+        if (typeof id === "string" && id.trim() !== "") {
+            const result = await retrieveEntry(id);
 
-        if (!result) {
-            return res.status(404).json({ message: "Entry not found" });
+            if (!result) {
+                return res.status(404).json({ message: "Entry not found" });
+            }
+
+            return res.status(200).json({ message: "Entry retrieved successfully", data: result });
+        } else {
+            const allEntries = await retrieveAllEntries();
+
+            if (!allEntries) {
+                return res.status(404).json({ message: "Entries not found" });
+            }
+
+            return res.status(200).json({ message: "Entries retrieved successfully", data: allEntries });
         }
-
-        return res.status(200).json({ message: "Entry retrieved successfully", data: result });
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
 
@@ -41,4 +47,28 @@ async function retrieveEntry(id: string): Promise<TinData | null> {
         console.error("Firestore read failed:", e);
         return null;
     }
+}
+
+async function retrieveAllEntries(): Promise<TinData[]> {
+    const snapshot = await db.collection("tin-database").get();
+    const results: TinData[] = [];
+
+    snapshot.forEach(doc => {
+        const data = doc.data();
+        results.push({
+            id: doc.id,
+            tin: data.tin,
+            registeredName: data.registeredName,
+            address1: data.address1,
+            address2: data.address2,
+            isIndividual: data.isIndividual,
+            isForeign: data.isForeign,
+            createdBy: data.createdBy,
+            createdAt: data.createdAt?.toDate?.() ?? new Date(),
+            editedBy: data.editedBy,
+            editedAt: data.editedAt?.toDate?.(),
+        } as TinData);
+    });
+
+    return results;
 }
