@@ -1,5 +1,3 @@
-"use client"
-
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal" // your custom modal
 import { Button } from "../ui/Button"
 import { Label } from "../ui/Label.tsx"

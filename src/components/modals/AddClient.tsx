@@ -1,5 +1,3 @@
-"use client"
-
 import type * as React from "react"
 import { useState, useEffect } from "react"
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"

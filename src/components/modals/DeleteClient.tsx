@@ -1,5 +1,3 @@
-"use client"
-
 import { Button } from "../ui/Button"
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
 import type { TINEntry } from "../../lib/types"

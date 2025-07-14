@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { Calendar, MapPin, User, Building2, Edit } from "lucide-react"
 import type { TINEntry } from "../../lib/types"
@@ -80,7 +78,7 @@ const ViewClientDialog: React.FC<ViewClientDialogProps> = ({ isOpen, onClose, en
                             </div>
                             <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                                 <span className="text-gray-600 font-medium">Added on:</span>
-                                <span className="font-medium">{formatDate(entry.createdAt)}</span>
+                                <span className="font-medium">{formatDate(new Date(entry.createdAt))}</span>
                             </div>
 
                             {entry.editedBy && entry.editedAt && (
@@ -92,7 +90,7 @@ const ViewClientDialog: React.FC<ViewClientDialogProps> = ({ isOpen, onClose, en
                                     </div>
                                     <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                                         <span className="text-gray-600 font-medium">Last edited on:</span>
-                                        <span className="font-medium">{formatDate(entry.editedAt)}</span>
+                                        <span className="font-medium">{formatDate(new Date(entry.editedAt))}</span>
                                     </div>
                                 </>
                             )}

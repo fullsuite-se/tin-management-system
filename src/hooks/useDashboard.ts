@@ -46,8 +46,8 @@ export function useDashboard(email: string) {
 
                 const data: TINEntry[] = json.data;
                 setEntries(data);
-            } catch (err) {
-                console.error("Fetch failed:", err);
+            } catch (e) {
+                console.error("Fetch failed:", e);
             }
         };
 
@@ -120,19 +120,63 @@ export function useDashboard(email: string) {
         setEntries([entry, ...entries])
     }
 
-    const handleUpdate = (updatedEntry: TINEntry) => {
-        setEntries(
-            entries.map((entry) =>
-                entry.id === updatedEntry.id
-                    ? {
-                        ...updatedEntry,
-                        editedBy: email,
-                        editedAt: new Date(),
-                    }
-                    : entry,
-            ),
-        )
+    const handleUpdate = async (updatedEntry: TINEntry) => {
+        const id = updatedEntry.id;
+        try {
+            const res = await fetch("https://tin-management-system.vercel.app/api/actions/editEntry", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: id, data: updatedEntry }),
+            });
+
+            const json = await res.json();
+
+            if (!res.ok) {
+                console.error("Update failed:", json.message);
+                return;
+            }
+
+            console.log("Updated successfully:", json);
+
+            // Optionally update local state
+            setEntries((prev) =>
+                prev.map((entry) =>
+                    entry.id === updatedEntry.id
+                        ? {
+                            ...updatedEntry,
+                            editedBy: email,
+                            editedAt: new Date(),
+                        }
+                        : entry
+                )
+            );
+        } catch (e) {
+            console.error("Update failed: ", e);
+        }
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch("https://tin-management-system.vercel.app/api/actions/retrieveEntry");
+                const json = await res.json();
+
+                if (!res.ok) {
+                    console.error("Error fetching data:", json.message);
+                    return;
+                }
+
+                const data: TINEntry[] = json.data;
+                setEntries(data);
+            } catch (err) {
+                console.error("Fetch failed:", err);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleDelete = (entry: TINEntry) => {
         setEntries(entries.filter((e) => e.id !== entry.id))

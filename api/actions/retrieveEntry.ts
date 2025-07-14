@@ -4,11 +4,11 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
     if (req.method === "OPTIONS") {
-        return res.status(200).end();
+        return res.status(200).end(); // Handles CORS preflight
     }
 
     if (req.method !== "GET") {
@@ -64,17 +64,8 @@ async function retrieveAllEntries(): Promise<TinData[]> {
     snapshot.forEach(doc => {
         const data = doc.data();
         results.push({
+            ...data,
             id: doc.id,
-            tin: data.tin,
-            registeredName: data.registeredName,
-            address1: data.address1,
-            address2: data.address2,
-            isIndividual: data.isIndividual,
-            isForeign: data.isForeign,
-            createdBy: data.createdBy,
-            createdAt: data.createdAt?.toDate?.() ?? new Date(),
-            editedBy: data.editedBy,
-            editedAt: data.editedAt?.toDate?.(),
         } as TinData);
     });
 
