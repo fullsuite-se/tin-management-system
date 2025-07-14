@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button } from '../../ui/button.tsx'
+import { Button } from '../../ui/Button.tsx'
 import { Plus, X } from "lucide-react"
 import SearchAndFilter from "./SearchAndFilter.tsx";
+import type { ModalState } from '../../../lib/types.tsx';
 
 interface Props {
     searchTerm: string,
@@ -13,13 +14,13 @@ interface Props {
         classification: string;
         dateRange: string;
     }
-    setIsFormOpen: (value: boolean) => void;
+    setModal: (modal: ModalState) => void;
     setSearchTerm: (value: string) => void;
     setShowFilters: (value: boolean) => void;
     clearFilters: () => void;
 }
 
-const TableHeader: React.FC<Props> = ({ searchTerm, totalEntries, filteredEntries, hasActiveFilters, filters, setIsFormOpen, setSearchTerm, setShowFilters, clearFilters }) => {
+const TableHeader: React.FC<Props> = ({ searchTerm, totalEntries, filteredEntries, hasActiveFilters, filters, setModal, setSearchTerm, setShowFilters, clearFilters }) => {
     return (
         <div className="bg-gradient-to-r from-[#0097B2] to-[#00B4D8] p-3 text-white md:rounded-t-xl flex-shrink-0">
             <div className="flex items-center justify-between mb-3">
@@ -30,13 +31,15 @@ const TableHeader: React.FC<Props> = ({ searchTerm, totalEntries, filteredEntrie
                 </div>
                 <div>
                     <Button
-                        onClick={() => setIsFormOpen(true)}
+                        onClick={() => {
+                            setModal({ type: "add" , entry: null});
+                        }}
                         size="sm"
                         className="bg-white text-[#0097B2] hover:bg-gray"
                     >
-                        <Plus className="h-3 w-3 mr-1" />
-                        Add Client
-                    </Button>
+                    <Plus className="h-3 w-3 mr-1" />
+                    Add Client
+                </Button>
                 </div>
             </div>
 

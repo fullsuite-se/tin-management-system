@@ -1,5 +1,5 @@
 import * as React from "react"
-import { cn } from '../../utils/utils.ts'
+import { cn } from '../../lib/utils.ts'
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
@@ -37,3 +37,39 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button"
 
 export { Button }
+
+
+// import type React from "react"
+// import { cn } from "../../lib/utils"
+//
+// interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+//     variant?: "default" | "outline"
+//     size?: "default" | "sm"
+// }
+//
+// const variants = {
+//     default: "bg-gradient-to-r from-[#0097B2] to-[#00B4D8] text-white hover:from-[#007A94] hover:to-[#0097B2]",
+//     outline: "border-2 border-gray-200 bg-white hover:bg-gray-50 text-gray-700 hover:border-gray-300",
+// }
+//
+// const sizes = {
+//     default: "h-10 px-4 py-2",
+//     sm: "h-9 px-3",
+// }
+//
+// const Button: React.FC<Props> = ({ className, variant = "default", size = "default", children, ...props }) => (
+//     <button
+//         className={cn(
+//             "inline-flex items-center justify-center rounded-xl text-sm font-semibold transition-all shadow-sm hover:shadow-md transform hover:scale-[1.02]",
+//             variants[variant],
+//             sizes[size],
+//             className,
+//         )}
+//         {...props}
+//     >
+//         {children}
+//     </button>
+// )
+//
+// export { Button }
+// export default Button

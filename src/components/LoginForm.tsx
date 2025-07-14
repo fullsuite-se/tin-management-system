@@ -2,9 +2,9 @@ import type React from "react"
 
 import { useState } from "react"
 import { HelpCircle, Shield, Database, Users, FileText, Mail, ArrowRight, Chrome } from "lucide-react"
-import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
+import { Button } from "./ui/Button.tsx"
+import { Input } from "./ui/Input"
+import { Label } from "./ui/Label.tsx"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
 
 interface LoginFormProps {

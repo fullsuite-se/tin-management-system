@@ -1,13 +1,15 @@
 import React from 'react'
-import type { TINEntry } from '../../../utils/types.tsx'
-import { Button } from "../../ui/button.tsx";
+import type {TINEntry} from '../../../lib/types.tsx'
+import { Button } from "../../ui/Button.tsx";
 import { MapPin, Edit, Trash2 } from 'lucide-react'
 
 interface Props {
     entry: TINEntry,
+    handleEdit: () => void;
+    handleDelete: () => void;
 }
 
-const TableRowDesktop: React.FC<Props> = ({ entry }) => {
+const TableRowDesktop: React.FC<Props> = ({ entry, handleEdit, handleDelete }) => {
     return (
         <>
             <td className="px-3 py-2 w-[32%]">
@@ -56,7 +58,10 @@ const TableRowDesktop: React.FC<Props> = ({ entry }) => {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => console.log('edit')}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleEdit();
+                        }}
                         className="border-[#0097B2] text-[#0097B2] hover:bg-[#0097B2]/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                     >
                         <Edit className="h-3 w-3" />
@@ -64,7 +69,10 @@ const TableRowDesktop: React.FC<Props> = ({ entry }) => {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => console.log('delete')}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete();
+                    }}
                         className="border-red-400 text-red-400 hover:bg-red-400/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                     >
                         <Trash2 className="h-3 w-3" />

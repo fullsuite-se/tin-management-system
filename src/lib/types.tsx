@@ -17,3 +17,8 @@ export interface User {
     email: string,
     avatar: string,
 }
+
+export type ModalState = {
+    type: 'add' | 'edit' | 'view' | 'delete' | 'filter' | null;
+    entry: TINEntry | null;
+};
