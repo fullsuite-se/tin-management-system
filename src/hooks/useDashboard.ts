@@ -1,34 +1,37 @@
-import { useState, useEffect } from "react";
-import type { TINEntry } from "../lib/types.tsx";
-import { generateMockData } from "../lib/utils.ts";
-import type { ModalState } from "../lib/types.tsx";
+"use client"
+
+import { useState, useEffect } from "react"
+import type { TINEntry } from "../lib/types.tsx"
+import { generateMockData } from "../lib/utils.ts"
+import type { ModalState } from "../lib/types.tsx"
 
 export function useDashboard(email: string) {
     // Entry States
-    const [entries, setEntries] = useState<TINEntry[]>([]);
-    const [currentEntries, setCurrentEntries] = useState<TINEntry[]>([]);
-    const [filteredEntries, setFilteredEntries] = useState<TINEntry[]>([]);
+    const [entries, setEntries] = useState<TINEntry[]>([])
+    const [currentEntries, setCurrentEntries] = useState<TINEntry[]>([])
+    const [filteredEntries, setFilteredEntries] = useState<TINEntry[]>([])
 
     // Pagination States
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [currentPage, setCurrentPage] = useState(1)
+    const [itemsPerPage, setItemsPerPage] = useState(10)
 
     const [modal, setModal] = useState<ModalState>({
         type: null,
-        entry: null
-    });
+        entry: null,
+    })
 
-    const [addingEntry, setAddingEntry] = useState<TINEntry | null>(null);
-    const [editingEntry, setEditingEntry] = useState<TINEntry | null>(null);
-    const [deletingEntry, setDeletingEntry] = useState<TINEntry | null>(null);
-    const [viewingEntry, setViewingEntry] = useState<TINEntry | null>(null);
-    const [showFilters, setShowFilters] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [addingEntry, setAddingEntry] = useState<TINEntry | null>(null)
+    const [editingEntry, setEditingEntry] = useState<TINEntry | null>(null)
+    const [deletingEntry, setDeletingEntry] = useState<TINEntry | null>(null)
+    const [viewingEntry, setViewingEntry] = useState<TINEntry | null>(null)
+
+    const [showFilters, setShowFilters] = useState(false)
+    const [searchTerm, setSearchTerm] = useState("")
     const [filters, setFilters] = useState({
         entityType: "all",
         classification: "all",
         dateRange: "all",
-    });
+    })
 
     // Initialize with mock data
     useEffect(() => {
@@ -74,7 +77,6 @@ export function useDashboard(email: string) {
         if (filters.dateRange !== "all") {
             const now = new Date()
             const filterDate = new Date()
-
             switch (filters.dateRange) {
                 case "week":
                     filterDate.setDate(now.getDate() - 7)
@@ -86,7 +88,6 @@ export function useDashboard(email: string) {
                     filterDate.setFullYear(now.getFullYear() - 1)
                     break
             }
-
             filtered = filtered.filter((entry) => new Date(entry.createdAt) >= filterDate)
         }
 
@@ -120,18 +121,16 @@ export function useDashboard(email: string) {
 
     const handleDelete = (entry: TINEntry) => {
         setEntries(entries.filter((e) => e.id !== entry.id))
-        setModal({type: "delete", entry})
+        setModal({ type: "delete", entry })
     }
 
     const handleEdit = (entry: TINEntry) => {
-        setModal({type: "edit", entry})
+        setModal({ type: "edit", entry })
     }
 
     const handleFormClose = () => {
-        setModal({type: null, entry: null});
+        setModal({ type: null, entry: null })
     }
-
-
 
     return {
         entries,
@@ -147,7 +146,6 @@ export function useDashboard(email: string) {
         showFilters,
         searchTerm,
         filters,
-
         setEntries,
         setCurrentEntries,
         setFilteredEntries,
@@ -161,7 +159,6 @@ export function useDashboard(email: string) {
         setShowFilters,
         setSearchTerm,
         setFilters,
-
         clearFilters,
         hasActiveFilters,
         handleAdd,

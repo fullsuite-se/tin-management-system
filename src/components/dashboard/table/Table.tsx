@@ -37,9 +37,7 @@ const Table: React.FC<Props> = ({ entries, setModal, handleEdit }) => {
                             className={`border-b border-gray-100 hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-transparent cursor-pointer transition-all duration-200 ${
                                 index % 2 === 0 ? "bg-white/50" : "bg-gradient-to-r from-slate-50/30 to-transparent"
                             }`}
-                            onClick={() => {
-                                setModal({ type: "view", entry: entry});
-                            }}
+                            onClick={() => setModal({ type: "view", entry: entry}) }
                         >
                             <TableRowDesktop entry={entry} handleEdit={() => handleEdit(entry)} />
                         </tr>
@@ -84,7 +82,7 @@ const Table: React.FC<Props> = ({ entries, setModal, handleEdit }) => {
 
             <div className="flex md:hidden flex-1 flex-col overflow-y-auto p-3 space-y-2">
                 {entries.map((entry: TINEntry) => (
-                    <TableRowMobile entry={entry} setModal={setModal} />
+                    <TableRowMobile entry={entry} setModal={setModal} handleEdit={() => handleEdit(entry)} />
                 ))}
             </div>
         </>

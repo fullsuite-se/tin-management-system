@@ -1,5 +1,5 @@
 import React from 'react'
-import type { TINEntry } from '../../../lib/types.tsx'
+import type {TINEntry} from '../../../lib/types.tsx'
 import { Button } from "../../ui/Button.tsx";
 import { MapPin, Edit, Trash2 } from 'lucide-react'
 
@@ -57,7 +57,10 @@ const TableRowDesktop: React.FC<Props> = ({ entry, handleEdit }) => {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={handleEdit}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleEdit();
+                        }}
                         className="border-[#0097B2] text-[#0097B2] hover:bg-[#0097B2]/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                     >
                         <Edit className="h-3 w-3" />
@@ -65,7 +68,10 @@ const TableRowDesktop: React.FC<Props> = ({ entry, handleEdit }) => {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => console.log('delete')}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            console.log('delete');
+                    }}
                         className="border-red-400 text-red-400 hover:bg-red-400/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                     >
                         <Trash2 className="h-3 w-3" />

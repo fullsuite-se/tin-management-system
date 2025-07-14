@@ -1,20 +1,23 @@
-import React from 'react';
-import type {ModalState, TINEntry} from '../../../lib/types.tsx';
-import {Button} from '../../ui/Button.tsx';
-import {MapPin, Edit, Trash2} from 'lucide-react';
+"use client"
+
+import type React from "react"
+import type { ModalState, TINEntry } from "../../../lib/types.tsx"
+import { Button } from "../../ui/Button.tsx"
+import { MapPin, Edit, Trash2 } from "lucide-react"
 
 interface Props {
-    entry: TINEntry,
-    setModal: (modal: ModalState) => void,
+    entry: TINEntry
+    setModal: (modal: ModalState) => void
+    handleEdit: (entry: TINEntry) => void
 }
 
-const TableRowMobile: React.FC<Props> = ({ entry, setModal }) => {
+const TableRowMobile: React.FC<Props> = ({ entry, setModal, handleEdit }) => {
     return (
         <div
             key={entry.id}
             className="flex items-start justify-between bg-white border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow"
             onClick={() => {
-                setModal({ type: "view", entry: entry});
+                setModal({ type: "view", entry: entry })
             }}
         >
             <div className="flex items-start space-x-3 w-[90%]">
@@ -24,25 +27,21 @@ const TableRowMobile: React.FC<Props> = ({ entry, setModal }) => {
                 <div className="w-full min-w-0">
                     <span>{entry.registeredName}</span>
                     <div className="space-x-2 items-center py-1 mb-1">
-                        <span className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 mb-1 rounded inline-block">
-                            {entry.tin}
-                        </span>
+            <span className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 mb-1 rounded inline-block">
+              {entry.tin}
+            </span>
                         <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
-                            {entry.isIndividual ? "Individual" : "Company"}
-                        </span>
+              {entry.isIndividual ? "Individual" : "Company"}
+            </span>
                         <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
-                            {entry.isForeign ? "Foreign" : "Domestic"}
-                        </span>
+              {entry.isForeign ? "Foreign" : "Domestic"}
+            </span>
                     </div>
                     <div className="flex items-start space-x-1">
                         <MapPin className="h-3 w-3 text-gray-400 mt-0.5 flex-shrink-0" />
                         <div className="flex-1 text-xs overflow-hidden">
-                            <span className="block truncate font-medium text-gray-600">
-                                {entry.address1}
-                            </span>
-                            <span className="block truncate text-grey-500">
-                                {entry.address2}
-                            </span>
+                            <span className="block truncate font-medium text-gray-600">{entry.address1}</span>
+                            <span className="block truncate text-grey-500">{entry.address2}</span>
                         </div>
                     </div>
                 </div>
@@ -51,7 +50,10 @@ const TableRowMobile: React.FC<Props> = ({ entry, setModal }) => {
                 <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => console.log('edit')}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        handleEdit(entry)
+                    }}
                     className="border-[#0097B2] text-[#0097B2] hover:bg-[#0097B2]/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                 >
                     <Edit />
@@ -59,7 +61,10 @@ const TableRowMobile: React.FC<Props> = ({ entry, setModal }) => {
                 <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => console.log('delete')}
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        console.log("delete")
+                    }}
                     className="border-red-400 text-red-400 hover:bg-red-400/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                 >
                     <Trash2 />
@@ -69,4 +74,4 @@ const TableRowMobile: React.FC<Props> = ({ entry, setModal }) => {
     )
 }
 
-export default TableRowMobile;
+export default TableRowMobile

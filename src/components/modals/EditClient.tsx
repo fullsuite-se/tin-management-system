@@ -1,5 +1,4 @@
 "use client"
-
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
@@ -17,6 +16,10 @@ interface ClientData {
     address2: string
     isIndividual: boolean
     isForeign: boolean
+    createdAt: Date
+    createdBy: string
+    editedAt?: Date
+    editedBy?: string
 }
 
 interface EditClientProps {
@@ -70,10 +73,8 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
     const formatTIN = (value: string): string => {
         // Remove all non-digits
         const digits = value.replace(/\D/g, "")
-
         // Limit to 12 digits
         const limited = digits.slice(0, 12)
-
         // Format as XXX-XXX-XXX-XXXX
         if (limited.length >= 9) {
             return `${limited.slice(0, 3)}-${limited.slice(3, 6)}-${limited.slice(6, 9)}-${limited.slice(9)}`
@@ -82,7 +83,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
         } else if (limited.length >= 3) {
             return `${limited.slice(0, 3)}-${limited.slice(3)}`
         }
-
         return limited
     }
 
@@ -178,7 +178,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                             </div>
                             <h3 className="text-sm font-semibold text-gray-900">Basic Information</h3>
                         </div>
-
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-1">
                                 <Label className="text-xs">{entry.isIndividual ? "Individual Name" : "Company Name"} *</Label>
@@ -213,7 +212,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                             </div>
                             <h3 className="text-sm font-semibold text-gray-900">Address Information</h3>
                         </div>
-
                         <div className="space-y-3">
                             <div className="space-y-1">
                                 <Label className="text-xs">{entry.isIndividual ? "Address 1" : "Company Address 1"}</Label>
@@ -223,7 +221,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                                     placeholder="Substreet, Street, Barangay"
                                 />
                             </div>
-
                             <div className="space-y-1">
                                 <Label className="text-xs">{entry.isIndividual ? "Address 2" : "Company Address 2"}</Label>
                                 <Input
@@ -233,7 +230,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                                 />
                             </div>
                         </div>
-
                         <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-3">
                             <div className="flex items-center gap-2">
                                 <div className="w-2 h-2 bg-amber-500 rounded-full" />
