@@ -121,7 +121,6 @@ export function useDashboard(email: string) {
 
     const handleDelete = (entry: TINEntry) => {
         setEntries(entries.filter((e) => e.id !== entry.id))
-        setModal({ type: "delete", entry })
     }
 
     const handleEdit = (entry: TINEntry) => {

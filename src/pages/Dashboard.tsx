@@ -10,6 +10,7 @@ import Pagination from "../components/dashboard/table/Pagination.tsx"
 import ViewClient from "../components/modals/ViewClient.tsx"
 import AddClient from "../components/modals/AddClient.tsx"
 import EditClient from "../components/modals/EditClient.tsx"
+import DeleteClient from "../components/modals/DeleteClient.tsx"
 
 interface DashboardProps {
     name: string
@@ -38,6 +39,7 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
         hasActiveFilters,
         handleAdd,
         handleUpdate,
+        handleDelete,
         handleEdit,
         handleFormClose,
     } = useDashboard(email)
@@ -69,12 +71,19 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
                     setItemsPerPage={setItemsPerPage}
                 />
             </div>
+
             <ViewClient isOpen={modal.type === "view"} onClose={handleFormClose} entry={modal.entry} />
             <AddClient isOpen={modal.type === "add"} onClose={handleFormClose} onAdd={handleAdd} />
             <EditClient
                 isOpen={modal.type === "edit"}
                 onClose={handleFormClose}
                 onSubmit={handleUpdate}
+                entry={modal.entry}
+            />
+            <DeleteClient
+                isOpen={modal.type === "delete"}
+                onClose={handleFormClose}
+                onConfirm={() => handleDelete}
                 entry={modal.entry}
             />
         </Layout>

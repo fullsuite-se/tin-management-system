@@ -1,25 +1,22 @@
 "use client"
 
-import { Button } from "../../components/ui/Button"
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "../../components/ui/Modal"
+import { Button } from "../ui/Button"
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
 import type { TINEntry } from "../../lib/types"
 
-interface DeleteClientDialogProps {
+interface DeleteClientProps {
     isOpen: boolean
     onClose: () => void
     onConfirm: () => void
     entry: TINEntry | null
 }
 
-export default function DeleteClientDialog({ isOpen, onClose, onConfirm, entry }: DeleteClientDialogProps) {
+export default function DeleteClient({ isOpen, onClose, onConfirm, entry }: DeleteClientProps) {
     if (!entry) return null
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalHeader>
-                Delete Client
-            </ModalHeader>
-
+            <ModalHeader>Delete Client</ModalHeader>
             <ModalBody>
                 {/* Client Info */}
                 <div className="bg-gray-50 rounded-lg p-4 mb-6">
@@ -61,9 +58,8 @@ export default function DeleteClientDialog({ isOpen, onClose, onConfirm, entry }
                     </p>
                 </div>
             </ModalBody>
-
             <ModalFooter>
-                <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
+                <Button variant="outline" onClick={onClose} className="w-full sm:w-auto bg-transparent">
                     Cancel
                 </Button>
                 <Button variant="destructive" onClick={onConfirm} className="w-full sm:w-auto">
