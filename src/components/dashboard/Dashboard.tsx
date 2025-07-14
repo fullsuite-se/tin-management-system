@@ -7,8 +7,8 @@
 // import Table from "./table/Table.tsx";
 // import Pagination from "./table/Pagination.tsx";
 // import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog.tsx";
-// import { Label } from "../../components/ui/label.tsx";
-// import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../../components/ui/select.tsx";
+// import { Label } from "../../components/ui/Label.tsx";
+// import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../../components/ui/Select.tsx";
 // import { Button } from "../ui/Button.tsx";
 // import ViewClientDialog from "../../components/ViewClientDialog.tsx";
 // import AddClientDialog from "../../components/AddClientDialog.tsx";

@@ -10,7 +10,7 @@ import { Button } from "../ui/Button"
 interface ViewClientDialogProps {
     isOpen: boolean
     onClose: () => void
-    entry: TINEntry | null
+    entry: TINEntry
 }
 
 const ViewClientDialog: React.FC<ViewClientDialogProps> = ({ isOpen, onClose, entry }) => {

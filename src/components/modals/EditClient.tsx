@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
 import { Button } from "../ui/Button"
 import { Input } from "../ui/Input"
-import { Label } from "../ui/label"
+import { Label } from "../ui/Label.tsx"
 import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, Edit } from "lucide-react"
 

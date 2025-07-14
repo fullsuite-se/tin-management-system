@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { TINEntry } from "../lib/types.tsx";
-import { generateMockData } from "../lib/utils.ts";
+// import { generateMockData } from "../lib/utils.ts";
 import type { ModalState } from "../lib/types.tsx";
 
 export function useDashboard(email: string) {
@@ -30,11 +30,11 @@ export function useDashboard(email: string) {
         dateRange: "all",
     });
 
-    // Initialize with mock data
-    useEffect(() => {
-        const mockData = generateMockData()
-        setEntries(mockData)
-    }, [])
+    // // Initialize with mock data
+    // useEffect(() => {
+    //     const mockData = generateMockData()
+    //     setEntries(mockData)
+    // }, [])
 
     // Functions
     const clearFilters = () => {

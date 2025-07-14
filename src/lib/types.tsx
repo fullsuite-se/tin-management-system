@@ -19,6 +19,6 @@ export interface User {
 }
 
 export type ModalState = {
-    type: 'add' | 'edit' | 'view' | 'delete' | null;
-    entry?: TINEntry | null;
+    type: 'add' | 'edit' | 'view' | 'delete' | 'filter' | null;
+    entry: TINEntry | null;
 };

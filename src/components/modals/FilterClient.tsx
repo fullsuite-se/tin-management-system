@@ -2,14 +2,14 @@
 
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal" // your custom modal
 import { Button } from "../ui/Button"
-import { Label } from "../ui/label"
+import { Label } from "../ui/Label.tsx"
 import {
     Select,
     SelectTrigger,
     SelectValue,
     SelectContent,
     SelectItem,
-} from "../ui/select"
+} from "../ui/Select"
 
 interface FilterState {
     entityType: string

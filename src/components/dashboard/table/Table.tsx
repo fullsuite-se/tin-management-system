@@ -1,15 +1,15 @@
 import React from 'react'
-import type {TINEntry} from "../../../lib/types.tsx";
+import type {ModalState, TINEntry} from "../../../lib/types.tsx";
 import TableRowDesktop from "./TableRowDesktop.tsx";
 import TableRowMobile from "./TableRowMobile.tsx";
 
 interface Props {
     entries: TINEntry[],
-    setViewEntry: (value: TINEntry) => void;
+    setModal: (modal: ModalState) => void;
     handleEdit: (value: TINEntry) => void;
 }
 
-const Table: React.FC<Props> = ({ entries, setViewEntry, handleEdit }) => {
+const Table: React.FC<Props> = ({ entries, setModal, handleEdit }) => {
     return (
         <>
             <div className="hidden md:flex flex-1">
@@ -37,7 +37,9 @@ const Table: React.FC<Props> = ({ entries, setViewEntry, handleEdit }) => {
                             className={`border-b border-gray-100 hover:bg-gradient-to-r hover:from-blue-50/50 hover:to-transparent cursor-pointer transition-all duration-200 ${
                                 index % 2 === 0 ? "bg-white/50" : "bg-gradient-to-r from-slate-50/30 to-transparent"
                             }`}
-                            onClick={() => setViewEntry(entry)}
+                            onClick={() => {
+                                setModal({ type: "view", entry: entry});
+                            }}
                         >
                             <TableRowDesktop entry={entry} handleEdit={() => handleEdit(entry)} />
                         </tr>
