@@ -122,13 +122,22 @@ export function useDashboard(email: string) {
 
     const handleUpdate = async (updatedEntry: TINEntry) => {
         const id = updatedEntry.id;
+
+
         try {
             const res = await fetch("https://tin-management-system.vercel.app/api/actions/editEntry", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ id: id, data: updatedEntry }),
+                body: JSON.stringify({
+                    id: id,
+                    data: {
+                        ...updatedEntry,
+                        editedBy: email,
+                        editedAt: new Date(),
+                    }
+                }),
             });
 
             const json = await res.json();
