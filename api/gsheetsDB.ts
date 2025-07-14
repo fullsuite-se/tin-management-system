@@ -1,5 +1,5 @@
-import { db } from "../api-utils/firebase.ts";
-import type { TinData } from "../api-utils/models/tinData.ts";
+import { db } from "../api-utils/firebase.js";
+import type { TinData } from "../api-utils/models/tinData.js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 type TinResult = {
