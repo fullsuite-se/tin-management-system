@@ -166,7 +166,7 @@ export function useDashboard(name: string) {
 
             if (!res.ok) {
                 console.error("Update failed:", json.message, json.error);
-                alert("Failed to Update Entry");
+                alert(`Failed to Update Entry: ${json.message}`);
                 return;
             }
 
