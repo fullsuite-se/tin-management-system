@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import type { TINEntry } from "../lib/types.tsx"
 import type { ModalState } from "../lib/types.tsx"
 
-export function useDashboard(email: string) {
+export function useDashboard(name: string) {
     // Entry States
     const [entries, setEntries] = useState<TINEntry[]>([])
     const [currentEntries, setCurrentEntries] = useState<TINEntry[]>([])
@@ -114,7 +114,7 @@ export function useDashboard(email: string) {
         const entry: TINEntry = {
             ...newEntry,
             createdAt: new Date(),
-            createdBy: email,
+            createdBy: name,
         };
 
         try {
@@ -157,7 +157,7 @@ export function useDashboard(email: string) {
                     id: id,
                     data: {
                         ...updatedEntry,
-                        editedBy: email,
+                        editedBy: name,
                         editedAt: new Date(),
                     }
                 }),
@@ -179,7 +179,7 @@ export function useDashboard(email: string) {
                     entry.id === updatedEntry.id
                         ? {
                             ...updatedEntry,
-                            editedBy: email,
+                            editedBy: name,
                             editedAt: new Date(),
                         }
                         : entry
