@@ -1,5 +1,5 @@
 import type React from "react"
-import { Calendar, MapPin, User, Building2, Edit, X } from "lucide-react" // Import the X icon
+import { Calendar, MapPin, User, Building2, Edit } from "lucide-react" // Import the X icon
 import type { TINEntry } from "../../lib/types"
 import { formatDate } from "../../lib/utils"
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
@@ -17,7 +17,7 @@ const ViewClientDialog: React.FC<ViewClientDialogProps> = ({ isOpen, onClose, en
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalHeader onClose={onClose}> {/* Pass onClose to ModalHeader */}
-                <div className="flex items-center gap-2 text-[#0097B2]">
+                <div className="flex items-center gap-2 text-gray-900">
                     {entry.isIndividual ? (
                         <User  className="w-5 h-5" />
                     ) : (
@@ -26,13 +26,6 @@ const ViewClientDialog: React.FC<ViewClientDialogProps> = ({ isOpen, onClose, en
                     <span className="text-lg sm:text-xl font-semibold break-words">
                         {entry.registeredName}
                     </span>
-                    <button
-                        onClick={onClose}
-                        className="ml-auto p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
-                        aria-label="Close"
-                    >
-                        <X className="w-4 h-4" /> {/* Use the X icon here */}
-                    </button>
                 </div>
             </ModalHeader>
 
@@ -41,10 +34,10 @@ const ViewClientDialog: React.FC<ViewClientDialogProps> = ({ isOpen, onClose, en
 
                     {/* Badges */}
                     <div className="flex flex-wrap gap-2">
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${entry.isIndividual ? "bg-blue-100 text-blue-800 border border-blue-200" : "bg-purple-100 text-purple-800 border border-purple-200"}`}>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${entry.isIndividual ? "bg-slate-100 text-slate-700 border border-slate-200" : "bg-slate-100 text-slate-700 border border-slate-200"}`}>
                             {entry.isIndividual ? "Individual" : "Company"}
                         </span>
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${entry.isForeign ? "bg-orange-100 text-orange-800 border border-orange-200" : "bg-green-100 text-green-800 border border-green-200"}`}>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${entry.isForeign ? "bg-slate-100 text-slate-700 border border-slate-200" : "bg-slate-100 text-slate-700 border border-slate-200"}`}>
                             {entry.isForeign ? "Foreign" : "Domestic"}
                         </span>
                     </div>
@@ -52,16 +45,16 @@ const ViewClientDialog: React.FC<ViewClientDialogProps> = ({ isOpen, onClose, en
                     {/* TIN */}
                     <div className="text-center bg-gray-50 rounded-lg p-4">
                         <div className="text-xs text-gray-500 mb-1">TIN Number</div>
-                        <div className="text-2xl sm:text-3xl font-bold text-gray-900 font-mono break-all">
+                        <div className="text-2xl sm:text-3xl font-bold font-mono break-all bg-gradient-to-r from-[#0097B2] to-[#00B4D8] bg-clip-text text-transparent">
                             {entry.tin}
                         </div>
                     </div>
 
                     {/* Address */}
-                    <div className="bg-blue-50 rounded-lg p-4">
+                    <div className="bg-cyan-50/50  border rounded-lg p-4">
                         <div className="flex items-center mb-3">
-                            <MapPin className="w-4 h-4 text-blue-600 mr-2" />
-                            <span className="text-sm font-medium text-blue-800">Address Information</span>
+                            <MapPin className="w-4 h-4 text-gray mr-2" />
+                            <span className="text-sm font-medium text-gray-800">Address Information</span>
                         </div>
                         <div className="space-y-2 text-gray-700">
                             {entry.address1 && <div className="break-words">{entry.address1}</div>}
