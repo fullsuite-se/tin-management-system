@@ -30,7 +30,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
             return res.status(400).json({ message: 'Invalid or incomplete data' });
         }
 
-        return res.status(200).json({ message: "Entry added successfully", data: id });
+        return res.status(200).json({ message: "Entry added successfully", id });
     } catch (e) {
         const error = e instanceof Error ? e.message : e;
 

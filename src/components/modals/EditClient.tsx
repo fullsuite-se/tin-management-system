@@ -89,6 +89,8 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                 ...formData,
             }
 
+            console.log(updatedEntry);
+
             onSubmit(updatedEntry)
             onClose()
         } catch (error) {
