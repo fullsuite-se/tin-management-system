@@ -14,7 +14,7 @@ export default function DeleteClient({ isOpen, onClose, onSubmit, entry }: Delet
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalHeader>Delete Client</ModalHeader>
+            <ModalHeader onClose={onClose}>Delete Client</ModalHeader> {/* Pass onClose to ModalHeader */}
             <ModalBody>
                 {/* Client Info */}
                 <div className="bg-gray-50 rounded-lg p-4 mb-6">
@@ -28,12 +28,12 @@ export default function DeleteClient({ isOpen, onClose, onSubmit, entry }: Delet
                         </div>
                     </div>
                     <div className="flex space-x-2">
-            <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
-              {entry.isIndividual ? "Individual" : "Company"}
-            </span>
                         <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
-              {entry.isForeign ? "Foreign" : "Domestic"}
-            </span>
+                            {entry.isIndividual ? "Individual" : "Company"}
+                        </span>
+                        <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-xs font-medium">
+                            {entry.isForeign ? "Foreign" : "Domestic"}
+                        </span>
                     </div>
                 </div>
 

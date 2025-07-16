@@ -20,15 +20,26 @@ const Modal: React.FC<MainModalProps> = ({ isOpen, onClose, children, className 
     if (!isOpen) return null
 
     return (
-        <div
-            className={cn("fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4", className)}
-            onClick={onClose}
-        >
+        <div className="fixed inset-0 z-50">
+            {/* Backdrop layer */}
             <div
-                className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-gray-100"
-                onClick={(e) => e.stopPropagation()}
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={onClose}
+            />
+
+            {/* Modal content */}
+            <div
+                className={cn(
+                    "relative z-60 flex items-center justify-center min-h-screen p-4",
+                    className
+                )}
             >
-                {children}
+                <div
+                    className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-gray-100"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {children}
+                </div>
             </div>
         </div>
     )

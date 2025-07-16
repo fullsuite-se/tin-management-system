@@ -1,4 +1,4 @@
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal" // your custom modal
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
 import { Button } from "../ui/Button"
 import { Label } from "../ui/Label.tsx"
 import {
@@ -46,16 +46,15 @@ export default function FilterClient({
     }
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} className="max-w-md">
-            <ModalHeader>
-                Filter Clients
-                <button
-                    onClick={onClose}
-                    className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
-                    aria-label="Close"
-                >
-                    ✕
-                </button>
+        <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto px-4"
+        >
+            <ModalHeader onClose={onClose}> {/* Pass onClose to ModalHeader */}
+                <div className="flex items-center justify-between w-full">
+                    <span className="text-lg sm:text-xl font-semibold text-[#0097B2]">Filter Clients</span>
+                </div>
             </ModalHeader>
 
             <ModalBody>
@@ -63,16 +62,12 @@ export default function FilterClient({
                     {/* Entity Type */}
                     <div>
                         <Label>Entity Type</Label>
-                        <Select
-                            value={filters.entityType}
-                            onChange={(value) => handleFilterChange("entityType", value)}
-                        >
+                        <Select value={filters.entityType} onChange={(value) => handleFilterChange("entityType", value)}>
                             <SelectTrigger>
                                 <SelectValue>
                                     {filters.entityType === "all"
                                         ? "All Types"
-                                        : filters.entityType.charAt(0).toUpperCase() +
-                                        filters.entityType.slice(1)}
+                                        : filters.entityType.charAt(0).toUpperCase() + filters.entityType.slice(1)}
                                 </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
@@ -90,9 +85,7 @@ export default function FilterClient({
                                 </SelectItem>
                                 <SelectItem
                                     isSelected={filters.entityType === "individual"}
-                                    onSelect={() =>
-                                        handleFilterChange("entityType", "individual")
-                                    }
+                                    onSelect={() => handleFilterChange("entityType", "individual")}
                                 >
                                     Individual
                                 </SelectItem>
@@ -103,16 +96,12 @@ export default function FilterClient({
                     {/* Classification */}
                     <div>
                         <Label>Classification</Label>
-                        <Select
-                            value={filters.classification}
-                            onChange={(value) => handleFilterChange("classification", value)}
-                        >
+                        <Select value={filters.classification} onChange={(value) => handleFilterChange("classification", value)}>
                             <SelectTrigger>
                                 <SelectValue>
                                     {filters.classification === "all"
                                         ? "All Classifications"
-                                        : filters.classification.charAt(0).toUpperCase() +
-                                        filters.classification.slice(1)}
+                                        : filters.classification.charAt(0).toUpperCase() + filters.classification.slice(1)}
                                 </SelectValue>
                             </SelectTrigger>
                             <SelectContent>
@@ -141,10 +130,7 @@ export default function FilterClient({
                     {/* Date Range */}
                     <div>
                         <Label>Date Added</Label>
-                        <Select
-                            value={filters.dateRange}
-                            onChange={(value) => handleFilterChange("dateRange", value)}
-                        >
+                        <Select value={filters.dateRange} onChange={(value) => handleFilterChange("dateRange", value)}>
                             <SelectTrigger>
                                 <SelectValue>
                                     {filters.dateRange === "all"
@@ -189,17 +175,17 @@ export default function FilterClient({
                 </div>
             </ModalBody>
 
-            <ModalFooter>
+            <ModalFooter className="flex flex-col sm:flex-row gap-2">
                 <Button
                     variant="outline"
                     onClick={handleClearAll}
-                    className="flex-1 bg-transparent hover:bg-gray-50"
+                    className="w-full sm:flex-1 bg-transparent hover:bg-gray-50"
                 >
                     Clear All
                 </Button>
                 <Button
                     onClick={handleApplyFilters}
-                    className="flex-1"
+                    className="w-full sm:flex-1 bg-gradient-to-l from-[#0097B2] to-[#00B4D8] text-white"
                     variant="default"
                 >
                     Apply Filters

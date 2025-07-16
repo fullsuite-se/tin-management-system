@@ -16,11 +16,11 @@ interface Props {
     }
     setModal: (modal: ModalState) => void;
     setSearchTerm: (value: string) => void;
-    setShowFilters: (value: boolean) => void;
+    // setShowFilters: (value: boolean) => void;
     clearFilters: () => void;
 }
 
-const TableHeader: React.FC<Props> = ({ searchTerm, totalEntries, filteredEntries, hasActiveFilters, filters, setModal, setSearchTerm, setShowFilters, clearFilters }) => {
+const TableHeader: React.FC<Props> = ({ searchTerm, totalEntries, filteredEntries, hasActiveFilters, filters, setModal, setSearchTerm, clearFilters }) => {
     return (
         <div className="bg-gradient-to-r from-[#0097B2] to-[#00B4D8] p-3 text-white md:rounded-t-xl flex-shrink-0">
             <div className="flex items-center justify-between mb-3">
@@ -47,9 +47,10 @@ const TableHeader: React.FC<Props> = ({ searchTerm, totalEntries, filteredEntrie
                 searchTerm={searchTerm}
                 filters={filters}
                 hasActiveFilters={hasActiveFilters}
-                setShowFilters={setShowFilters}
                 setSearchTerm={setSearchTerm}
+                setModal={setModal}
             />
+
 
             {hasActiveFilters && (
                 <div className="flex items-center space-x-2 mt-2">
