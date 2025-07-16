@@ -12,6 +12,11 @@ interface DeleteClientProps {
 export default function DeleteClient({ isOpen, onClose, onSubmit, entry }: DeleteClientProps) {
     if (!entry) return null
 
+    const handleDelete = async () => {
+        onSubmit(entry?.id ?? null);
+        onClose();
+    }
+
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalHeader onClose={onClose}>Delete Client</ModalHeader> {/* Pass onClose to ModalHeader */}
@@ -62,10 +67,7 @@ export default function DeleteClient({ isOpen, onClose, onSubmit, entry }: Delet
                 </Button>
                 <Button
                     variant="destructive"
-                    onClick={() => {
-                        onSubmit(entry?.id ?? null);
-                        onClose();
-                    }}
+                    onClick={() => handleDelete()}
                     className="w-full sm:w-auto"
                 >
                     Delete Client

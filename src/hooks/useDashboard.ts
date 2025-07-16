@@ -128,13 +128,14 @@ export function useDashboard(email: string) {
 
             if (!res.ok) {
                 console.error("Add failed:", res.status, res.statusText);
+                alert("Failed to Add Entry")
                 return;
             }
 
             const data = await res.json();
             entry.id = data.id;
 
-            console.log("Added successfully:", entry);
+            alert("Entry Added Successfully")
 
             setEntries([entry, ...entries]);
         } catch (e) {
@@ -166,10 +167,11 @@ export function useDashboard(email: string) {
 
             if (!res.ok) {
                 console.error("Update failed:", json.message, json.error);
+                alert("Failed to Update Entry");
                 return;
             }
 
-            console.log("Updated successfully:", json);
+            alert("Entry Updated Successfully")
 
             // Optionally update local state
             setEntries((prev) =>
@@ -202,10 +204,12 @@ export function useDashboard(email: string) {
 
             if (!res.ok) {
                 console.error("Delete failed:", res.status, res.statusText);
+                alert("Failed to Remove Entry")
                 return;
             }
 
-            console.log("Deleted successfully:", id);
+            alert("Entry Removed Successfully")
+
             setEntries(entries.filter((e) => e.id !== id));
         } catch (e) {
             console.error("Delete failed:", e);
