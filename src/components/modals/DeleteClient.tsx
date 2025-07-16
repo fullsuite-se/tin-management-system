@@ -60,7 +60,14 @@ export default function DeleteClient({ isOpen, onClose, onSubmit, entry }: Delet
                 <Button variant="outline" onClick={onClose} className="w-full sm:w-auto bg-transparent">
                     Cancel
                 </Button>
-                <Button variant="destructive" onClick={() => onSubmit(entry?.id ?? null)} className="w-full sm:w-auto">
+                <Button
+                    variant="destructive"
+                    onClick={() => {
+                        onSubmit(entry?.id ?? null);
+                        onClose();
+                    }}
+                    className="w-full sm:w-auto"
+                >
                     Delete Client
                 </Button>
             </ModalFooter>
