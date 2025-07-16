@@ -84,10 +84,6 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
             } else if (tinNumber.replace(/\D/g, "").length !== 13) {
                 newErrors.tin = "TIN Number must be exactly  13 digits (XXX-XXX-XXX-XXXX)"
             }
-        } else if (currentStep === 2) {
-            if (!address1.trim() && !address2.trim()) {
-                newErrors.address = "At least one address field must be filled"
-            }
         }
 
         setErrors(newErrors)
