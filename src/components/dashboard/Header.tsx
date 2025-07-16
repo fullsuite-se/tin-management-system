@@ -1,8 +1,8 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Profile from './Profile.tsx'
 import { Button } from '../ui/Button.tsx'
-import { LogOut, Menu, CircleQuestionMark } from "lucide-react"
+import {LogOut, Menu, CircleQuestionMark} from "lucide-react"
+import {UserManual} from "../modals/UserManual.tsx";
 
 interface Props {
     name: string,
@@ -13,6 +13,7 @@ interface Props {
 
 const Header: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [showManual, setShowManual] = useState(false); // State for user manual visibility
 
     return (
         <>
@@ -44,6 +45,7 @@ const Header: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
                         variant="ghost"
                         size="sm"
                         className="p-0 text-[#00B4D8]"
+                        onClick={() => setShowManual(true)} // Open user manual
                     >
                         <CircleQuestionMark className="h-6 w-6 mr-1" />
                     </Button>
@@ -83,6 +85,9 @@ const Header: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
                     </Button>
                 </div>
             )}
+
+            {/* User Manual Modal */}
+            <UserManual isOpen={showManual} onClose={() => setShowManual(false)} />
         </>
     );
 }
