@@ -11,6 +11,7 @@ import ViewClient from "../components/modals/ViewClient.tsx"
 import AddClient from "../components/modals/AddClient.tsx"
 import EditClient from "../components/modals/EditClient.tsx"
 import DeleteClient from "../components/modals/DeleteClient.tsx"
+import FilterClient from "../components/modals/FilterClient.tsx";
 
 interface DashboardProps {
     name: string
@@ -32,8 +33,9 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
         setCurrentEntries,
         setCurrentPage,
         setItemsPerPage,
+        setFilters,
         setModal,
-        setShowFilters,
+        // setShowFilters,
         setSearchTerm,
         clearFilters,
         hasActiveFilters,
@@ -56,7 +58,7 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
                     filters={filters}
                     setModal={setModal}
                     setSearchTerm={setSearchTerm}
-                    setShowFilters={setShowFilters}
+                    // setShowFilters={setShowFilters}
                     clearFilters={clearFilters}
                 />
                 <div className="flex-1 overflow-y-auto">
@@ -85,6 +87,13 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
                 onClose={handleFormClose}
                 onConfirm={() => handleDelete}
                 entry={modal.entry}
+            />
+            <FilterClient
+                isOpen={modal.type === "filter"}
+                onClose={handleFormClose}
+                filters={filters}
+                onFiltersChange={setFilters}
+                onClearFilters={clearFilters}
             />
         </Layout>
     )
