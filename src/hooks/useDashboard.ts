@@ -126,17 +126,16 @@ export function useDashboard(name: string) {
                 body: JSON.stringify(entry),
             });
 
+            const data = await res.json();
+
             if (!res.ok) {
                 console.error("Add failed:", res.status, res.statusText);
-                alert("Failed to Add Entry")
+                alert(`Failed to Add Entry: ${data.message}`);
                 return;
             }
 
-            const data = await res.json();
             entry.id = data.id;
-
             alert("Entry Added Successfully")
-
             setEntries([entry, ...entries]);
         } catch (e) {
             console.error("Add failed: ", e);

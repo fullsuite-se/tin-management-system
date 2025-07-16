@@ -26,6 +26,10 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
         const id = await addEntry(data);
 
+        if (id === "DUPLICATE_TIN") {
+            return res.status(400).json({ message: 'TIN already exists' });
+        }
+
         if (!id) {
             return res.status(400).json({ message: 'Invalid or incomplete data' });
         }
@@ -58,6 +62,14 @@ async function addEntry(data: TinData): Promise<string | null> {
     }
 
     try {
+        const existing = await db
+        .collection("tin-database").where("tin", "==", tin).limit(1).get();
+
+        if (!existing.empty) {
+            console.warn("TIN already exists:", tin);
+            return "DUPLICATE_TIN";
+        }
+
         const toAdd = {
             ...data,
             createdAt: toTimestamp(createdAt),
