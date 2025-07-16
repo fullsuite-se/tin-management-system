@@ -40,7 +40,6 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
         handleAdd,
         handleUpdate,
         handleDelete,
-        handleEdit,
         handleFormClose,
     } = useDashboard(email)
 
@@ -60,7 +59,7 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
                     clearFilters={clearFilters}
                 />
                 <div className="flex-1 overflow-y-auto">
-                    <Table entries={currentEntries} setModal={setModal} handleEdit={handleEdit} />
+                    <Table entries={currentEntries} setModal={setModal} />
                 </div>
                 <Pagination
                     filteredEntries={filteredEntries}
@@ -83,7 +82,7 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
             <DeleteClient
                 isOpen={modal.type === "delete"}
                 onClose={handleFormClose}
-                onConfirm={() => handleDelete}
+                onSubmit={handleDelete}
                 entry={modal.entry}
             />
         </Layout>

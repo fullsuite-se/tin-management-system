@@ -5,11 +5,11 @@ import type { TINEntry } from "../../lib/types"
 interface DeleteClientProps {
     isOpen: boolean
     onClose: () => void
-    onConfirm: () => void
+    onSubmit: (p: string | null) => void
     entry: TINEntry | null
 }
 
-export default function DeleteClient({ isOpen, onClose, onConfirm, entry }: DeleteClientProps) {
+export default function DeleteClient({ isOpen, onClose, onSubmit, entry }: DeleteClientProps) {
     if (!entry) return null
 
     return (
@@ -60,7 +60,7 @@ export default function DeleteClient({ isOpen, onClose, onConfirm, entry }: Dele
                 <Button variant="outline" onClick={onClose} className="w-full sm:w-auto bg-transparent">
                     Cancel
                 </Button>
-                <Button variant="destructive" onClick={onConfirm} className="w-full sm:w-auto">
+                <Button variant="destructive" onClick={() => onSubmit(entry?.id ?? null)} className="w-full sm:w-auto">
                     Delete Client
                 </Button>
             </ModalFooter>

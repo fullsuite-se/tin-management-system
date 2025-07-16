@@ -5,11 +5,11 @@ import { MapPin, Edit, Trash2 } from 'lucide-react'
 
 interface Props {
     entry: TINEntry,
-    handleEdit: () => void;
-    handleDelete: () => void;
+    editClicked: () => void;
+    deleteClicked: () => void;
 }
 
-const TableRowDesktop: React.FC<Props> = ({ entry, handleEdit, handleDelete }) => {
+const TableRowDesktop: React.FC<Props> = ({ entry, editClicked, deleteClicked }) => {
     return (
         <>
             <td className="px-3 py-2 w-[32%]">
@@ -60,7 +60,7 @@ const TableRowDesktop: React.FC<Props> = ({ entry, handleEdit, handleDelete }) =
                         size="sm"
                         onClick={(e) => {
                             e.stopPropagation();
-                            handleEdit();
+                            editClicked();
                         }}
                         className="border-[#0097B2] text-[#0097B2] hover:bg-[#0097B2]/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                     >
@@ -71,7 +71,7 @@ const TableRowDesktop: React.FC<Props> = ({ entry, handleEdit, handleDelete }) =
                         size="sm"
                         onClick={(e) => {
                             e.stopPropagation();
-                            handleDelete();
+                            deleteClicked();
                     }}
                         className="border-red-400 text-red-400 hover:bg-red-400/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                     >
