@@ -172,10 +172,10 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                             <p className="text-sm text-gray-600">Choose whether you're adding a company or individual</p>
                         </div>
                         <Tabs active={selectedTab} onChange={setSelectedTab} options={["Company", "Individual"]} />
-                        <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-4">
-                            <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0" />
-                                <p className="text-sm text-blue-800 font-medium">
+                        <div className="bg-cyan-50/50 border rounded-lg p-4">
+                            <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-gray-500 rounded-full flex-shrink-0" />
+                                <p className="text-sm text-gray-800 font-medium">
                                     Enter the {selectedTab.toLowerCase()} details to add to the database.
                                 </p>
                             </div>
