@@ -1,5 +1,5 @@
 import type React from "react"
-import { Calendar, MapPin, User, Building2, Edit } from "lucide-react"
+import { Calendar, MapPin, User, Building2, Edit, X } from "lucide-react" // Import the X icon
 import type { TINEntry } from "../../lib/types"
 import { formatDate } from "../../lib/utils"
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
@@ -16,16 +16,23 @@ const ViewClientDialog: React.FC<ViewClientDialogProps> = ({ isOpen, onClose, en
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalHeader>
+            <ModalHeader onClose={onClose}> {/* Pass onClose to ModalHeader */}
                 <div className="flex items-center gap-2 text-[#0097B2]">
                     {entry.isIndividual ? (
-                        <User className="w-5 h-5" />
+                        <User  className="w-5 h-5" />
                     ) : (
                         <Building2 className="w-5 h-5" />
                     )}
                     <span className="text-lg sm:text-xl font-semibold break-words">
                         {entry.registeredName}
                     </span>
+                    <button
+                        onClick={onClose}
+                        className="ml-auto p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
+                        aria-label="Close"
+                    >
+                        <X className="w-4 h-4" /> {/* Use the X icon here */}
+                    </button>
                 </div>
             </ModalHeader>
 

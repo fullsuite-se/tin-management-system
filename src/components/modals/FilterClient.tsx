@@ -51,16 +51,9 @@ export default function FilterClient({
             onClose={onClose}
             className="w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto px-4"
         >
-            <ModalHeader>
+            <ModalHeader onClose={onClose}> {/* Pass onClose to ModalHeader */}
                 <div className="flex items-center justify-between w-full">
                     <span className="text-lg sm:text-xl font-semibold text-[#0097B2]">Filter Clients</span>
-                    <button
-                        onClick={onClose}
-                        className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
-                        aria-label="Close"
-                    >
-                        ✕
-                    </button>
                 </div>
             </ModalHeader>
 
