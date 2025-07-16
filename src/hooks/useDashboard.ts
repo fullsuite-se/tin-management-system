@@ -139,6 +139,7 @@ export function useDashboard(email: string) {
             setEntries([entry, ...entries]);
         } catch (e) {
             console.error("Add failed: ", e);
+            return;
         }
     };
 
@@ -184,6 +185,31 @@ export function useDashboard(email: string) {
             );
         } catch (e) {
             console.error("Update failed: ", e);
+            return;
+        }
+    }
+
+    const handleDelete = async (id: string | null) => {
+        if (!id) {
+            console.error("ID is null, cannot delete entry");
+            return;
+        }
+
+        try {
+            const res = await fetch(`https://tin-management-system.vercel.app/api/actions/deleteEntry?id=${id}`, {
+                method: "DELETE",
+            });
+
+            if (!res.ok) {
+                console.error("Delete failed:", res.status, res.statusText);
+                return;
+            }
+
+            console.log("Deleted successfully:", id);
+            setEntries(entries.filter((e) => e.id !== id));
+        } catch (e) {
+            console.error("Delete failed:", e);
+            return;
         }
     }
 
@@ -207,14 +233,6 @@ export function useDashboard(email: string) {
 
         fetchData();
     }, []);
-
-    const handleDelete = (entry: TINEntry) => {
-        setEntries(entries.filter((e) => e.id !== entry.id))
-    }
-
-    const handleEdit = (entry: TINEntry) => {
-        setModal({ type: "edit", entry })
-    }
 
     const handleFormClose = () => {
         setModal({ type: null, entry: null })
@@ -252,7 +270,6 @@ export function useDashboard(email: string) {
         handleAdd,
         handleUpdate,
         handleDelete,
-        handleEdit,
         handleFormClose,
     }
 }
