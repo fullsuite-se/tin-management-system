@@ -5,24 +5,32 @@ import { toTimestamp } from "../../api-utils/utils.js";
 import type {VercelRequest, VercelResponse} from "@vercel/node";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+        return res.status(200).end(); // Handles CORS preflight
+    }
+
     try {
         if (req.method !== "POST") {
             return res.status(405).json({ message: "Method not allowed" });
         }
 
-        const data: TinData = JSON.parse(req.body);
+        const data: TinData = req.body;
 
         if (!data) {
             return res.status(400).json({ message: "Missing request body" });
         }
 
-        const success = await addEntry(data);
+        const id = await addEntry(data);
 
-        if (!success) {
+        if (!id) {
             return res.status(400).json({ message: 'Invalid or incomplete data' });
         }
 
-        return res.status(200).json({ message: "Entry added successfully" });
+        return res.status(200).json({ message: "Entry added successfully", data: id });
     } catch (e) {
         const error = e instanceof Error ? e.message : e;
 
@@ -30,7 +38,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 }
 
-async function addEntry(data: TinData): Promise<boolean> {
+async function addEntry(data: TinData): Promise<string | null> {
     const {
         tin,
         registeredName,
@@ -41,12 +49,12 @@ async function addEntry(data: TinData): Promise<boolean> {
     } = data;
 
     if ([tin, registeredName, address1, address2, createdBy, createdAt].some((field) => field == null)) {
-        return false;
+        return null;
     }
 
     // check if TIN is valid
     if (!checkTin(tin)) {
-        return false;
+        return null;
     }
 
     try {
@@ -55,10 +63,10 @@ async function addEntry(data: TinData): Promise<boolean> {
             createdAt: toTimestamp(createdAt),
         }
 
-        await db.collection("tin-database").add(toAdd);
-        return true;
+        const docRef = await db.collection("tin-database").add(toAdd);
+        return docRef.id;
     } catch (e) {
         console.error("Firestore write failed:", e);
-        return false;
+        return null;
     }
 }

@@ -7,6 +7,7 @@ import { Label } from "../ui/Label"
 import Tabs from "../ui/Tabs"
 import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, ChevronLeft, ChevronRight } from "lucide-react"
+import { formatTIN } from "../../lib/utils"
 import type { TINEntry } from "../../lib/types"
 
 interface AddClientProps {
@@ -45,16 +46,6 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
         window.addEventListener("resize", checkMobile)
         return () => window.removeEventListener("resize", checkMobile)
     }, [])
-
-    const formatTIN = (value: string): string => {
-        const digits = value.replace(/\D/g, "").slice(0, 13)
-        let formatted = ""
-        for (let i = 0; i < digits.length; i++) {
-            if (i === 3 || i === 6 || i === 9) formatted += "-"
-            formatted += digits[i]
-        }
-        return formatted
-    }
 
     const validateIndividualName = (name: string): boolean => {
         const commaCount = (name.match(/,/g) || []).length
@@ -328,7 +319,7 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                             value={tinNumber}
                             onChange={handleTINChange}
                             placeholder="111-111-111-1111"
-                            maxLength={13}
+                            maxLength={16}
                             className={`font-mono ${errors.tin ? "border-red-500" : ""}`}
                         />
                         <p className="text-xs text-gray-500">Enter 13 digits in format: XXX-XXX-XXX-XXXX</p>
