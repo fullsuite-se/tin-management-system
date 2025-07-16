@@ -5,7 +5,7 @@ import { Button } from "../ui/Button"
 import { Input } from "../ui/Input"
 import { Label } from "../ui/Label.tsx"
 import Radio from "../ui/Radio"
-import { Building2, User, MapPin, Globe, Edit, X } from "lucide-react" // Import the X icon
+import { Building2, User, MapPin, Globe, Edit} from "lucide-react" // Import the X icon
 
 interface ClientData {
     id: string
@@ -139,13 +139,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                     {isCompany ? <Building2 className="w-4 h-4 text-[#0097B2]" /> : <User  className="w-4 h-4 text-[#0097B2]" />}
                     <Edit className="w-4 h-4 text-[#0097B2]" />
                     Edit {clientType} Details
-                    <button
-                        onClick={onClose}
-                        className="ml-auto p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-all"
-                        aria-label="Close modal"
-                    >
-                        <X className="w-4 h-4" />
-                    </button>
                 </div>
             </ModalHeader>
             <ModalBody>
