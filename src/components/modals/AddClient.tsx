@@ -209,7 +209,7 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                                     value={tinNumber}
                                     onChange={handleTINChange}
                                     placeholder="111-111-111-1111"
-                                    maxLength={15}
+                                    maxLength={16}
                                     className={`font-mono ${errors.tin ? "border-red-500" : ""}`}
                                 />
                                 <p className="text-xs text-gray-500">Enter 13 digits in format: XXX-XXX-XXX-XXXX</p>
@@ -249,16 +249,6 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                                     placeholder="City / Municipality, Province ZIP Code"
                                     className={errors.address ? "border-red-500" : ""}
                                 />
-                            </div>
-                            <div
-                                className={`bg-gradient-to-r rounded-xl p-3 ${errors.address ? "from-red-50 to-red-50 border border-red-200" : "from-amber-50 to-orange-50 border border-amber-200"}`}
-                            >
-                                {/*<div className="flex items-center gap-2">*/}
-                                {/*    <div className={`w-2 h-2 rounded-full ${errors.address ? "bg-red-500" : "bg-amber-500"}`} />*/}
-                                {/*    <p className={`text-xs font-medium ${errors.address ? "text-red-800" : "text-amber-800"}`}>*/}
-                                {/*        {errors.address || "At least one address field must be filled"}*/}
-                                {/*    </p>*/}
-                                {/*</div>*/}
                             </div>
                         </div>
                     </div>
@@ -420,7 +410,7 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                                         <Icon className="w-4 h-4" />
                                     </div>
                                     {index < steps.length - 1 && (
-                                        <div className={`w-8 h-0.5 mx-1 ${index < currentStep ? "bg-[#0097B2]" : "bg-gray-200"}`} />
+                                        <div className={`w-8 h-0.5 mx-1 ${index < currentStep ? "bg-gradient-to-l from-[#0097B2] to-[#00B4D8] text-white" : "bg-gray-200"}`} />
                                     )}
                                 </div>
                             )
@@ -457,12 +447,21 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                         </Button>
 
                         {currentStep === steps.length - 1 ? (
-                            <Button variant="default" size="sm" onClick={handleSubmit} disabled={isSubmitting}>
-                                {selectedTab === "Company" ? <Building2 className="w-4 h-4 mr-1" /> : <User className="w-4 h-4 mr-1" />}
+                            <Button
+                                className="bg-gradient-to-l from-[#0097B2] to-[#00B4D8] text-white"
+                                size="sm"
+                                onClick={handleSubmit}
+                                disabled={isSubmitting}
+                            >
+                                {selectedTab === "Company" ? <Building2 className="w-4 h-4 mr-1" /> : <User  className="w-4 h-4 mr-1" />}
                                 {isSubmitting ? "Adding..." : `Add ${selectedTab}`}
                             </Button>
                         ) : (
-                            <Button variant="default" size="sm" onClick={handleNext}>
+                            <Button
+                                className="bg-gradient-to-l from-[#0097B2] to-[#00B4D8] text-white"
+                                size="sm"
+                                onClick={handleNext}
+                            >
                                 Next
                                 <ChevronRight className="w-4 h-4 ml-1" />
                             </Button>
@@ -473,12 +472,18 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                         <Button variant="outline" size="sm" onClick={handleClose} disabled={isSubmitting}>
                             Cancel
                         </Button>
-                        <Button variant="default" size="sm" onClick={handleSubmit} disabled={isSubmitting}>
-                            {selectedTab === "Company" ? <Building2 className="w-3 h-3 mr-1" /> : <User className="w-3 h-3 mr-1" />}
+                        <Button
+                            className="bg-gradient-to-l from-[#0097B2] to-[#00B4D8] text-white"
+                            size="sm"
+                            onClick={handleSubmit}
+                            disabled={isSubmitting}
+                        >
+                            {selectedTab === "Company" ? <Building2 className="w-3 h-3 mr-1" /> : <User  className="w-3 h-3 mr-1" />}
                             {isSubmitting ? "Adding..." : `Add ${selectedTab}`}
                         </Button>
                     </div>
                 )}
+
             </ModalFooter>
         </Modal>
     )
