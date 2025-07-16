@@ -110,19 +110,41 @@ export function useDashboard(email: string) {
         setCurrentPage(1)
     }, [entries, searchTerm, filters])
 
-    const handleAdd = (newEntry: Omit<TINEntry, "id" | "createdAt" | "createdBy">) => {
+    const handleAdd = async (newEntry: Omit<TINEntry, "id" | "createdAt" | "createdBy">) => {
         const entry: TINEntry = {
             ...newEntry,
-            id: (entries.length + 1).toString(),
             createdAt: new Date(),
             createdBy: email,
+        };
+
+        try {
+            const res = await fetch("https://tin-management-system.vercel.app/api/actions/addEntry", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(entry),
+            });
+
+            if (!res.ok) {
+                console.error("Add failed:", res.status, res.statusText);
+                return;
+            }
+
+            const data = await res.json();
+            entry.id = data.id;
+
+            console.log("Added successfully:", entry);
+
+            setEntries([entry, ...entries]);
+        } catch (e) {
+            console.error("Add failed: ", e);
+            return;
         }
-        setEntries([entry, ...entries])
-    }
+    };
 
     const handleUpdate = async (updatedEntry: TINEntry) => {
         const id = updatedEntry.id;
-
 
         try {
             const res = await fetch("https://tin-management-system.vercel.app/api/actions/editEntry", {
@@ -163,6 +185,31 @@ export function useDashboard(email: string) {
             );
         } catch (e) {
             console.error("Update failed: ", e);
+            return;
+        }
+    }
+
+    const handleDelete = async (id: string | null) => {
+        if (!id) {
+            console.error("ID is null, cannot delete entry");
+            return;
+        }
+
+        try {
+            const res = await fetch(`https://tin-management-system.vercel.app/api/actions/deleteEntry?id=${id}`, {
+                method: "DELETE",
+            });
+
+            if (!res.ok) {
+                console.error("Delete failed:", res.status, res.statusText);
+                return;
+            }
+
+            console.log("Deleted successfully:", id);
+            setEntries(entries.filter((e) => e.id !== id));
+        } catch (e) {
+            console.error("Delete failed:", e);
+            return;
         }
     }
 
@@ -186,14 +233,6 @@ export function useDashboard(email: string) {
 
         fetchData();
     }, []);
-
-    const handleDelete = (entry: TINEntry) => {
-        setEntries(entries.filter((e) => e.id !== entry.id))
-    }
-
-    const handleEdit = (entry: TINEntry) => {
-        setModal({ type: "edit", entry })
-    }
 
     const handleFormClose = () => {
         setModal({ type: null, entry: null })
@@ -231,7 +270,6 @@ export function useDashboard(email: string) {
         handleAdd,
         handleUpdate,
         handleDelete,
-        handleEdit,
         handleFormClose,
     }
 }

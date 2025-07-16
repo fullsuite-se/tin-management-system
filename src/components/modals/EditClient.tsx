@@ -5,27 +5,15 @@ import { Button } from "../ui/Button"
 import { Input } from "../ui/Input"
 import { Label } from "../ui/Label.tsx"
 import Radio from "../ui/Radio"
-import { Building2, User, MapPin, Globe, Edit} from "lucide-react" // Import the X icon
-
-interface ClientData {
-    id: string
-    tin: string
-    registeredName: string
-    address1: string
-    address2: string
-    isIndividual: boolean
-    isForeign: boolean
-    createdAt: Date
-    createdBy: string
-    editedAt?: Date
-    editedBy?: string
-}
+import { Building2, User, MapPin, Globe, Edit } from "lucide-react"
+import { formatTIN } from "../../lib/utils"
+import type { TINEntry } from "../../lib/types"
 
 interface EditClientProps {
     isOpen: boolean
     onClose: () => void
-    onSubmit: (entry: ClientData) => void
-    entry: ClientData | null
+    onSubmit: (entry: TINEntry) => void
+    entry: TINEntry | null
 }
 
 const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entry }) => {
@@ -67,22 +55,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
 
     const validateAddress = (address1: string, address2: string): boolean => {
         return address1.trim() !== "" || address2.trim() !== ""
-    }
-
-    const formatTIN = (value: string): string => {
-        // Remove all non-digits
-        const digits = value.replace(/\D/g, "")
-        // Limit to 12 digits
-        const limited = digits.slice(0, 12)
-        // Format as XXX-XXX-XXX-XXXX
-        if (limited.length >= 9) {
-            return `${limited.slice(0, 3)}-${limited.slice(3, 6)}-${limited.slice(6, 9)}-${limited.slice(9)}`
-        } else if (limited.length >= 6) {
-            return `${limited.slice(0, 3)}-${limited.slice(3, 6)}-${limited.slice(6)}`
-        } else if (limited.length >= 3) {
-            return `${limited.slice(0, 3)}-${limited.slice(3)}`
-        }
-        return limited
     }
 
     const handleTINChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -196,7 +168,7 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                                     onChange={handleTINChange}
                                     placeholder="xxx-xxx-xxx-xxxx"
                                     className="font-mono"
-                                    maxLength={15} // 12 digits + 3 dashes
+                                    maxLength={16} // 12 digits + 3 dashes
                                     required
                                 />
                             </div>

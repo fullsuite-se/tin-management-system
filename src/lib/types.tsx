@@ -1,5 +1,5 @@
 export interface TINEntry {
-    id: string
+    id?: string
     tin: string
     registeredName: string
     address1: string
