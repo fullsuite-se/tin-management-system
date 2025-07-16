@@ -196,7 +196,7 @@ export function useDashboard(email: string) {
         }
 
         try {
-            const res = await fetch(`https://tin-management-system.vercel.app/api/actions/deleteEntry?id=${id}`, {
+            const res = await fetch(`https://tin-management-system.vercel.app/api/actions/removeEntry?id=${id}`, {
                 method: "DELETE",
             });
 
