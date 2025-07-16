@@ -17,6 +17,16 @@ export function formatDate(date: Date): string {
     }).format(date)
 }
 
+export function formatTIN(value: string): string {
+    const digits = value.replace(/\D/g, "").slice(0, 13)
+    let formatted = ""
+    for (let i = 0; i < digits.length; i++) {
+        if (i === 3 || i === 6 || i === 9) formatted += "-"
+        formatted += digits[i]
+    }
+    return formatted
+}
+
 export function validateTIN(tin: string): boolean {
     // TIN format: xxx-xxx-xxx-xxxx (TIN with branch code)
     const tinRegex = /^\d{3}-\d{3}-\d{3}-\d{4}$/
