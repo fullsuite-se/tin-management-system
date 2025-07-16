@@ -84,10 +84,10 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
             } else if (tinNumber.replace(/\D/g, "").length !== 13) {
                 newErrors.tin = "TIN Number must be exactly  13 digits (XXX-XXX-XXX-XXXX)"
             }
-        } else if (currentStep === 2) {
-            if (!address1.trim() && !address2.trim()) {
-                newErrors.address = "At least one address field must be filled"
-            }
+        // } else if (currentStep === 2) {
+        //     if (!address1.trim() && !address2.trim()) {
+        //         newErrors.address = "At least one address field must be filled"
+        //     }
         }
 
         setErrors(newErrors)
@@ -109,9 +109,9 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
             newErrors.tin = "TIN Number must be exactly 13 digits (XXX-XXX-XXX-XXXX)"
         }
 
-        if (!address1.trim() && !address2.trim()) {
-            newErrors.address = "At least one address field must be filled"
-        }
+        // if (!address1.trim() && !address2.trim()) {
+        //     newErrors.address = "At least one address field must be filled"
+        // }
 
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
@@ -253,12 +253,12 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                             <div
                                 className={`bg-gradient-to-r rounded-xl p-3 ${errors.address ? "from-red-50 to-red-50 border border-red-200" : "from-amber-50 to-orange-50 border border-amber-200"}`}
                             >
-                                <div className="flex items-center gap-2">
-                                    <div className={`w-2 h-2 rounded-full ${errors.address ? "bg-red-500" : "bg-amber-500"}`} />
-                                    <p className={`text-xs font-medium ${errors.address ? "text-red-800" : "text-amber-800"}`}>
-                                        {errors.address || "At least one address field must be filled"}
-                                    </p>
-                                </div>
+                                {/*<div className="flex items-center gap-2">*/}
+                                {/*    <div className={`w-2 h-2 rounded-full ${errors.address ? "bg-red-500" : "bg-amber-500"}`} />*/}
+                                {/*    <p className={`text-xs font-medium ${errors.address ? "text-red-800" : "text-amber-800"}`}>*/}
+                                {/*        {errors.address || "At least one address field must be filled"}*/}
+                                {/*    </p>*/}
+                                {/*</div>*/}
                             </div>
                         </div>
                     </div>
@@ -361,16 +361,16 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                         />
                     </div>
                 </div>
-                <div
-                    className={`bg-gradient-to-r rounded-xl p-3 ${errors.address ? "from-red-50 to-red-50 border border-red-200" : "from-amber-50 to-orange-50 border border-amber-200"}`}
-                >
-                    <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full ${errors.address ? "bg-red-500" : "bg-amber-500"}`} />
-                        <p className={`text-xs font-medium ${errors.address ? "text-red-800" : "text-amber-800"}`}>
-                            {errors.address || "At least one address field must be filled"}
-                        </p>
-                    </div>
-                </div>
+                {/*<div*/}
+                {/*    className={`bg-gradient-to-r rounded-xl p-3 ${errors.address ? "from-red-50 to-red-50 border border-red-200" : "from-amber-50 to-orange-50 border border-amber-200"}`}*/}
+                {/*>*/}
+                {/*    /!*<div className="flex items-center gap-2">*!/*/}
+                {/*    /!*    <div className={`w-2 h-2 rounded-full ${errors.address ? "bg-red-500" : "bg-amber-500"}`} />*!/*/}
+                {/*    /!*    <p className={`text-xs font-medium ${errors.address ? "text-red-800" : "text-amber-800"}`}>*!/*/}
+                {/*    /!*        {errors.address || "At least one address field must be filled"}*!/*/}
+                {/*    /!*    </p>*!/*/}
+                {/*    /!*</div>*!/*/}
+                {/*</div>*/}
             </div>
 
             <div className="space-y-3">
