@@ -123,7 +123,7 @@ export function useDashboard(email: string) {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ entry }),
+                body: JSON.stringify(entry),
             });
 
             if (!res.ok) {
