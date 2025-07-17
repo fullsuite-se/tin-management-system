@@ -1,10 +1,10 @@
-"use client"
-
 import { useState, useEffect } from "react"
-import type { TINEntry } from "../lib/types.tsx"
-import type { ModalState } from "../lib/types.tsx"
+import type { TINEntry } from "../types/types.tsx"
+import type { ModalState } from "../types/types.tsx"
 
 export function useDashboard(name: string) {
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://tin-management-system.vercel.app";
+
     // Entry States
     const [entries, setEntries] = useState<TINEntry[]>([])
     const [currentEntries, setCurrentEntries] = useState<TINEntry[]>([])
@@ -14,17 +14,13 @@ export function useDashboard(name: string) {
     const [currentPage, setCurrentPage] = useState(1)
     const [itemsPerPage, setItemsPerPage] = useState(10)
 
+    // Modal States
     const [modal, setModal] = useState<ModalState>({
         type: null,
         entry: null,
     })
 
-    const [addingEntry, setAddingEntry] = useState<TINEntry | null>(null)
-    const [editingEntry, setEditingEntry] = useState<TINEntry | null>(null)
-    const [deletingEntry, setDeletingEntry] = useState<TINEntry | null>(null)
-    const [viewingEntry, setViewingEntry] = useState<TINEntry | null>(null)
-
-    const [showFilters, setShowFilters] = useState(false)
+    // Search and Filter States
     const [searchTerm, setSearchTerm] = useState("")
     const [filters, setFilters] = useState({
         entityType: "all",
@@ -32,11 +28,16 @@ export function useDashboard(name: string) {
         dateRange: "all",
     })
 
-    // fetch data
+    // Closes an active modal
+    const handleFormClose = () => {
+        setModal({ type: null, entry: null })
+    }
+
+    // Fetch Data
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("https://tin-management-system.vercel.app/api/actions/retrieveEntry");
+                const res = await fetch(`${API_BASE}/api/entries/retrieve`);
                 const json = await res.json();
 
                 if (!res.ok) {
@@ -54,7 +55,7 @@ export function useDashboard(name: string) {
         fetchData();
     }, []);
 
-    // Functions
+    // Clears filters
     const clearFilters = () => {
         setFilters({
             entityType: "all",
@@ -63,6 +64,7 @@ export function useDashboard(name: string) {
         })
     }
 
+    // Checks active filters
     const hasActiveFilters =
         filters.entityType !== "all" || filters.classification !== "all" || filters.dateRange !== "all"
 
@@ -110,6 +112,7 @@ export function useDashboard(name: string) {
         setCurrentPage(1)
     }, [entries, searchTerm, filters])
 
+    // Add entries to the DB
     const handleAdd = async (newEntry: Omit<TINEntry, "id" | "createdAt" | "createdBy">) => {
         const entry: TINEntry = {
             ...newEntry,
@@ -118,7 +121,7 @@ export function useDashboard(name: string) {
         };
 
         try {
-            const res = await fetch("https://tin-management-system.vercel.app/api/actions/addEntry", {
+            const res = await fetch(`${API_BASE}/api/entries/add`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -143,11 +146,12 @@ export function useDashboard(name: string) {
         }
     };
 
+    // Update an entry in the DB
     const handleUpdate = async (updatedEntry: TINEntry) => {
         const id = updatedEntry.id;
 
         try {
-            const res = await fetch("https://tin-management-system.vercel.app/api/actions/editEntry", {
+            const res = await fetch(`${API_BASE}/api/entries/edit`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -190,6 +194,7 @@ export function useDashboard(name: string) {
         }
     }
 
+    // Deletes an entry in the DB
     const handleDelete = async (id: string | null) => {
         if (!id) {
             console.error("ID is null, cannot delete entry");
@@ -197,7 +202,7 @@ export function useDashboard(name: string) {
         }
 
         try {
-            const res = await fetch(`https://tin-management-system.vercel.app/api/actions/removeEntry?id=${id}`, {
+            const res = await fetch(`${API_BASE}/api/entries/delete?id=${id}`, {
                 method: "DELETE",
             });
 
@@ -216,31 +221,6 @@ export function useDashboard(name: string) {
         }
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await fetch("https://tin-management-system.vercel.app/api/actions/retrieveEntry");
-                const json = await res.json();
-
-                if (!res.ok) {
-                    console.error("Error fetching data:", json.message);
-                    return;
-                }
-
-                const data: TINEntry[] = json.data;
-                setEntries(data);
-            } catch (err) {
-                console.error("Fetch failed:", err);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    const handleFormClose = () => {
-        setModal({ type: null, entry: null })
-    }
-
     return {
         entries,
         currentEntries,
@@ -248,28 +228,18 @@ export function useDashboard(name: string) {
         currentPage,
         itemsPerPage,
         modal,
-        addingEntry,
-        editingEntry,
-        deletingEntry,
-        viewingEntry,
-        showFilters,
         searchTerm,
         filters,
-        setEntries,
+
         setCurrentEntries,
-        setFilteredEntries,
         setCurrentPage,
         setItemsPerPage,
-        setModal,
-        setAddingEntry,
-        setEditingEntry,
-        setDeletingEntry,
-        setViewingEntry,
-        setShowFilters,
-        setSearchTerm,
         setFilters,
+        setModal,
+        setSearchTerm,
         clearFilters,
         hasActiveFilters,
+
         handleAdd,
         handleUpdate,
         handleDelete,

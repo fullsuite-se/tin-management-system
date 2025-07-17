@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '../../ui/Button.tsx'
 import { Plus, X } from "lucide-react"
 import SearchAndFilter from "./SearchAndFilter.tsx";
-import type { ModalState } from '../../../lib/types.tsx';
+import type { ModalState } from '../../../types/types.tsx';
 
 interface Props {
     searchTerm: string,

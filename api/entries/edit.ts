@@ -1,5 +1,4 @@
 import { db } from "../../api-utils/firebase.js";
-import { checkTin } from "../../api-utils/utils.js";
 import type { TinData } from "../../api-utils/models/tinData.js";
 import { toTimestamp } from "../../api-utils/utils.js";
 import type {VercelRequest, VercelResponse} from "@vercel/node";
@@ -18,67 +17,66 @@ export default async function (req: VercelRequest, res: VercelResponse) {
             return res.status(405).json({ message: "Method not allowed" });
         }
 
-        const data: TinData = req.body;
+        const { id, data } = req.body as { id: string, data: TinData };
 
         if (!data) {
             return res.status(400).json({ message: "Missing request body" });
         }
 
-        const id = await addEntry(data);
+        const success = await edit(data, id);
 
-        if (id === "DUPLICATE_TIN") {
+        if (success === "DUPLICATE_TIN") {
             return res.status(400).json({ message: 'TIN already exists' });
         }
 
-        if (!id) {
+        if (!success) {
             return res.status(400).json({ message: 'Invalid or incomplete data' });
         }
 
-        return res.status(200).json({ message: "Entry added successfully", id });
+        return res.status(200).json({ message: "Entry edited successfully" });
     } catch (e) {
         const error = e instanceof Error ? e.message : e;
 
-        return res.status(500).json({ message: "Internal server error", error: error});
+        return res.status(500).json({ message: 'Internal server error', error: error});
     }
 }
 
-async function addEntry(data: TinData): Promise<string | null> {
+async function edit(data: TinData, id: string): Promise<boolean | string> {
     const {
         tin,
         registeredName,
         address1,
         address2,
-        createdBy,
-        createdAt,
+        isIndividual,
+        isForeign,
+        editedBy,
+        editedAt,
     } = data;
 
-    if ([tin, registeredName, address1, address2, createdBy, createdAt].some((field) => field == null)) {
-        return null;
-    }
-
-    // check if TIN is valid
-    if (!checkTin(tin)) {
-        return null;
+    if ([tin, registeredName, address1, address2, isIndividual, isForeign, editedBy, editedAt].some((field) => field == null)) {
+        return false;
     }
 
     try {
         const existing = await db
-        .collection("tin-database").where("tin", "==", tin).limit(1).get();
+            .collection("tin-database").where("tin", "==", tin).get();
 
-        if (!existing.empty) {
+        const isDuplicate = existing.docs.some((doc) => doc.id !== id);
+
+        if (isDuplicate) {
             console.warn("TIN already exists:", tin);
             return "DUPLICATE_TIN";
         }
 
-        const toAdd = {
+        const toSave = {
             ...data,
-            createdAt: toTimestamp(createdAt),
+            editedAt: editedAt ? toTimestamp(editedAt) : undefined,
         }
 
-        const docRef = await db.collection("tin-database").add(toAdd);
-        return docRef.id;
+        await db.collection("tin-database").doc(id).set(toSave, { merge: true });
+        return true;
     } catch (e) {
         console.error("Firestore write failed:", e);
-        return null;
+        return false;
     }
 }

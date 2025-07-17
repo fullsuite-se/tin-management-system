@@ -35,7 +35,6 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
         setItemsPerPage,
         setFilters,
         setModal,
-        // setShowFilters,
         setSearchTerm,
         clearFilters,
         hasActiveFilters,
@@ -57,7 +56,6 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
                     filters={filters}
                     setModal={setModal}
                     setSearchTerm={setSearchTerm}
-                    // setShowFilters={setShowFilters}
                     clearFilters={clearFilters}
                 />
                 <div className="flex-1 overflow-y-auto">

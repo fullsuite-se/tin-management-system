@@ -1,12 +1,9 @@
 import { useRef, useEffect} from "react"
 import { useState } from "react"
 import { Shield, Database, Users, FileText, Chrome } from "lucide-react"
-
-interface GoogleJwtPayload {
-    name: string;
-    email: string;
-    picture: string;
-}
+import {isEmailAllowed} from "../lib/utils.ts";
+import {ALLOWED_DOMAINS} from "../types/user.ts";
+import {parseJwt} from "../lib/utils.ts";
 
 interface LoginProps {
     onLogin: (user: { name: string; email: string; avatar: string }) => void;
@@ -15,33 +12,18 @@ interface LoginProps {
 export default function Login({ onLogin }: LoginProps) {
     const [error, setError] = useState("")
 
-    function parseJwt(token: string): GoogleJwtPayload {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        const jsonPayload = decodeURIComponent(
-            atob(base64)
-                .split('')
-                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                .join('')
-        );
-        return JSON.parse(jsonPayload);
-    }
-
     const googleBtnRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (window.google && googleBtnRef.current) {
             window.google.accounts.id.initialize({
-                client_id: "710222248145-0au9ppcgk7p8r6n8jd6gr758plm46sdc.apps.googleusercontent.com",
+                client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID || "710222248145-0au9ppcgk7p8r6n8jd6gr758plm46sdc.apps.googleusercontent.com",
                 callback: (response: google.accounts.id.CredentialResponse) => {
                     if (!response.credential) return;
 
                     const user = parseJwt(response.credential);
 
-                    if (
-                        !user.email.endsWith("@getfullsuite.com") &&
-                        !user.email.endsWith("@viascari.com")
-                    ) {
+                    if (!isEmailAllowed(user.email)) {
                         setError("Unauthorized domain. Access denied.");
                         return;
                     }
@@ -128,12 +110,11 @@ export default function Login({ onLogin }: LoginProps) {
                         <div className="bg-gray-50 rounded-xl px-4">
                             <p className="text-xs font-medium text-gray-700 mb-2">Authorized Domains:</p>
                             <div className="flex flex-wrap gap-2">
-                                <span className="px-3 py-1 bg-[#0097B2] text-white text-xs rounded-full font-medium">
-                                    @getfullsuite.com
-                                </span>
-                                <span className="px-3 py-1 bg-[#0097B2] text-white text-xs rounded-full font-medium">
-                                    @viascari.com
-                                </span>
+                                {ALLOWED_DOMAINS.map((domain) => (
+                                    <span className="px-3 py-1 bg-[#0097B2] text-white text-xs rounded-full font-medium" key={domain}>
+                                        {`@${domain.toLowerCase()}`}
+                                    </span>
+                                ))}
                             </div>
                         </div>
 

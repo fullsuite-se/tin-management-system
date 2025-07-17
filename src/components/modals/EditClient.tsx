@@ -7,7 +7,7 @@ import { Label } from "../ui/Label.tsx"
 import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, Edit } from "lucide-react"
 import { formatTIN } from "../../lib/utils"
-import type { TINEntry } from "../../lib/types"
+import type { TINEntry } from "../../types/types.tsx"
 
 interface EditClientProps {
     isOpen: boolean

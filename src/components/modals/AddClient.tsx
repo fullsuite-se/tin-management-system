@@ -1,14 +1,14 @@
-import type * as React from "react";
-import { useState, useEffect } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal";
-import { Button } from "../ui/Button";
-import { Input } from "../ui/Input";
-import { Label } from "../ui/Label";
-import Tabs from "../ui/Tabs";
-import Radio from "../ui/Radio";
-import { Building2, User, MapPin, Globe, ChevronLeft, ChevronRight } from "lucide-react";
-import { formatTIN } from "../../lib/utils";
-import type { TINEntry } from "../../lib/types";
+import type * as React from "react"
+import { useState, useEffect } from "react"
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
+import { Button } from "../ui/Button"
+import { Input } from "../ui/Input"
+import { Label } from "../ui/Label"
+import Tabs from "../ui/Tabs"
+import Radio from "../ui/Radio"
+import { Building2, User, MapPin, Globe, ChevronLeft, ChevronRight } from "lucide-react"
+import { formatTIN } from "../../lib/utils"
+import type { TINEntry } from "../../types/types.tsx"
 
 interface AddClientProps {
     isOpen: boolean;

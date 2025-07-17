@@ -12,12 +12,6 @@ export interface TINEntry {
     editedAt?: Date
 }
 
-export interface User {
-    name: string,
-    email: string,
-    avatar: string,
-}
-
 export type ModalState = {
     type: 'add' | 'edit' | 'view' | 'delete' | 'filter' | null;
     entry: TINEntry | null;
