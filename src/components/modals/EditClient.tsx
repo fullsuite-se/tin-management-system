@@ -8,6 +8,7 @@ import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, Edit } from "lucide-react"
 import { formatTIN } from "../../lib/utils"
 import type { TINEntry } from "../../types/types.tsx"
+import { validateTIN } from "../../lib/formValidators.ts";
 
 interface EditClientProps {
     isOpen: boolean
@@ -48,15 +49,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
         }
     }, [entry, isOpen])
 
-    const validateTIN = (tin: string): boolean => {
-        const tinRegex = /^\d{3}-\d{3}-\d{3}-\d{4}$/
-        return tinRegex.test(tin)
-    }
-
-    const validateAddress = (address1: string, address2: string): boolean => {
-        return address1.trim() !== "" || address2.trim() !== ""
-    }
-
     const handleTINChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const formatted = formatTIN(e.target.value)
         setFormData({ ...formData, tin: formatted })
@@ -73,13 +65,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
             // Validate TIN format (xxx-xxx-xxx-xxxx)
             if (!validateTIN(formData.tin)) {
                 setError("TIN must be in format: xxx-xxx-xxx-xxxx (TIN with branch code)")
-                setIsLoading(false)
-                return
-            }
-
-            // Validate that at least one address field is filled
-            if (!validateAddress(formData.address1, formData.address2)) {
-                setError("At least one address field must be filled")
                 setIsLoading(false)
                 return
             }
@@ -201,12 +186,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                                     onChange={(e) => setFormData({ ...formData, address2: e.target.value })}
                                     placeholder="City / Municipality, Province ZIP Code"
                                 />
-                            </div>
-                        </div>
-                        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-3">
-                            <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 bg-amber-500 rounded-full" />
-                                <p className="text-xs text-amber-800 font-medium">* At least one address field must be filled</p>
                             </div>
                         </div>
                     </div>

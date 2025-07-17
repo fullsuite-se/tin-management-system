@@ -38,12 +38,6 @@ export function formatTIN(value: string): string {
     return formatted
 }
 
-export function validateTIN(tin: string): boolean {
-    // TIN format: xxx-xxx-xxx-xxxx (TIN with branch code)
-    const tinRegex = /^\d{3}-\d{3}-\d{3}-\d{4}$/
-    return tinRegex.test(tin)
-}
-
 export function parseJwt(token: string): GoogleJwtPayload {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
