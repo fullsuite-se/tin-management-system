@@ -19,10 +19,10 @@ const Table: React.FC<Props> = ({ entries, setModal }) => {
                         <th className="text-left px-3 py-2 font-semibold text-gray-700 text-xs w-[32%]">
                             Registered Name
                         </th>
-                        <th className="text-center px-3 py-2 font-semibold text-gray-700 text-xs w-[13%]">
+                        <th className="px-3 py-2 font-semibold text-gray-700 text-xs w-[16%]">
                             TIN With Branch Code
                         </th>
-                        <th className="text-left px-3 py-2 font-semibold text-gray-700 text-xs w-[45%]">
+                        <th className="text-left px-3 py-2 font-semibold text-gray-700 text-xs w-[42%]">
                             Address
                         </th>
                         <th className="text-right px-3 py-2 font-semibold text-gray-700 text-xs w-[10%]">

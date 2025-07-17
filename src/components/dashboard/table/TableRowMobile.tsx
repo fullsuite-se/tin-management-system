@@ -39,8 +39,12 @@ const TableRowMobile: React.FC<Props> = ({ entry, onClick, editClicked, deleteCl
                     <div className="flex items-start space-x-1">
                         <MapPin className="h-3 w-3 text-gray-400 mt-0.5 flex-shrink-0" />
                         <div className="flex-1 text-xs overflow-hidden">
-                            <span className="block truncate font-medium text-gray-600">{entry.address1}</span>
-                            <span className="block truncate text-grey-500">{entry.address2}</span>
+                            <span className="block truncate font-medium text-gray-600">
+                                {entry.address1 === "" ? "No address information available" : entry.address1}
+                            </span>
+                            <span className="block truncate text-grey-500">
+                                {entry.address2}
+                            </span>
                         </div>
                     </div>
                 </div>
