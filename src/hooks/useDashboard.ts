@@ -3,7 +3,7 @@ import type { TINEntry } from "../types/types.tsx"
 import type { ModalState } from "../types/types.tsx"
 
 export function useDashboard(name: string) {
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://tin-management-system.vercel.app";
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://tin-management-system.vercel.app/api";
 
     // Entry States
     const [entries, setEntries] = useState<TINEntry[]>([])
@@ -37,7 +37,7 @@ export function useDashboard(name: string) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch(`${API_BASE}/api/entries/retrieve`);
+                const res = await fetch(`${API_BASE}/entries/retrieve`);
                 const json = await res.json();
 
                 if (!res.ok) {
@@ -121,7 +121,7 @@ export function useDashboard(name: string) {
         };
 
         try {
-            const res = await fetch(`${API_BASE}/api/entries/add`, {
+            const res = await fetch(`${API_BASE}/entries/add`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -151,7 +151,7 @@ export function useDashboard(name: string) {
         const id = updatedEntry.id;
 
         try {
-            const res = await fetch(`${API_BASE}/api/entries/edit`, {
+            const res = await fetch(`${API_BASE}/entries/edit`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -202,7 +202,7 @@ export function useDashboard(name: string) {
         }
 
         try {
-            const res = await fetch(`${API_BASE}/api/entries/delete?id=${id}`, {
+            const res = await fetch(`${API_BASE}/entries/delete?id=${id}`, {
                 method: "DELETE",
             });
 
