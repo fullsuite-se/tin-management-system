@@ -74,7 +74,7 @@ export default function Login({ onLogin }: LoginProps) {
                     {/* Logo + title */}
                     <div className="mb-10 text-center">
                         <div className="mb-6 p-6 flex justify-center">
-                            <img src="/logo-fs-tagline-DlvnjOS_.svg" alt="FullSuite" width={220} height={70} className="h-14 w-auto" />
+                            <img src="/fs-tagline.svg" alt="FullSuite" width={220} height={70} className="h-14 w-auto" />
                         </div>
                         <h1 className="mb-3 text-3xl font-bold bg-gradient-to-r from-[#0097B2] to-[#00B4D8] bg-clip-text text-transparent">
                             TIN Management System

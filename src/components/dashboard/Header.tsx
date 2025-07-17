@@ -22,7 +22,7 @@ const Header: React.FC<Props> = ({ name, email, avatar, onLogout }) => {
                     <div className="flex items-center">
                         <div className="inline-block rounded-lg bg-gradient-to-r from-[#0097B2] to-[#00B4D8] p-1.5 md:shadow-lg w-fit h-fit">
                             <img
-                                src="/logo-fs-tagline-DlvnjOS_.svg"
+                                src="/fs-tagline.svg"
                                 alt="FullSuite"
                                 className="h-5 filter brightness-0 invert"
                             />

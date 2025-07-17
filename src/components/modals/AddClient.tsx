@@ -9,7 +9,7 @@ import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, ChevronLeft, ChevronRight } from "lucide-react"
 import { formatTIN } from "../../lib/utils"
 import type { TINEntry } from "../../types/types.tsx"
-import { validateIndividualName } from "../../lib/formValidators.ts";
+import { validateName, validateTIN } from "../../lib/formValidators.ts";
 
 interface AddClientProps {
     isOpen: boolean;
@@ -48,44 +48,33 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
-    const handleTINChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTinNumber(formatTIN(e.target.value));
-        if (errors.tin) setErrors(prev => ({ ...prev, tin: "" }));
-    };
-
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setRegisteredName(value);
-        if (errors.registeredName) setErrors(prev => ({ ...prev, registeredName: "" }));
-    };
-
-    /* REVISED VALIDATION MESSAGES */
-    const validateCurrentStep = (): boolean => {
+    const validateForm = (): boolean => {
         const newErrors: { [key: string]: string } = {};
 
-        if (currentStep === 1) {
-            if (!registeredName.trim()) {
-                newErrors.registeredName = `${selectedTab === "Company" ? "Company Name" : "Full Name"} is required`;
-            } else if (
-                selectedTab === "Individual" &&
-                !validateIndividualName(registeredName)
-            ) {
-                newErrors.registeredName = "Use format: LastName, FirstName or LastName, FirstName, MiddleName";
-            }
+        // validate registered name
+        if (!isMobile || currentStep === 1) {
+            const nameError = validateName(registeredName, selectedTab);
 
-            if (!tinNumber.trim()) {
-                newErrors.tin = "TIN Number is required";
-            } else if (tinNumber.replace(/\D/g, "").length !== 13) {
-                newErrors.tin = "Must be 13 digits (XXX-XXX-XXX-XXXX)";
+            if (nameError) {
+                newErrors.registeredName = nameError;
+            }
+        }
+
+        // validate tin
+        if (!isMobile || currentStep === 1) {
+            const tinError = validateTIN(tinNumber);
+
+            if (tinError) {
+                newErrors.tin = tinError;
             }
         }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
-    };
+    }
 
     const handleNext = () => {
-        if (isMobile && validateCurrentStep()) {
+        if (isMobile && validateForm()) {
             setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
         }
     };
@@ -95,7 +84,7 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
     };
 
     const handleSubmit = async () => {
-        if (!validateCurrentStep()) return;
+        if (!validateForm()) return;
 
         setIsSubmitting(true);
         try {
@@ -177,7 +166,7 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                                 </Label>
                                 <Input
                                     value={registeredName}
-                                    onChange={handleNameChange}
+                                    onChange={(e) => setRegisteredName(e.target.value)}
                                     placeholder={
                                         selectedTab === "Company"
                                             ? "Company Name"
@@ -198,7 +187,7 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                                 <Label>TIN Number *</Label>
                                 <Input
                                     value={tinNumber}
-                                    onChange={handleTINChange}
+                                    onChange={(e) => setTinNumber(formatTIN(e.target.value))}
                                     placeholder="111-111-111-1111"
                                     maxLength={16}
                                     className={`font-mono ${errors.tin ? "border-red-500" : ""}`}
@@ -301,7 +290,7 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                         <Label>{selectedTab === "Company" ? "Company Name" : "Full Name"} *</Label>
                         <Input
                             value={registeredName}
-                            onChange={handleNameChange}
+                            onChange={(e) => setRegisteredName(e.target.value)}
                             placeholder={
                                 selectedTab === "Company"
                                     ? "Company Name"
@@ -322,7 +311,7 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
                         <Label>TIN Number *</Label>
                         <Input
                             value={tinNumber}
-                            onChange={handleTINChange}
+                            onChange={(e) => setTinNumber(formatTIN(e.target.value))}
                             placeholder="111-111-111-1111"
                             maxLength={16}
                             className={`font-mono ${errors.tin ? "border-red-500" : ""}`}
