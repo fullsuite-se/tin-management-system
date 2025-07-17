@@ -25,6 +25,10 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
         const success = await editEntry(data, id);
 
+        if (success === "DUPLICATE_TIN") {
+            return res.status(400).json({ message: 'TIN already exists' });
+        }
+
         if (!success) {
             return res.status(400).json({ message: 'Invalid or incomplete data' });
         }
@@ -37,7 +41,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 }
 
-async function editEntry(data: TinData, id: string): Promise<boolean> {
+async function editEntry(data: TinData, id: string): Promise<boolean | string> {
     const {
         tin,
         registeredName,
@@ -54,6 +58,16 @@ async function editEntry(data: TinData, id: string): Promise<boolean> {
     }
 
     try {
+        const existing = await db
+            .collection("tin-database").where("tin", "==", tin).get();
+
+        const isDuplicate = existing.docs.some((doc) => doc.id !== id);
+
+        if (isDuplicate) {
+            console.warn("TIN already exists:", tin);
+            return "DUPLICATE_TIN";
+        }
+
         const toSave = {
             ...data,
             editedAt: editedAt ? toTimestamp(editedAt) : undefined,

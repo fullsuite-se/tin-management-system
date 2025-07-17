@@ -43,7 +43,7 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
         handleUpdate,
         handleDelete,
         handleFormClose,
-    } = useDashboard(email)
+    } = useDashboard(name)
 
     return (
         <Layout>
