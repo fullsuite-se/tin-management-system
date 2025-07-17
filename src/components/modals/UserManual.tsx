@@ -20,7 +20,7 @@ export const UserManual: React.FC<UserManualProps> = ({ isOpen, onClose }) => {
                 </div>
             </ModalHeader>
 
-            <ModalBody>
+            <ModalBody className="max-h-[80vh] overflow-auto">
                 <div className="space-y-6 text-sm">
                     {/* Getting Started */}
                     <section>
@@ -130,7 +130,7 @@ export const UserManual: React.FC<UserManualProps> = ({ isOpen, onClose }) => {
                             Search and Navigation
                         </h3>
                         <div className="bg-gray-50 p-4 rounded-lg">
-                            <h4 className="font-medium text-yellow-800 mb-2">Search Functionality</h4>
+                            <h4 className="font-medium text-gray-600 mb-2">Search Functionality</h4>
                             <ul className="list-disc list-inside space-y-1 text-gray-600">
                                 <li>Search by client name, TIN number, or address</li>
                                 <li>Results update automatically as you type</li>
