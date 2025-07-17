@@ -8,7 +8,7 @@ import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, Edit } from "lucide-react"
 import { formatTIN } from "../../lib/utils"
 import type { TINEntry } from "../../types/types.tsx"
-import { validateTIN } from "../../lib/formValidators.ts";
+import { validateTIN, validateName } from "../../lib/formValidators.ts";
 
 interface EditClientProps {
     isOpen: boolean
@@ -26,8 +26,7 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
         isIndividual: false,
         isForeign: false,
     })
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState("")
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     const locationOptions = [
         { value: "Domestic", label: "Domestic" },
@@ -45,7 +44,7 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                 isIndividual: entry.isIndividual,
                 isForeign: entry.isForeign,
             })
-            setError("")
+            setErrors({})
         }
     }, [entry, isOpen])
 
@@ -58,32 +57,28 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
         e.preventDefault()
         if (!entry) return
 
-        setIsLoading(true)
-        setError("")
+        const newErrors: { [key: string]: string } = {};
 
-        try {
-            // Validate TIN format (xxx-xxx-xxx-xxxx)
-            if (!validateTIN(formData.tin)) {
-                setError("TIN must be in format: xxx-xxx-xxx-xxxx (TIN with branch code)")
-                setIsLoading(false)
-                return
-            }
-
-            const updatedEntry = {
-                ...entry,
-                ...formData,
-            }
-
-            console.log(updatedEntry);
-
-            onSubmit(updatedEntry)
-            onClose()
-        } catch (error) {
-            console.log(error)
-            setError("Failed to update entry");
-        } finally {
-            setIsLoading(false)
+        const nameError = validateName(formData.registeredName, formData.isIndividual ? "Individual" : "Company");
+        if (nameError) {
+            newErrors.registeredName = nameError;
         }
+
+        const tinError = validateTIN(formData.tin);
+        if (tinError) {
+            newErrors.tin = tinError;
+        }
+
+        setErrors(newErrors);
+        if (Object.keys(newErrors).length !== 0) return;
+
+        const updatedEntry = {
+            ...entry,
+            ...formData,
+        }
+
+        onSubmit(updatedEntry);
+        onClose();
     }
 
     if (!entry) return null
@@ -146,7 +141,16 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                                         entry.isIndividual ? "Enter first name, middle name, last name" : "Enter the Company Name"
                                     }
                                     required
+                                    className={errors.registeredName ? "border-red-500" : ""}
                                 />
+                                {formData.isIndividual && (
+                                    <p className="text-xs text-gray-500">
+                                        Format: LastName, FirstName or LastName, FirstName, MiddleName
+                                    </p>
+                                )}
+                                {errors.registeredName && (
+                                    <p className="text-xs text-red-500">{errors.registeredName}</p>
+                                )}
                             </div>
                             <div className="space-y-1">
                                 <Label className="text-xs">TIN Number *</Label>
@@ -154,10 +158,12 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                                     value={formData.tin}
                                     onChange={handleTINChange}
                                     placeholder="xxx-xxx-xxx-xxxx"
-                                    className="font-mono"
+                                    className={`font-mono ${errors.tin ? "border-red-500" : ""}`}
                                     maxLength={16} // 12 digits + 3 dashes
                                     required
                                 />
+                                <p className="text-xs text-gray-500">13 digits: XXX-XXX-XXX-XXXX</p>
+                                {errors.tin && <p className="text-xs text-red-500">{errors.tin}</p>}
                             </div>
                         </div>
                     </div>
@@ -205,15 +211,6 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                             name="location"
                         />
                     </div>
-
-                    {error && (
-                        <div className="bg-red-50 border border-red-200 rounded-xl p-3">
-                            <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 bg-red-500 rounded-full" />
-                                <p className="text-sm text-red-800 font-medium">{error}</p>
-                            </div>
-                        </div>
-                    )}
                 </form>
             </ModalBody>
             <ModalFooter>
@@ -224,12 +221,11 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                     variant="default"
                     size="sm"
                     onClick={handleSubmit}
-                    disabled={isLoading}
                     className="bg-gradient-to-l from-[#0097B2] to-[#00B4D8] text-white"
                 >
                     <span className="flex items-center gap-2">
                         <Edit className="w-3 h-3" />
-                        {isLoading ? "Updating..." : `Update ${clientType}`}
+                        {`Update ${clientType}`}
                     </span>
                 </Button>
             </ModalFooter>
