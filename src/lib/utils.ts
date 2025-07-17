@@ -49,14 +49,3 @@ export function parseJwt(token: string): GoogleJwtPayload {
     );
     return JSON.parse(jsonPayload);
 }
-
-export function validateEmailDomain(email: string): boolean {
-    const allowedDomains = ["getfullsuite.com", "viascari.com"]
-    const domain = email.split("@")[1]?.toLowerCase()
-    return allowedDomains.includes(domain)
-}
-
-export function validateAddress(address1: string, address2: string): boolean {
-    // At least one address field must be filled
-    return address1.trim() !== "" || address2.trim() !== ""
-}
