@@ -32,20 +32,20 @@ const TableRowDesktop: React.FC<Props> = ({ entry, editClicked, deleteClicked })
                     </div>
                 </div>
             </td>
-            <td className="px-3 py-2 w-[13%]">
+            <td className="px-3 py-2 w-[16%]">
                 <span
                     title={entry.tin}
-                    className="bg-gradient-to-r from-slate-100 to-blue-50 px-2 py-1 rounded-lg text-xs font-mono text-gray-800 border border-slate-200 shadow-sm block whitespace-nowrap overflow-hidden text-ellipsis"
+                    className="text-center bg-gradient-to-r from-slate-100 to-blue-50 px-2 py-1 rounded-lg text-xs font-mono text-gray-800 border border-slate-200 shadow-sm block whitespace-nowrap overflow-hidden text-ellipsis"
                 >
                     {entry.tin}
                 </span>
             </td>
-            <td className="px-3 py-2 w-[45]">
+            <td className="px-3 py-2 w-[42]">
                 <div className="flex items-start space-x-1">
                     <MapPin className="h-3 w-3 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div className="flex-1 min-w-0 text-xs">
                         <span className="block truncate font-medium text-gray-600">
-                            {entry.address1}
+                            {entry.address1 === "" ? "No address information available" : entry.address1}
                         </span>
                         <span className="block truncate text-gray-500">
                             {entry.address2}
