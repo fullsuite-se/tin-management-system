@@ -1,5 +1,5 @@
 import React from 'react'
-import type {ModalState, TINEntry} from "../../../lib/types.tsx";
+import type {ModalState, TINEntry} from "../../../types/types.tsx";
 import TableRowDesktop from "./TableRowDesktop.tsx";
 import TableRowMobile from "./TableRowMobile.tsx";
 

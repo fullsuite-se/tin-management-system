@@ -8,7 +8,7 @@ import Tabs from "../ui/Tabs"
 import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, ChevronLeft, ChevronRight } from "lucide-react"
 import { formatTIN } from "../../lib/utils"
-import type { TINEntry } from "../../lib/types"
+import type { TINEntry } from "../../types/types.tsx"
 
 interface AddClientProps {
     isOpen: boolean

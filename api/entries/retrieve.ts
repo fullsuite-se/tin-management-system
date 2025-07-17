@@ -19,7 +19,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
     try {
         if (typeof id === "string" && id.trim() !== "") {
-            const result = await retrieveEntry(id);
+            const result = await retrieve(id);
 
             if (!result) {
                 return res.status(404).json({ message: "Entry not found" });
@@ -42,7 +42,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 }
 
-async function retrieveEntry(id: string): Promise<TinData | null> {
+async function retrieve(id: string): Promise<TinData | null> {
     try {
         const doc = await db.collection("tin-database").doc(id).get();
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import type {TINEntry} from '../../../lib/types.tsx'
+import type {TINEntry} from '../../../types/types.tsx'
 import { Button } from "../../ui/Button.tsx";
 import { MapPin, Edit, Trash2 } from 'lucide-react'
 

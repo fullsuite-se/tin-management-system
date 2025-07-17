@@ -1,6 +1,6 @@
 import { Button } from "../ui/Button"
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
-import type { TINEntry } from "../../lib/types"
+import type { TINEntry } from "../../types/types.tsx"
 
 interface DeleteClientProps {
     isOpen: boolean
