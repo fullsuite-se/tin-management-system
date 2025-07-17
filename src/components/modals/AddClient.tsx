@@ -9,6 +9,7 @@ import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, ChevronLeft, ChevronRight } from "lucide-react"
 import { formatTIN } from "../../lib/utils"
 import type { TINEntry } from "../../types/types.tsx"
+import { validateIndividualName } from "../../lib/formValidators.ts";
 
 interface AddClientProps {
     isOpen: boolean;
@@ -46,12 +47,6 @@ const AddClient: React.FC<AddClientProps> = ({ isOpen, onClose, onAdd }) => {
         window.addEventListener("resize", checkMobile);
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
-
-    /* REVISED VALIDATION - Accepts both "Last, First" and "Last, First, Middle" */
-    const validateIndividualName = (name: string): boolean => {
-        const parts = name.split(",").map(part => part.trim());
-        return (parts.length === 2 || parts.length === 3) && parts.every(part => part.length > 0);
-    };
 
     const handleTINChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTinNumber(formatTIN(e.target.value));
