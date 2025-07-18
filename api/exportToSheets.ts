@@ -20,7 +20,10 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         const sheetId = sheetUrl.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/)?.[1];
 
         if (!sheetId) {
-            return res.status(400).json({ message: "Invalid sheet URL" });
+            return res.status(400).json({
+                title: "Invalid Sheet URL",
+                message: "Hmm... that doesn't look like a valid Google Sheets URL. Please try again."
+            });
         }
 
         const auth = new google.auth.GoogleAuth({
@@ -82,11 +85,16 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         const error = e instanceof Error ? e.message : String(e);
 
         if (error.includes("The caller does not have permission") || error.includes("403")) {
-            return res.status(403).json({ message: "Oops! Please share the sheet with our expert bot:\n" +
+            return res.status(403).json({
+                title: "Permission Denied",
+                message: "Oops! Please share your sheet with our expert bot:\n" +
                     "fs-tin-export-bot@tin-management-system.iam.gserviceaccount.com"})
         }
 
-        return res.status(500).json({ message: "Internal server error", error: error });
+        return res.status(500).json({
+            title: "Something Went Wrong",
+            message: "An unexpected error occurred on our end. We're working to resolve it. Please try again later.",
+            error: error });
     }
 }
 

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
-import type { TINEntry } from "../types/types.tsx"
-import type { ModalState } from "../types/types.tsx"
+import type { TINEntry, ModalState } from "../types/types.tsx"
+import useAlert from "../hooks/use-alert.ts"
 
 export function useDashboard(name: string) {
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://tin-management-system.vercel.app/api";
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://tin-management-system.vercel.app/api";  // TODO: REMOVE THE HARDCODED ENTRY
+
+    const { showAlert } = useAlert();
 
     // Entry States
     const [entries, setEntries] = useState<TINEntry[]>([])
@@ -241,11 +243,11 @@ export function useDashboard(name: string) {
             const json = await res.json();
 
             if (!res.ok) {
-                if (res.status === 403) {
-                    alert(json.message)
-                }
-                console.error("Export failed:", json.message, json.error);
-                alert(`Failed to Export Entries: ${json.message}`);
+                showAlert({
+                    statusCode: res.status,
+                    title: json.title,
+                    message: json.message,
+                })
                 return;
             }
 
