@@ -7,7 +7,7 @@ const Toast: React.FC = () => {
     if (!toast.isOpen) return null;
 
     return (
-        <div className="fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded shadow-lg z-50">
+        <div className="fixed bottom-100 right-100 bg-black text-white px-4 py-2 rounded shadow-lg z-50">
             <span>{toast.title}</span>
             <span>{toast.message}</span>
         </div>
