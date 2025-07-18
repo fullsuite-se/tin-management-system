@@ -241,6 +241,9 @@ export function useDashboard(name: string) {
             const json = await res.json();
 
             if (!res.ok) {
+                if (res.status === 403) {
+                    alert(json.message)
+                }
                 console.error("Export failed:", json.message, json.error);
                 alert(`Failed to Export Entries: ${json.message}`);
                 return;
