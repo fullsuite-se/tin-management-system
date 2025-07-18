@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react"
 import type { TINEntry, ModalState } from "../types/types.tsx"
 import useAlert from "../hooks/use-alert.ts"
+import useToast from "../hooks/use-toast.ts"
 
 export function useDashboard(name: string) {
     const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://tin-management-system.vercel.app/api";  // TODO: REMOVE THE HARDCODED ENTRY
 
     const { showAlert } = useAlert();
+    const { showToast } = useToast();
 
     // Entry States
     const [entries, setEntries] = useState<TINEntry[]>([])
@@ -131,15 +133,23 @@ export function useDashboard(name: string) {
                 body: JSON.stringify(entry),
             });
 
-            const data = await res.json();
+            const json = await res.json();
 
             if (!res.ok) {
-                console.error("Add failed:", res.status, res.statusText);
-                alert(`Failed to Add Entry: ${data.message}`);
+                showAlert({
+                    statusCode: res.status,
+                    title: json.title,
+                    message: json.message,
+                })
                 return;
+            } else {
+                entry.id = json.id;
+                showToast({
+                    title: json.title,
+                    message: json.message,
+                })
             }
 
-            entry.id = data.id;
             alert("Entry Added Successfully")
             setEntries([entry, ...entries]);
         } catch (e) {
@@ -249,10 +259,12 @@ export function useDashboard(name: string) {
                     message: json.message,
                 })
                 return;
+            } else {
+                showToast({
+                    title: json.title,
+                    message: json.message,
+                })
             }
-
-            alert("Entries Exported Successfully to:\n" + link)
-
         } catch (e) {
             console.error("Export failed:", e);
             return;

@@ -15,30 +15,45 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
     try {
         if (req.method !== "POST") {
-            return res.status(405).json({ message: "Method not allowed" });
+            return res.status(405).json({
+                title: "Wrong Move!",
+                message: "This action isn't allowed here. Try refreshing the page or go back the proper way. If the issue persists, let us know!" });
         }
 
         const data: TinData = req.body;
 
         if (!data) {
-            return res.status(400).json({ message: "Missing request body" });
+            return res.status(400).json({
+                title: "Entry Not Sent",
+                message: "It seems your entry was not sent. Please try again." });
         }
 
         const id = await add(data);
 
         if (id === "DUPLICATE_TIN") {
-            return res.status(400).json({ message: 'TIN already exists' });
+            return res.status(400).json({
+                title: "Duplicate TIN",
+                message: "Looks like that TIN's already taken. Mind double-checking?" });
         }
 
         if (!id) {
-            return res.status(400).json({ message: 'Invalid or incomplete data' });
+            return res.status(400).json({
+                title: "Invalid or Incomplete Data",
+                message: "Looks like the entry we received was incomplete or invalid. Please try again." });
         }
 
-        return res.status(200).json({ message: "Entry added successfully", id });
+        return res.status(200).json({
+            title: "Entry Added",
+            message: "Your entry was successfully added, cheers!!!",
+            id
+        });
     } catch (e) {
         const error = e instanceof Error ? e.message : e;
 
-        return res.status(500).json({ message: "Internal server error", error: error});
+        return res.status(500).json({
+            title: "Something Went Wrong",
+            message: "An unexpected error occurred on our end. We're working to resolve it. Please try again later.",
+            error: error });
     }
 }
 
@@ -63,7 +78,7 @@ async function add(data: TinData): Promise<string | null> {
 
     try {
         const existing = await db
-        .collection("tin-database").where("tin", "==", tin).limit(1).get();
+            .collection("tin-database").where("tin", "==", tin).limit(1).get();
 
         if (!existing.empty) {
             console.warn("TIN already exists:", tin);

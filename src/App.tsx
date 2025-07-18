@@ -4,6 +4,8 @@ import Login from "./pages/Login.tsx";
 import type {User} from "./types/user.ts";
 import AlertProvider from "./context/alert-provider.tsx";
 import Alert from "./components/Alert.tsx";
+import Toast from "./components/Toast.tsx";
+import ToastProvider from "./context/toast-provider.tsx";
 
 export default function App() {
     const [user, setUser] = useState<User | null>(null);
@@ -30,15 +32,18 @@ export default function App() {
     }
 
     return(
-        <>
-            {user ?
-                <AlertProvider>
-                    <Dashboard name={user.name} email={user.email} avatar={user.avatar} onLogout={handleLogout}/>
-                    <Alert />
-                </AlertProvider>
-                :
-                <Login onLogin={handleGoogleLogin} />
-            }
-        </>
+        <AlertProvider>
+            <ToastProvider>
+                <>
+                    {user ?
+                        <Dashboard name={user.name} email={user.email} avatar={user.avatar} onLogout={handleLogout}/>
+                        :
+                        <Login onLogin={handleGoogleLogin} />
+                    }
+                </>
+                <Alert />
+                <Toast />
+            </ToastProvider>
+        </AlertProvider>
     );
 }
