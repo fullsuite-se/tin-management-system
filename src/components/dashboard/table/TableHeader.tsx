@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '../../ui/Button.tsx'
-import { Plus, X } from "lucide-react"
+import { Plus, X, FileSpreadsheet } from "lucide-react"
 import SearchAndFilter from "./SearchAndFilter.tsx";
 import type { ModalState } from '../../../types/types.tsx';
 
@@ -29,13 +29,24 @@ const TableHeader: React.FC<Props> = ({ searchTerm, totalEntries, filteredEntrie
                     <p className="hidden md:flex text-blue-100 text-xs mt-1">Total: {totalEntries} entries • Showing: {filteredEntries} results • Click any row to view details</p>
                     <p className="md:hidden text-blue-100 text-xs mt-1">Showing {filteredEntries} of {totalEntries} entries</p>
                 </div>
-                <div>
+                <div className="flex items-center gap-3">
+                    <Button
+                        onClick={() => {
+                            setModal({ type: "export", entry: null});
+                        }}
+                        variant="outline"
+                        size="sm"
+                        className="border-white hover:bg-white hover:text-[#0097B2] space-x-2"
+                    >
+                        <FileSpreadsheet className="h-4 w-4" />
+                        <span>Export</span>
+                    </Button>
                     <Button
                         onClick={() => {
                             setModal({ type: "add" , entry: null});
                         }}
                         size="sm"
-                        className="bg-white text-[#0097B2] hover:bg-gray"
+                        className="bg-white text-[#0097B2] hover:bg-white/85"
                     >
                     <Plus className="h-3 w-3 mr-1" />
                     Add Client

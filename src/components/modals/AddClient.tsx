@@ -9,7 +9,7 @@ import Radio from "../ui/Radio"
 import { Building2, User, MapPin, Globe, ChevronLeft, ChevronRight } from "lucide-react"
 import { formatTIN } from "../../lib/utils"
 import type { TINEntry } from "../../types/types.tsx"
-import { validateName, validateTIN } from "../../lib/formValidators.ts";
+import { validateName, validateTIN } from "../../lib/formValidators.ts"
 
 interface AddClientProps {
     isOpen: boolean;

@@ -221,6 +221,39 @@ export function useDashboard(name: string) {
         }
     }
 
+    const handleExport = async (link: string) => {
+        if (!link) {
+            console.error("Link is null, cannot export entries");
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE}/exportToSheets`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    sheetUrl: link
+                })
+            })
+
+            const json = await res.json();
+
+            if (!res.ok) {
+                console.error("Export failed:", json.message, json.error);
+                alert(`Failed to Export Entries: ${json.message}`);
+                return;
+            }
+
+            alert("Entries Exported Successfully to:\n" + link)
+
+        } catch (e) {
+            console.error("Export failed:", e);
+            return;
+        }
+    }
+
     return {
         entries,
         currentEntries,
@@ -243,6 +276,7 @@ export function useDashboard(name: string) {
         handleAdd,
         handleUpdate,
         handleDelete,
+        handleExport,
         handleFormClose,
     }
 }
