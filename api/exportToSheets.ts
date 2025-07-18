@@ -37,12 +37,24 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         const entries = snapshot.docs.map(doc => doc.data());
 
         const values = [
-            ['Name', 'TIN', 'Created At'],
-            ...entries.map(entry => [
-                entry.registeredName,
-                entry.tin,
-                entry.address1.join(`, ${entry.address2  || ''}`),
-            ])
+            ["Registered Name", "TIN", "Address"],
+            ...entries.map(entry => {
+                const addressParts = [];
+
+                if (entry.address1?.trim()) {
+                    addressParts.push(entry.address1);
+                }
+
+                if (entry.address2?.trim()) {
+                    addressParts.push(entry.address2);
+                }
+
+                return [
+                    entry.registeredName,
+                    entry.tin,
+                    addressParts.join(",")
+                ];
+            })
         ];
 
         await sheets.spreadsheets.batchUpdate({
