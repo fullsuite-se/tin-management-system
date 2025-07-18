@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import { db } from "../api-utils/firebase.ts";
+import { db } from "../api-utils/firebase.js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default async (req: VercelRequest, res: VercelResponse) => {
