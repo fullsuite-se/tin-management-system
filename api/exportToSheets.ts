@@ -81,6 +81,11 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
 
+        if (error.includes("The caller does not have permission") || error.includes("403")) {
+            return res.status(403).json({ message: "Oops! Please share the sheet with our expert bot:\n" +
+                    "fs-tin-export-bot@tin-management-system.iam.gserviceaccount.com"})
+        }
+
         return res.status(500).json({ message: "Internal server error", error: error });
     }
 }
