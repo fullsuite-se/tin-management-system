@@ -148,10 +148,8 @@ export function useDashboard(name: string) {
                     title: json.title,
                     message: json.message,
                 })
+                setEntries([entry, ...entries]);
             }
-
-            alert("Entry Added Successfully")
-            setEntries([entry, ...entries]);
         } catch (e) {
             console.error("Add failed: ", e);
             return;
