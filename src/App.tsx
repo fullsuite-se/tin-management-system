@@ -2,6 +2,8 @@ import {useState, useEffect} from "react";
 import Dashboard from "./pages/Dashboard.tsx";
 import Login from "./pages/Login.tsx";
 import type {User} from "./types/user.ts";
+import AlertProvider from "./context/alert-provider.tsx";
+import Alert from "./components/Alert.tsx";
 
 export default function App() {
     const [user, setUser] = useState<User | null>(null);
@@ -30,7 +32,10 @@ export default function App() {
     return(
         <>
             {user ?
-                <Dashboard name={user.name} email={user.email} avatar={user.avatar} onLogout={handleLogout}/>
+                <AlertProvider>
+                    <Dashboard name={user.name} email={user.email} avatar={user.avatar} onLogout={handleLogout}/>
+                    <Alert />
+                </AlertProvider>
                 :
                 <Login onLogin={handleGoogleLogin} />
             }
