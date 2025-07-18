@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import Header from "../components/dashboard/Header.tsx"
 import Layout from "../components/layout/Layout.tsx"
@@ -11,7 +9,8 @@ import ViewClient from "../components/modals/ViewClient.tsx"
 import AddClient from "../components/modals/AddClient.tsx"
 import EditClient from "../components/modals/EditClient.tsx"
 import DeleteClient from "../components/modals/DeleteClient.tsx"
-import FilterClient from "../components/modals/FilterClient.tsx";
+import ExportData from "../components/modals/ExportData.tsx"
+import FilterClient from "../components/modals/FilterClient.tsx"
 
 interface DashboardProps {
     name: string
@@ -41,6 +40,7 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
         handleAdd,
         handleUpdate,
         handleDelete,
+        handleExport,
         handleFormClose,
     } = useDashboard(name)
 
@@ -91,6 +91,10 @@ const Dashboard: React.FC<DashboardProps> = ({ name, email, avatar, onLogout }) 
                 filters={filters}
                 onFiltersChange={setFilters}
                 onClearFilters={clearFilters}
+            />
+            <ExportData isOpen={modal.type === "export"}
+                        onClose={handleFormClose}
+                        onExport={handleExport}
             />
         </Layout>
     )

@@ -13,6 +13,6 @@ export interface TINEntry {
 }
 
 export type ModalState = {
-    type: 'add' | 'edit' | 'view' | 'delete' | 'filter' | null;
+    type: 'add' | 'edit' | 'view' | 'delete' | 'filter' | 'export' | null;
     entry: TINEntry | null;
 };
