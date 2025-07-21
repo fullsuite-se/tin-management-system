@@ -13,11 +13,16 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        if (req.method !== "POST") {
+        if (req.method !== "PUT") {
             return res.status(405).json({ message: "Method not allowed" });
         }
 
-        const { id, data } = req.body as { id: string, data: TinData };
+        const { id } = req.query as { id: string };
+        const data = req.body as TinData;
+
+        if (!id || typeof id !== "string") {
+            return res.status(400).json({ message: "Invalid or missing document ID" });
+        }
 
         if (!data) {
             return res.status(400).json({ message: "Missing request body" });

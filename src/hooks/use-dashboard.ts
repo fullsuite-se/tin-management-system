@@ -161,18 +161,15 @@ export function useDashboard(name: string) {
         const id = updatedEntry.id;
 
         try {
-            const res = await fetch(`${API_BASE}/entries/edit`, {
-                method: "POST",
+            const res = await fetch(`${API_BASE}/entries/edit/${id}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: id,
-                    data: {
-                        ...updatedEntry,
-                        editedBy: name,
-                        editedAt: new Date(),
-                    }
+                    ...updatedEntry,
+                    editedBy: name,
+                    editedAt: new Date(),
                 }),
             });
 
