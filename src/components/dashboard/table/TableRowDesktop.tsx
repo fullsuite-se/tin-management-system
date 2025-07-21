@@ -1,13 +1,15 @@
 import React from 'react'
-import type { TINEntry } from '../../../utils/types.tsx'
-import { Button } from "../../ui/button.tsx";
+import type {TINEntry} from '../../../types/types.tsx'
+import { Button } from "../../ui/Button.tsx";
 import { MapPin, Edit, Trash2 } from 'lucide-react'
 
 interface Props {
     entry: TINEntry,
+    editClicked: () => void;
+    deleteClicked: () => void;
 }
 
-const TableRowDesktop: React.FC<Props> = ({ entry }) => {
+const TableRowDesktop: React.FC<Props> = ({ entry, editClicked, deleteClicked }) => {
     return (
         <>
             <td className="px-3 py-2 w-[32%]">
@@ -30,20 +32,20 @@ const TableRowDesktop: React.FC<Props> = ({ entry }) => {
                     </div>
                 </div>
             </td>
-            <td className="px-3 py-2 w-[13%]">
+            <td className="px-3 py-2 w-[16%]">
                 <span
                     title={entry.tin}
-                    className="bg-gradient-to-r from-slate-100 to-blue-50 px-2 py-1 rounded-lg text-xs font-mono text-gray-800 border border-slate-200 shadow-sm block whitespace-nowrap overflow-hidden text-ellipsis"
+                    className="text-center bg-gradient-to-r from-slate-100 to-blue-50 px-2 py-1 rounded-lg text-xs font-mono text-gray-800 border border-slate-200 shadow-sm block whitespace-nowrap overflow-hidden text-ellipsis"
                 >
                     {entry.tin}
                 </span>
             </td>
-            <td className="px-3 py-2 w-[45]">
+            <td className="px-3 py-2 w-[42]">
                 <div className="flex items-start space-x-1">
                     <MapPin className="h-3 w-3 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div className="flex-1 min-w-0 text-xs">
                         <span className="block truncate font-medium text-gray-600">
-                            {entry.address1}
+                            {(entry.address1 === "" && entry.address2 === "") ? "No address information available" : entry.address1}
                         </span>
                         <span className="block truncate text-gray-500">
                             {entry.address2}
@@ -56,7 +58,10 @@ const TableRowDesktop: React.FC<Props> = ({ entry }) => {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => console.log('edit')}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            editClicked();
+                        }}
                         className="border-[#0097B2] text-[#0097B2] hover:bg-[#0097B2]/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                     >
                         <Edit className="h-3 w-3" />
@@ -64,7 +69,10 @@ const TableRowDesktop: React.FC<Props> = ({ entry }) => {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => console.log('delete')}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            deleteClicked();
+                    }}
                         className="border-red-400 text-red-400 hover:bg-red-400/10 bg-white/80 backdrop-blur-sm h-6 w-6 p-0 shadow-sm transition-all duration-200 hover:shadow-md"
                     >
                         <Trash2 className="h-3 w-3" />

@@ -1,8 +1,8 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {Input} from '../../ui/input.tsx';
-import {Button} from '../../ui/button.tsx';
-import type {TINEntry} from '../../../utils/types.tsx';
+import {Input} from '../../ui/Input.tsx';
+import {Button} from '../../ui/Button.tsx';
+import type {TINEntry} from '../../../types/types.tsx';
 
 interface Props {
     filteredEntries: TINEntry[],

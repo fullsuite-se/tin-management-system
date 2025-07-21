@@ -1,17 +1,21 @@
 import React from 'react'
 import { Search, Filter } from "lucide-react"
-import { Input } from "../../ui/input.tsx"
-import { Button } from "../../ui/button.tsx"
+import { Input } from "../../ui/Input.tsx"
+import { Button } from "../../ui/Button.tsx"
 
 interface Props {
-    filters: object,
-    setShowFilters: (value: boolean) => void;
+    filters: {
+        entityType: string;
+        classification: string;
+        dateRange: string;
+    };
+    setModal: (modal: { type: "filter"; entry: null }) => void;
     hasActiveFilters: boolean;
     searchTerm: string;
     setSearchTerm: (value: string) => void;
 }
 
-const SearchAndFilter: React.FC<Props> = ({ filters, setShowFilters, hasActiveFilters, searchTerm, setSearchTerm }) => {
+const SearchAndFilter: React.FC<Props> = ({ filters, setModal, hasActiveFilters, searchTerm, setSearchTerm }) => {
     return (
         <div className="flex space-x-2">
             <div className="flex-1 relative">
@@ -24,7 +28,7 @@ const SearchAndFilter: React.FC<Props> = ({ filters, setShowFilters, hasActiveFi
                 />
             </div>
             <Button
-                onClick={() => setShowFilters(true)}
+                onClick={() => setModal({ type: "filter", entry: null })}
                 size="sm"
                 variant="outline"
                 className={`bg-white/10 border-white/30 text-white hover:bg-white/20 backdrop-blur-sm transition-all duration-200 h-8 px-3 font-medium shadow-lg ${

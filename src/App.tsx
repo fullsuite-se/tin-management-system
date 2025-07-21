@@ -1,48 +1,49 @@
-import { useState } from "react"
-import type { User } from "./utils/types.tsx"
-import Dashboard from './components/dashboard/Dashboard.tsx'
-import { validateEmailDomain } from "./lib/utils"
-import LoginForm from "./components/LoginForm"
-// import { Toaster } from "./components/ui/toaster"
-
-// Mock users for demo - in production, this would be handled by your authentication system
-const MOCK_USERS = [
-    { email: "admin@getfullsuite.com", displayName: "FullSuite Administrator" },
-    { email: "manager@getfullsuite.com", displayName: "FullSuite Manager" },
-    { email: "user@getfullsuite.com", displayName: "FullSuite User" },
-    { email: "admin@viascari.com", displayName: "Viascari Administrator" },
-    { email: "manager@viascari.com", displayName: "Viascari Manager" },
-]
+import {useState, useEffect} from "react";
+import Dashboard from "./pages/Dashboard.tsx";
+import Login from "./pages/Login.tsx";
+import type {User} from "./types/user.ts";
+import AlertProvider from "./context/alert-provider.tsx";
+import Alert from "./components/Alert.tsx";
+import Toast from "./components/Toast.tsx";
+import ToastProvider from "./context/toast-provider.tsx";
 
 export default function App() {
-    const [user, setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<User | null>(null);
 
-    const handleLogin = async (email: string, password: string) => {
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-
-        // Validate email domain
-        if (!validateEmailDomain(email)) {
-            throw new Error("Access restricted to @getfullsuite.com and @viascari.com domains only")
+    useEffect(() => {
+        const savedUser = sessionStorage.getItem("user");
+        if (savedUser) {
+            setUser(JSON.parse(savedUser));
         }
+    }, []);
 
-        // In production, this would validate against your actual authentication system
-        // For demo purposes, we'll check if the email exists in our mock users
-        const mockUser = MOCK_USERS.find((u) => u.email === email)
+    const handleGoogleLogin = async (googleUser: {
+        name: string;
+        email: string;
+        avatar: string;
+    }) => {
+        setUser(googleUser);
+        sessionStorage.setItem("user", JSON.stringify(googleUser))
+    };
 
-        if (mockUser && password.length > 0) {
-            setUser({
-                email: mockUser.email,
-                displayName: mockUser.displayName,
-            })
-        } else {
-            throw new Error("Invalid credentials or user not found")
-        }
+    const handleLogout = () => {
+        setUser(null);
+        sessionStorage.removeItem("user");
     }
 
-    return (
-        <>
-            {!user ? <LoginForm onLogin={handleLogin} /> : <Dashboard name={user.displayName} email={user.email} avatar={''} onLogout={() => setUser(null)} />}
-        </>
+    return(
+        <AlertProvider>
+            <ToastProvider>
+                <>
+                    {user ?
+                        <Dashboard name={user.name} email={user.email} avatar={user.avatar} onLogout={handleLogout}/>
+                        :
+                        <Login onLogin={handleGoogleLogin} />
+                    }
+                </>
+                <Alert />
+                <Toast />
+            </ToastProvider>
+        </AlertProvider>
     );
 }
