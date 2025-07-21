@@ -11,7 +11,7 @@ export default function App() {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        const savedUser = localStorage.getItem("user");
+        const savedUser = sessionStorage.getItem("user");
         if (savedUser) {
             setUser(JSON.parse(savedUser));
         }
@@ -23,12 +23,12 @@ export default function App() {
         avatar: string;
     }) => {
         setUser(googleUser);
-        localStorage.setItem("user", JSON.stringify(googleUser))
+        sessionStorage.setItem("user", JSON.stringify(googleUser))
     };
 
     const handleLogout = () => {
         setUser(null);
-        localStorage.removeItem("user");
+        sessionStorage.removeItem("user");
     }
 
     return(
