@@ -49,7 +49,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
         // return id
         const { status, ...body } = messages.entryAdded;
-        return res.status(status).json({ body, id });
+        return res.status(status).json({ ...body, id });
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
         const { status, ...body } = messages.serverError(error);

@@ -31,7 +31,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
             }
 
             const { status, ...body } = messages.entryFound
-            return res.status(status).json({ body, ...result });
+            return res.status(status).json({ ...body, ...result });
         } else {
             const allEntries = await retrieveAllEntries();
 
@@ -41,7 +41,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
             }
 
             const { status, ...body } = messages.entriesFound;
-            return res.status(status).json({ body, data: allEntries });
+            return res.status(status).json({ ...body, data: allEntries });
         }
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
