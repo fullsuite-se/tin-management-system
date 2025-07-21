@@ -138,7 +138,7 @@ const EditClient: React.FC<EditClientProps> = ({ isOpen, onClose, onSubmit, entr
                                     value={formData.registeredName}
                                     onChange={(e) => setFormData({ ...formData, registeredName: e.target.value })}
                                     placeholder={
-                                        entry.isIndividual ? "Enter first name, middle name, last name" : "Enter the Company Name"
+                                        entry.isIndividual ? "Enter full name" : "Enter the Company Name"
                                     }
                                     required
                                     className={errors.registeredName ? "border-red-500" : ""}
