@@ -19,7 +19,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
         }
 
         // request not received
-        if (!req.query || !req.body || Object.keys(req.body).length === 0) {
+        if (!req.query?.id) {
             const { status, ...body } = messages.requestNotSent;
             return res.status(status).json(body);
         }

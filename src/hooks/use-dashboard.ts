@@ -161,7 +161,7 @@ export function useDashboard(name: string) {
         const id = updatedEntry.id;
 
         try {
-            const res = await fetch(`${API_BASE}/entries/edit/${id}`, {
+            const res = await fetch(`${API_BASE}/entries/edit?id=${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
