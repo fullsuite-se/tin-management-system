@@ -41,7 +41,10 @@ export default async function (req: VercelRequest, res: VercelResponse) {
         }
 
         const { status, ...body } = messages.entryDeleted;
-        return res.status(status).json({ body });
+
+        if (body) console.log(body);
+
+        return res.status(status).json({ title: "Entry Deleted", message: "The entry has been deleted successfully." });
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
         const { status, ...body } = messages.serverError(error);
