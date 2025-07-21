@@ -41,7 +41,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
             }
 
             const { status, ...body } = messages.entriesFound;
-            return res.status(status).json({ body, allEntries });
+            return res.status(status).json({ body, data: allEntries });
         }
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
