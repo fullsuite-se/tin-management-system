@@ -1,7 +1,8 @@
 import { db } from "../../api-utils/firebase.js";
-import type { TinData } from "../../api-utils/models/tinData.js";
-import { toTimestamp } from "../../api-utils/utils.js";
+import type { TinData } from "../../api-utils/tinData.ts";
+import { toTimestamp, dataComplete } from "../../api-utils/utils.js";
 import type {VercelRequest, VercelResponse} from "@vercel/node";
+import { messages } from "../../api-utils/messages.ts";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -13,36 +14,50 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 
     try {
+        // invalid method
         if (req.method !== "PUT") {
-            return res.status(405).json({ message: "Method not allowed" });
+            const { status, ...body } = messages.methodNotAllowed;
+            return res.status(status).json(body);
         }
 
+        // request not received
+        if (!req.query || !req.body || Object.keys(req.body).length === 0) {
+            const { status, ...body } = messages.requestNotSent;
+            return res.status(status).json(body);
+        }
+
+        // obtain data
         const { id } = req.query as { id: string };
         const data = req.body as TinData;
 
+        // check data completeness
         if (!id || typeof id !== "string") {
-            return res.status(400).json({ message: "Invalid or missing document ID" });
+            const { status, ...body } = messages.invalidOrIncompleteData;
+            return res.status(status).json(body);
+        }
+        if (!dataComplete(data, "edit")) {
+            const { status, ...body } = messages.invalidOrIncompleteData;
+            return res.status(status).json(body);
         }
 
-        if (!data) {
-            return res.status(400).json({ message: "Missing request body" });
-        }
-
+        // receive edit status
         const success = await edit(data, id);
-
         if (success === "DUPLICATE_TIN") {
-            return res.status(400).json({ message: 'TIN already exists' });
+            const { status, ...body } = messages.duplicateTIN;
+            return res.status(status).json(body);
         }
-
         if (!success) {
-            return res.status(400).json({ message: 'Invalid or incomplete data' });
+            const { status, ...body } = messages.invalidOrIncompleteData;
+            return res.status(status).json(body);
         }
 
-        return res.status(200).json({ message: "Entry edited successfully" });
+        // edit successful
+        const { status, ...body } = messages.entryEdited;
+        return res.status(status).json({ body, id });
     } catch (e) {
-        const error = e instanceof Error ? e.message : e;
-
-        return res.status(500).json({ message: 'Internal server error', error: error});
+        const error = e instanceof Error ? e.message : String(e);
+        const { status, ...body } = messages.serverError(error);
+        return res.status(status).json(body);
     }
 }
 
@@ -78,7 +93,7 @@ async function edit(data: TinData, id: string): Promise<boolean | string> {
             editedAt: editedAt ? toTimestamp(editedAt) : undefined,
         }
 
-        await db.collection("tin-database").doc(id).set(toSave, { merge: true });
+        await db.collection("tin-database").doc(id).update(toSave);
         return true;
     } catch (e) {
         console.error("Firestore write failed:", e);

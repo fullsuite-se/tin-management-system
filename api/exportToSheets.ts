@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import { db } from "../api-utils/firebase.js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { messages } from "../api-utils/messages.ts";
 
 export default async (req: VercelRequest, res: VercelResponse) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -12,18 +13,18 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     }
 
     try {
+        // invalid method
         if (req.method !== "POST") {
-            return res.status(405).json({ message: "Method not allowed" });
+            const { status, ...body } = messages.methodNotAllowed;
+            return res.status(status).json(body);
         }
 
         const { sheetUrl } = req.body;
         const sheetId = sheetUrl.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/)?.[1];
 
         if (!sheetId) {
-            return res.status(400).json({
-                title: "Invalid Sheet URL",
-                message: "Hmm... that doesn't look like a valid Google Sheets URL. Please try again."
-            });
+            const { status, ...body } = messages.invalidSheetUrl;
+            return res.status(status).json(body);
         }
 
         const auth = new google.auth.GoogleAuth({
@@ -80,21 +81,18 @@ export default async (req: VercelRequest, res: VercelResponse) => {
             requestBody: { values }
         })
 
-        return res.status(200).json({ message: "Entries exported successfully" });
+        const { status, ...body } = messages.entriesExported;
+        return res.status(status).json(body);
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
 
         if (error.includes("The caller does not have permission") || error.includes("403")) {
-            return res.status(403).json({
-                title: "Permission Denied",
-                message: "Oops! Please share your sheet with our expert bot:\n" +
-                    "fs-tin-export-bot@tin-management-system.iam.gserviceaccount.com"})
+            const { status, ...body } = messages.sheetPermissionDenied;
+            return res.status(status).json(body);
         }
 
-        return res.status(500).json({
-            title: "Something Went Wrong",
-            message: "An unexpected error occurred on our end. We're working to resolve it. Please try again later.",
-            error: error });
+        const { status, ...body } = messages.serverError(error);
+        return res.status(status).json(body);
     }
 }
 

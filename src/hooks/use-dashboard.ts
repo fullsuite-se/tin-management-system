@@ -176,25 +176,31 @@ export function useDashboard(name: string) {
             const json = await res.json();
 
             if (!res.ok) {
-                console.error("Update failed:", json.message, json.error);
-                alert(`Failed to Update Entry: ${json.message}`);
+                showAlert({
+                    statusCode: res.status,
+                    title: json.title,
+                    message: json.message,
+                })
                 return;
+            } else {
+                showToast({
+                    title: json.title,
+                    message: json.message,
+                })
+
+                // update local state
+                setEntries((prev) =>
+                    prev.map((entry) =>
+                        entry.id === updatedEntry.id
+                            ? {
+                                ...updatedEntry,
+                                editedBy: name,
+                                editedAt: new Date(),
+                            }
+                            : entry
+                    )
+                );
             }
-
-            alert("Entry Updated Successfully")
-
-            // Optionally update local state
-            setEntries((prev) =>
-                prev.map((entry) =>
-                    entry.id === updatedEntry.id
-                        ? {
-                            ...updatedEntry,
-                            editedBy: name,
-                            editedAt: new Date(),
-                        }
-                        : entry
-                )
-            );
         } catch (e) {
             console.error("Update failed: ", e);
             return;
@@ -213,15 +219,22 @@ export function useDashboard(name: string) {
                 method: "DELETE",
             });
 
+            const json = await res.json();
+
             if (!res.ok) {
-                console.error("Delete failed:", res.status, res.statusText);
-                alert("Failed to Remove Entry")
-                return;
+                showAlert({
+                    statusCode: res.status,
+                    title: json.title,
+                    message: json.message,
+                })
+            } else {
+                showToast({
+                    title: json.title,
+                    message: json.message,
+                })
+
+                setEntries(entries.filter((e) => e.id !== id));
             }
-
-            alert("Entry Removed Successfully")
-
-            setEntries(entries.filter((e) => e.id !== id));
         } catch (e) {
             console.error("Delete failed:", e);
             return;
