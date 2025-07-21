@@ -19,6 +19,9 @@ const ExportData: React.FC<ExportDataProps> = ({ isOpen, onClose, onExport }) =>
         if (!link) return;
 
         onExport(link);
+        setLink("");
+        setIsExportAttempted(false);
+        onClose();
     };
 
     const handleClose = () => {

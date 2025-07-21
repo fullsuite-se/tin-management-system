@@ -16,7 +16,6 @@ interface Props {
     }
     setModal: (modal: ModalState) => void;
     setSearchTerm: (value: string) => void;
-    // setShowFilters: (value: boolean) => void;
     clearFilters: () => void;
 }
 
