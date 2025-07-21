@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/tindatabase(/.*)?",
+      "destination": "/index.html"
+    }
+  ]
+}
