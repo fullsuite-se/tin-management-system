@@ -1,5 +1,6 @@
 import { db } from "../../api-utils/firebase.js";
 import type {VercelRequest, VercelResponse} from "@vercel/node";
+import { messages } from "../../api-utils/messages.ts";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -11,26 +12,40 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 
     try {
+        // invalid method
         if (req.method !== "DELETE") {
-            return res.status(405).json({ message: "Method not allowed" });
+            const { status, ...body } = messages.methodNotAllowed;
+            return res.status(status).json(body);
         }
 
+        // request not received
+        if (!req.query || !req.body || Object.keys(req.body).length === 0) {
+            const { status, ...body } = messages.requestNotSent;
+            return res.status(status).json(body);
+        }
+
+        // obtain data
         const id = req.query.id;
 
+        // check data
         if (!id || typeof id !== "string") {
-            return res.status(400).json({ message: "Missing document ID" });
+            const { status, ...body } = messages.invalidOrIncompleteData;
+            return res.status(status).json(body);
         }
 
+        // receive deletion status
         const success = await deleteEntry(id);
-
         if (!success) {
-            return res.status(404).json({ message: "Document not found or failed to delete" });
+            const { status, ...body } = messages.entryNotFound;
+            return res.status(status).json(body);
         }
 
-        return res.status(200).json({ message: "Entry deleted successfully" });
+        const { status, ...body } = messages.entryDeleted;
+        return res.status(status).json({ body });
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
-        return res.status(500).json({ message: "Internal server error", error });
+        const { status, ...body } = messages.serverError(error);
+        return res.status(status).json(body);
     }
 }
 

@@ -1,4 +1,5 @@
 import { Timestamp } from "firebase-admin/firestore";
+import type { TinData } from "./tinData.ts";
 
 export const checkTin = (entry: string) => {
     const parts = entry.split("-");
@@ -23,4 +24,23 @@ export function toTimestamp(entry: string | Date) {
         return Timestamp.fromDate(entry);
     }
     return Timestamp.fromDate(new Date(entry));
+}
+
+export const dataComplete = (data: TinData, type: string): boolean => {
+    let requiredFields: (keyof TinData)[] = [
+        "tin",
+        "registeredName",
+        "address1",
+        "address2",
+        "isIndividual",
+        "isForeign",
+        "createdBy",
+        "createdAt"
+    ];
+
+    if (type === "edit") {
+        requiredFields = [...requiredFields, "id", "editedBy", "editedAt"];
+    }
+
+    return requiredFields.every(field => data[field] != null);
 }

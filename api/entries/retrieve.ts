@@ -1,6 +1,7 @@
 import { db } from "../../api-utils/firebase.js";
-import type { TinData } from "../../api-utils/models/tinData.js";
+import type { TinData } from "../../api-utils/tinData.ts";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { messages } from "../../api-utils/messages.ts";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -11,34 +12,41 @@ export default async function (req: VercelRequest, res: VercelResponse) {
         return res.status(200).end(); // Handles CORS preflight
     }
 
-    if (req.method !== "GET") {
-        return res.status(405).json({ message: "Method not allowed" });
-    }
-
-    const id = req.query.id;
-
     try {
+        // invalid method
+        if (req.method !== "GET") {
+            const { status, ...body } = messages.methodNotAllowed;
+            return res.status(status).json(body);
+        }
+
+        // obtain data
+        const id = req.query.id;
+
         if (typeof id === "string" && id.trim() !== "") {
             const result = await retrieve(id);
 
             if (!result) {
-                return res.status(404).json({ message: "Entry not found" });
+                const { status, ...body } = messages.entryNotFound;
+                return res.status(status).json(body);
             }
 
-            return res.status(200).json({ message: "Entry retrieved successfully", data: result });
+            const { status, ...body } = messages.entryFound
+            return res.status(status).json({ body, ...result });
         } else {
             const allEntries = await retrieveAllEntries();
 
             if (!allEntries) {
-                return res.status(404).json({ message: "Entries not found" });
+                const { status, ...body } = messages.entriesNotFound;
+                return res.status(status).json(body);
             }
 
-            return res.status(200).json({ message: "Entries retrieved successfully", data: allEntries });
+            const { status, ...body } = messages.entriesFound;
+            return res.status(status).json({ body, allEntries });
         }
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
-
-        return res.status(500).json({ message: "Internal server error", error });
+        const { status, ...body } = messages.serverError(error);
+        return res.status(status).json(body);
     }
 }
 

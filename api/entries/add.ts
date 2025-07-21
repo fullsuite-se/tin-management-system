@@ -1,8 +1,9 @@
 import { db } from "../../api-utils/firebase.js";
 import { checkTin } from "../../api-utils/utils.js";
-import type { TinData } from "../../api-utils/models/tinData.js";
-import { toTimestamp } from "../../api-utils/utils.js";
+import type { TinData } from "../../api-utils/tinData.ts";
+import { toTimestamp, dataComplete } from "../../api-utils/utils.js";
 import type {VercelRequest, VercelResponse} from "@vercel/node";
+import { messages } from "../../api-utils/messages.ts";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -14,46 +15,45 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 
     try {
+        // invalid method
         if (req.method !== "POST") {
-            return res.status(405).json({
-                title: "Wrong Move!",
-                message: "This action isn't allowed here. Try refreshing the page or go back the proper way. If the issue persists, let us know!" });
+            const { status, ...body } = messages.methodNotAllowed;
+            return res.status(status).json(body);
         }
 
+        // request not received
+        if (!req.body || Object.keys(req.body).length === 0) {
+            const { status, ...body } = messages.requestNotSent;
+            return res.status(status).json(body);
+        }
+
+        // obtain data
         const data: TinData = req.body;
 
-        if (!data) {
-            return res.status(400).json({
-                title: "Entry Not Sent",
-                message: "It seems your entry was not sent. Please try again." });
+        // check data completeness
+        if (!dataComplete(data, "add")) {
+            const { status, ...body } = messages.invalidOrIncompleteData;
+            return res.status(status).json(body);
         }
 
+        // receive the created id from firestore
         const id = await add(data);
-
         if (id === "DUPLICATE_TIN") {
-            return res.status(400).json({
-                title: "Duplicate TIN",
-                message: "Looks like that TIN's already taken. Mind double-checking?" });
+            const { status, ...body } = messages.duplicateTIN;
+            return res.status(status).json(body);
         }
-
         if (!id) {
-            return res.status(400).json({
-                title: "Invalid or Incomplete Data",
-                message: "Looks like the entry we received was incomplete or invalid. Please try again." });
+            const { status, ...body } = messages.invalidOrIncompleteData;
+            return res.status(status).json(body);
         }
 
-        return res.status(200).json({
-            title: "Entry Added",
-            message: "Your entry was successfully added, cheers!!!",
-            id
-        });
+        // return id
+        const { status, ...body } = messages.entryAdded;
+        return res.status(status).json({ body, id });
     } catch (e) {
-        const error = e instanceof Error ? e.message : e;
-
-        return res.status(500).json({
-            title: "Something Went Wrong",
-            message: "An unexpected error occurred on our end. We're working to resolve it. Please try again later.",
-            error: error });
+        const error = e instanceof Error ? e.message : String(e);
+        const { status, ...body } = messages.serverError(error);
+        return res.status(status).json(body);
     }
 }
 

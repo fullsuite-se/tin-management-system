@@ -1,5 +1,5 @@
 export interface TinData {
-    id: string
+    id?: string
     tin: string
     registeredName: string
     address1: string
