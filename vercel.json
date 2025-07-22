@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/tindatabase(/.*)?",
-      "destination": "/index.html"
+      "destination": "/tindatabase/index.html"
     }
   ]
 }
