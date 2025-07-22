@@ -3,6 +3,10 @@
     {
       "source": "/tindatabase(/.*)?",
       "destination": "/tindatabase/index.html"
+    },
+    {
+      "source": "/tindatabase/api/(.*)",
+      "destination": "/api/$1"
     }
   ]
 }
