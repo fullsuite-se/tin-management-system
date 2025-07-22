@@ -1,4 +1,4 @@
-import { db } from "../api-utils/firebase.js";
+import { db } from "../api-utils/firebase.ts";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 type TinResult = {

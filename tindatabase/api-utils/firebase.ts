@@ -1,11 +1,5 @@
-import * as dotenv from "dotenv";
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-
-// Load local env variables in dev
-if (process.env.NODE_ENV !== "production") {
-    dotenv.config({ path: ".env.local" });
-}
 
 const projectId = process.env.FIREBASE_PROJECT_ID;
 const privateKey = process.env.FIREBASE_PRIVATE_KEY;

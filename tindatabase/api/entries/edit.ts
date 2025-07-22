@@ -1,9 +1,8 @@
-import { db } from "../../api-utils/firebase.js";
-import { checkTin } from "../../api-utils/utils.js";
+import { db } from "../../api-utils/firebase.ts";
 import type { TinData } from "../../api-utils/tinData.ts";
-import { toTimestamp, dataComplete } from "../../api-utils/utils.js";
+import { toTimestamp, dataComplete } from "../../api-utils/utils.ts";
 import type {VercelRequest, VercelResponse} from "@vercel/node";
-import { messages } from "../../api-utils/messages.js";
+import { messages } from "../../api-utils/messages.ts";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -16,39 +15,44 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
     try {
         // invalid method
-        if (req.method !== "POST") {
+        if (req.method !== "PUT") {
             const { status, ...body } = messages.methodNotAllowed;
             return res.status(status).json(body);
         }
 
         // request not received
-        if (!req.body || Object.keys(req.body).length === 0) {
+        if (!req.query || !req.body || Object.keys(req.body).length === 0) {
             const { status, ...body } = messages.requestNotSent;
             return res.status(status).json(body);
         }
 
         // obtain data
-        const data: TinData = req.body;
+        const { id } = req.query as { id: string };
+        const data = req.body as TinData;
 
         // check data completeness
-        if (!dataComplete(data, "add")) {
+        if (!id || typeof id !== "string") {
+            const { status, ...body } = messages.invalidOrIncompleteData;
+            return res.status(status).json(body);
+        }
+        if (!dataComplete(data, "edit")) {
             const { status, ...body } = messages.invalidOrIncompleteData;
             return res.status(status).json(body);
         }
 
-        // receive the created id from firestore
-        const id = await add(data);
-        if (id === "DUPLICATE_TIN") {
+        // receive edit status
+        const success = await edit(data, id);
+        if (success === "DUPLICATE_TIN") {
             const { status, ...body } = messages.duplicateTIN;
             return res.status(status).json(body);
         }
-        if (!id) {
+        if (!success) {
             const { status, ...body } = messages.invalidOrIncompleteData;
             return res.status(status).json(body);
         }
 
-        // return id
-        const { status, ...body } = messages.entryAdded;
+        // edit successful
+        const { status, ...body } = messages.entryEdited;
         return res.status(status).json({ ...body, id });
     } catch (e) {
         const error = e instanceof Error ? e.message : String(e);
@@ -57,43 +61,42 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     }
 }
 
-async function add(data: TinData): Promise<string | null> {
+async function edit(data: TinData, id: string): Promise<boolean | string> {
     const {
         tin,
         registeredName,
         address1,
         address2,
-        createdBy,
-        createdAt,
+        isIndividual,
+        isForeign,
+        editedBy,
+        editedAt,
     } = data;
 
-    if ([tin, registeredName, address1, address2, createdBy, createdAt].some((field) => field == null)) {
-        return null;
-    }
-
-    // check if TIN is valid
-    if (!checkTin(tin)) {
-        return null;
+    if ([tin, registeredName, address1, address2, isIndividual, isForeign, editedBy, editedAt].some((field) => field == null)) {
+        return false;
     }
 
     try {
         const existing = await db
-            .collection("tin-database").where("tin", "==", tin).limit(1).get();
+            .collection("tin-database").where("tin", "==", tin).get();
 
-        if (!existing.empty) {
+        const isDuplicate = existing.docs.some((doc) => doc.id !== id);
+
+        if (isDuplicate) {
             console.warn("TIN already exists:", tin);
             return "DUPLICATE_TIN";
         }
 
-        const toAdd = {
+        const toSave = {
             ...data,
-            createdAt: toTimestamp(createdAt),
+            editedAt: editedAt ? toTimestamp(editedAt) : undefined,
         }
 
-        const docRef = await db.collection("tin-database").add(toAdd);
-        return docRef.id;
+        await db.collection("tin-database").doc(id).update(toSave);
+        return true;
     } catch (e) {
         console.error("Firestore write failed:", e);
-        return null;
+        return false;
     }
 }

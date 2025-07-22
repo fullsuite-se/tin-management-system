@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import type { TINEntry, ModalState } from "../types/types.tsx"
-import useAlert from "../hooks/use-alert.ts"
-import useToast from "../hooks/use-toast.ts"
+import useAlert from "./use-alert.ts"
+import useToast from "./use-toast.ts"
 
 export function useDashboard(name: string) {
     const API_BASE = import.meta.env.VITE_API_BASE_URL;
