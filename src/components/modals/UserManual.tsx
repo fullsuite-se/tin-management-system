@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { Button } from "../ui/Button"
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
+import { Button } from "../ui/Button.tsx"
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal.tsx"
 import { HelpCircle, Shield, Database, Search, Plus, Edit } from "lucide-react"
 
 interface UserManualProps {

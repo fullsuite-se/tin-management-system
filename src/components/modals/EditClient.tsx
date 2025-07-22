@@ -1,12 +1,12 @@
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
-import { Button } from "../ui/Button"
-import { Input } from "../ui/Input"
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal.tsx"
+import { Button } from "../ui/Button.tsx"
+import { Input } from "../ui/Input.tsx"
 import { Label } from "../ui/Label.tsx"
-import Radio from "../ui/Radio"
+import Radio from "../ui/Radio.tsx"
 import { Building2, User, MapPin, Globe, Edit } from "lucide-react"
-import { formatTIN } from "../../lib/utils"
+import { formatTIN } from "../../lib/utils.ts"
 import type { TINEntry } from "../../types/types.tsx"
 import { validateTIN, validateName } from "../../lib/formValidators.ts";
 

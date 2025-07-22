@@ -1,5 +1,5 @@
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
-import { Button } from "../ui/Button"
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal.tsx"
+import { Button } from "../ui/Button.tsx"
 import { Label } from "../ui/Label.tsx"
 import {
     Select,
@@ -7,7 +7,7 @@ import {
     SelectValue,
     SelectContent,
     SelectItem,
-} from "../ui/Select"
+} from "../ui/Select.tsx"
 
 interface FilterState {
     entityType: string

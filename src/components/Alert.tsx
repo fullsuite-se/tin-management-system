@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/Button.tsx";
 import useAlert from "../hooks/use-alert.ts";
 import { AlertCircle } from "lucide-react";
 

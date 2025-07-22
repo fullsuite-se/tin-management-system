@@ -1,9 +1,9 @@
 import type React from "react"
 import { Calendar, MapPin, User, Building2, Edit } from "lucide-react" // Import the X icon
 import type { TINEntry } from "../../types/types.tsx"
-import { formatDate } from "../../lib/utils"
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
-import { Button } from "../ui/Button"
+import { formatDate } from "../../lib/utils.ts"
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal.tsx"
+import { Button } from "../ui/Button.tsx"
 
 interface ViewClientDialogProps {
     isOpen: boolean

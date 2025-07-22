@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
-import { ToastContext } from "./toast-context";
-import type { ToastType } from "./toast-context";
+import { ToastContext } from "./toast-context.ts";
+import type { ToastType } from "./toast-context.ts";
 
 const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [toast, setToast] = useState<ToastType>({

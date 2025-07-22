@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal";
-import { Button } from "../ui/Button";
-import { Input } from "../ui/Input";
-import { Label } from "../ui/Label";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal.tsx";
+import { Button } from "../ui/Button.tsx";
+import { Input } from "../ui/Input.tsx";
+import { Label } from "../ui/Label.tsx";
 
 interface ExportDataProps {
     isOpen: boolean;

@@ -1,5 +1,5 @@
-import { Button } from "../ui/Button"
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal"
+import { Button } from "../ui/Button.tsx"
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "../ui/Modal.tsx"
 import type { TINEntry } from "../../types/types.tsx"
 
 interface DeleteClientProps {

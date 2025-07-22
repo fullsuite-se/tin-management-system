@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { AlertContext } from "./alert-context";
-import type { AlertType } from "./alert-context";
+import { AlertContext } from "./alert-context.ts";
+import type { AlertType } from "./alert-context.ts";
 
 const AlertProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [alert, setAlert] = useState<AlertType>({
