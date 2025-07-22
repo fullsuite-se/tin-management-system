@@ -4,7 +4,7 @@ import useAlert from "../hooks/use-alert.ts"
 import useToast from "../hooks/use-toast.ts"
 
 export function useDashboard(name: string) {
-    const API_BASE = import.meta.env.VITE_API_BASE_URL || "https://tin-management-system.vercel.app/api";  // TODO: REMOVE THE HARDCODED ENTRY
+    const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
     const { showAlert } = useAlert();
     const { showToast } = useToast();
