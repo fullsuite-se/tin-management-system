@@ -1,7 +1,7 @@
-import { db } from "../../api-utils/firebase.ts";
-import type { TinData } from "../../api-utils/tinData.ts";
+import { db } from "../../api-utils/firebase.js";
+import type { TinData } from "../../api-utils/tinData.js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { messages } from "../../api-utils/messages.ts";
+import { messages } from "../../api-utils/messages.js";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
     res.setHeader("Access-Control-Allow-Origin", "*");
